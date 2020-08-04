@@ -1,6 +1,5 @@
 # Sobre MedicWeb v1.0
 
-
 La herramienta incluye herramienta y paquete de terceros:
 
 - [Laravel Framework v7](https://laravel.com/)
@@ -27,7 +26,7 @@ La herramienta incluye herramienta y paquete de terceros:
 # Instalador 
 ### Step #1
 Clona el repositorio oficial e instala las dependencias
-- git clone https://github.com/percy2017/cmsweb0.4.git
+- git clone
 - composer install
 - npm install
 - npm run prod
@@ -47,15 +46,15 @@ Ingresa a http://tudominio/admin - Login de super usuario:
 -   admin@admin.com 
 -   password
 
-# CmsWeb Sponsors
+# MedicWeb Sponsors
 
-La empresa detras del Diseño y Creacion del CmsWeb v2020 es:
+La empresa detras del Diseño y Creacion del MedicWeb v2020 es:
 
 - ***[LoginWeb - Empresa de Diseño y Desarrollo de Hardware y Software](https://loginweb.dev/)***
 
 ### Contributing
 
-Los desarrolladores del CmsWeb son los Ingenieros:
+Los desarrolladores del MedicWeb son los Ingenieros:
 - [Ing. Percy Alvarez - 71130523](#)
 - [Ing. Raul Montero](#)
 - [Ing. Agustin Mejia](#)
@@ -63,4 +62,4 @@ Los desarrolladores del CmsWeb son los Ingenieros:
 
 ### License
 
-CmsWeb v2020 is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MedicWeb v2020 is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

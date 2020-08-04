@@ -10,14 +10,15 @@ class SettingsTableSeeder extends Seeder
      */
     public function run()
     {
+        $count=1;
         $setting = $this->findSetting('site.title');
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.site.title'),
-                'value'        => __('voyager::seeders.settings.site.title'),
+                'value'        => 'MedicWeb v1.0',
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 1,
+                'order'        => $count++,
                 'group'        => 'Site',
             ])->save();
         }
@@ -29,7 +30,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => __('voyager::seeders.settings.site.description'),
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 2,
+                'order'        => $count++,
                 'group'        => 'Site',
             ])->save();
         }
@@ -41,7 +42,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
-                'order'        => 3,
+                'order'        => $count++,
                 'group'        => 'Site',
             ])->save();
         }
@@ -53,11 +54,24 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 4,
+                'order'        => $count++,
                 'group'        => 'Site',
             ])->save();
         }
 
+        $setting = $this->findSetting('site.page');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Pagina',
+                'value'        => 'landingpage-medicweb',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => $count++,
+                'group'        => 'Site',
+            ])->save();
+        }
+
+        $count=1;
         $setting = $this->findSetting('admin.bg_image');
         if (!$setting->exists) {
             $setting->fill([
@@ -65,7 +79,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
-                'order'        => 5,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -74,10 +88,10 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.admin.title'),
-                'value'        => 'Voyager',
+                'value'        => 'MedicWeb v1.0',
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 1,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -89,7 +103,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => __('voyager::seeders.settings.admin.description_value'),
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 2,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -101,7 +115,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
-                'order'        => 3,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -113,7 +127,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
-                'order'        => 4,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -125,7 +139,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'text',
-                'order'        => 1,
+                'order'        => $count++,
                 'group'        => 'Admin',
             ])->save();
         }

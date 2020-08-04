@@ -32,5 +32,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('users');
 
         Permission::generateFor('settings');
+
+        Permission::generateFor('pages');
+        Permission::generateFor('blocks');
     }
 }

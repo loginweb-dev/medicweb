@@ -52,6 +52,54 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+                // pages ----------------------------------
+                $dataType = $this->dataType('slug', 'pages');
+                if (!$dataType->exists) {
+                    $dataType->fill([
+                        'name'                  => 'pages',
+                        'display_name_singular' => 'Pagina',
+                        'display_name_plural'   => 'Paginas',
+                        'icon'                  => 'voyager-browser',
+                        'model_name'            => 'App\\Page',
+                        'controller'            => null,
+                        'generate_permissions'  => 1,
+                        'description'           => null,
+                        'server_side'           => 1,
+                        'details'               => [
+                            'order_column'         => 'id',
+                            'order_display_column' => 'id',
+                            'order_direction'      => 'asc',
+                            'default_search_key'   => 'id',
+                            'scope'                => null
+                        ]
+                    ])->save();
+                }
+                //pages ------------------------------------
+        
+                // blocks ----------------------------------
+                $dataType = $this->dataType('slug', 'blocks');
+                if (!$dataType->exists) {
+                    $dataType->fill([
+                        'name'                  => 'blocks',
+                        'display_name_singular' => 'Blocke',
+                        'display_name_plural'   => 'Blockes',
+                        'icon'                  => 'voyager-params',
+                        'model_name'            => 'App\\Block',
+                        'controller'            => null,
+                        'generate_permissions'  => 1,
+                        'description'           => null,
+                        'server_side'           => 1,
+                        'details'               => [
+                            'order_column'         => 'id',
+                            'order_display_column' => 'id',
+                            'order_direction'      => 'asc',
+                            'default_search_key'   => 'id',
+                            'scope'                => null
+                        ]
+                    ])->save();
+                }
+                //blocks ------------------------------------
     }
 
     /**
