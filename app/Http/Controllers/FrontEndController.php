@@ -8,7 +8,7 @@ use App\User;
 
 class FrontEndController extends Controller
 {
-    function default(){
-        return view('pages.landing');   
-    }
+  function default(){
+      return view('layouts.frontend.welcome');        
+   }
 }
