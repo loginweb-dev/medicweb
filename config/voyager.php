@@ -137,26 +137,6 @@ return [
                 'icon_class'   => 'voyager-home',
                 'target_blank' => true,
             ],
-            'Parametros' => [
-                'route'      => 'voyager.settings.index',
-                'icon_class' => 'voyager-settings',
-                'target_blank' => true,
-            ],
-            'Bread' => [
-                'route'      => 'voyager.bread.index',
-                'icon_class' => 'voyager-bread',
-                'target_blank' => true,
-            ],
-            'Compass' => [
-                'route'      => 'voyager.compass.index',
-                'icon_class' => 'voyager-compass',
-                'target_blank' => true,
-            ],
-            'Base de Datos' => [
-                'route'      => 'voyager.database.index',
-                'icon_class' => 'voyager-data',
-                'target_blank' => true,
-            ],
             'voyager::generic.logout' => [
                 'route'      => 'voyager.logout',
                 'icon_class' => 'voyager-power',
@@ -208,7 +188,7 @@ return [
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         //'css/custom.css',
-        'theme.css',
+        // 'theme.css',
     ],
 
     'additional_js' => [
