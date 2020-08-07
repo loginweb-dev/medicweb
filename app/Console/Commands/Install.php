@@ -38,10 +38,8 @@ class Install extends Command
     public function handle()
     {
         $this->call('migrate:refresh');
-        $this->call('db:seed');
         $this->call('key:generate');
-        $this->call('voyager:install');
-
+        $this->call('db:seed');
         $this->info('
             █ █▄░█ █▀ ▀█▀ ▄▀█ █░░ █░░ █▀▀ █▀▄ █ █ █
             █ █░▀█ ▄█ ░█░ █▀█ █▄▄ █▄▄ ██▄ █▄▀ ▄ ▄ ▄
