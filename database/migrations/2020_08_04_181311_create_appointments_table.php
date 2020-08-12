@@ -15,12 +15,12 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->time('start');
-            $table->time('end');
-            $table->string('status',20);
-            $table->text('observacion');
-            $table->text('link');
+            $table->date('date')->nullable();
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+            $table->string('status',20)->nullable();
+            $table->text('observations')->nullable();
+            $table->text('code')->nullable();
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->unsignedBigInteger('specialist_id');

@@ -21,8 +21,26 @@ Route::get('/', 'FrontEndController@default')->name('page_default');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    // Specialists
+    Route::resource('specialists', 'SpecialistsController');
+    Route::get('specialists/list/{search}', 'SpecialistsController@list');
+
+    // Customers
+    Route::resource('customers', 'CustomersController');
+    Route::get('customers/list/{search}', 'CustomersController@list');
+
+    // Appointments
+    Route::resource('appointments', 'AppointmentsController');
+    Route::get('appointments/list/{search}', 'AppointmentsController@list');
+    Route::get('appointments/status/{id}/{status}', 'AppointmentsController@update_status');
+
 });
+
+// Meets
+Route::get('meet/{id}', 'MeetingsController@join');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
