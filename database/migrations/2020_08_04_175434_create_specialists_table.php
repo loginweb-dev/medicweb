@@ -15,17 +15,15 @@ class CreateSpecialistsTable extends Migration
     {
         Schema::create('specialists', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('last_name');
-            $table->string('phones');
-            $table->text('adress');
-            $table->string('location');
-            $table->string('prefix',20);
-            $table->string('status',20);
+            $table->string('name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('phones')->nullable();
+            $table->text('adress')->nullable();
+            $table->string('location')->nullable();
+            $table->string('prefix',20)->nullable();
+            $table->string('status',20)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('speciality_id');
-            $table->foreign('speciality_id')->references('id')->on('specialities');
             $table->timestamps();
             $table->softDeletes();
         });

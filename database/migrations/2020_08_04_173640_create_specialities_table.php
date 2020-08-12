@@ -15,9 +15,9 @@ class CreateSpecialitiesTable extends Migration
     {
         Schema::create('specialities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('icon',50);
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('icon', 50)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -24,6 +24,21 @@ Auth::routes();
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
+    // Specialists
+    Route::resource('specialists', 'SpecialistsController');
+    Route::get('specialists/list/{search}', 'SpecialistsController@list');
+
+    // Customers
+    Route::resource('customers', 'CustomersController');
+    Route::get('customers/list/{search}', 'CustomersController@list');
+
+    // Appointments
+    Route::resource('appointments', 'AppointmentsController');
+    Route::get('appointments/list/{search}', 'AppointmentsController@list');
+    Route::get('appointments/status/{id}/{status}', 'AppointmentsController@update_status');
+
+  
+  
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
@@ -38,4 +53,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
 });
 
-
+// Meets
+Route::get('meet/{id}', 'MeetingsController@join');

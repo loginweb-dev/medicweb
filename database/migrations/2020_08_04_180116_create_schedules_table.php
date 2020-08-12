@@ -15,10 +15,10 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->integer('dia');
-            $table->time('start');
-            $table->time('end');
-            $table->string('status',20);
+            $table->integer('day')->nullable();
+            $table->time('start')->nullable();
+            $table->time('end')->nullable();
+            $table->string('status',20)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
