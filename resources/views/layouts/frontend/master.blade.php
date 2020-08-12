@@ -26,13 +26,16 @@
 <body class="medical-lp">
 
   <!--Navigation & Intro-->
-  @include('layouts.frontend.partials.header')
-  <!--/Navigation & Intro-->
+  <header>
+     @include('layouts.frontend.partials.header') 
+      <!--bener content-->
+      @yield('baner')
+      <!--/baner content-->   
+  </header>
 
+  
   <!--Main content-->
-  <main>
   @yield('content')
-  </main>
   <!--/Main content-->
 
   <!--Footer-->
