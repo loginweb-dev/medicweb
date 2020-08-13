@@ -38,5 +38,9 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('specialists');
 
         Permission::generateFor('customers');
+
+        Permission::generateFor('pages');
+
+        Permission::generateFor('blocks');
     }
 }

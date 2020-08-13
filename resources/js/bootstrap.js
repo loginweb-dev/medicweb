@@ -38,9 +38,11 @@ window.Echo = new Echo({
     key: process.env.MIX_PUSHER_APP_KEY,
     // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     wsHost: window.location.hostname,
-    wsPort: 6001, // Número de pueto
+    wsPort: process.env.MIX_PUSHER_APP_PORT, // Número de pueto
     // wssPort: 6001, // Número de pueto y descomentar para correr en entorno de producción
     disableStats: true,
-    encrypted : false, //true para correr en entorno de producción
-    forceTLS: false // evitar que haga petición http en desarrollo
+    //encrypted : false, //true para correr en entorno de producción
+    //forceTLS: false // evitar que haga petición http en desarrollo
+    // wssPort: process.env.MIX_PUSHER_APP_PORT,
+    // enabledTransports: ['ws', 'wss'] 
 });

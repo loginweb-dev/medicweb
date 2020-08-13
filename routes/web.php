@@ -18,8 +18,13 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'FrontEndController@default')->name('page_default');
+
 Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes();
+
+Route::get('login/{social}', 'SocialiteController@redirectToProvider')->name('socialLogin');
+Route::get('login/{social}/callback', 'SocialiteController@handleProviderCallback');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
@@ -42,7 +47,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
-
 
     Route::get('{page_id}/index', 'BlockController@index')->name('block_index'); 
     Route::post('/block/update/{block_id}', 'BlockController@update')->name('block_update');
