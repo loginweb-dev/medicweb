@@ -15,15 +15,16 @@
                 <!--Grid column-->
                 <div class="col-md-6 col-lg-7 text-center text-md-right">
                     <!--Facebook-->
-                    <a class="p-2 m-2 fa-lg fb-ic ml-0"><i class="fab fa-facebook-f white-text mr-lg-4"> </i></a>
+                    {{-- <a class="p-2 m-2 fa-lg fb-ic ml-0"><i class="fab fa-facebook-f white-text mr-lg-4"> </i></a> --}}
                     <!--Twitter-->
-                    <a class="p-2 m-2 fa-lg tw-ic"><i class="fab fa-twitter white-text mr-lg-4"> </i></a>
+                    {{-- <a class="p-2 m-2 fa-lg tw-ic"><i class="fab fa-twitter white-text mr-lg-4"> </i></a> --}}
                     <!--Google +-->
-                    <a class="p-2 m-2 fa-lg gplus-ic"><i class="fab fa-google-plus-g white-text mr-lg-4"> </i></a>
+                    {{-- <a class="p-2 m-2 fa-lg gplus-ic"><i class="fab fa-google-plus-g white-text mr-lg-4"> </i></a> --}}
                     <!--Linkedin-->
-                    <a class="p-2 m-2 fa-lg li-ic"><i class="fab fa-linkedin-in white-text mr-lg-4"> </i></a>
+                    {{-- <a class="p-2 m-2 fa-lg li-ic"><i class="fab fa-linkedin-in white-text mr-lg-4"> </i></a> --}}
                     <!--Instagram-->
-                    <a class="p-2 m-2 fa-lg ins-ic"><i class="fab fa-instagram white-text mr-lg-4"> </i></a>
+                    {{-- <a class="p-2 m-2 fa-lg ins-ic"><i class="fab fa-instagram white-text mr-lg-4"> </i></a> --}}
+                    {{ menu('social', 'menus.social') }}
                 </div>
                 <!--Grid column-->
 
