@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>{{ setting('site.title') }}</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -23,6 +25,11 @@
   <link rel="stylesheet" href="{{ asset('vendor/whatsapp/floating-wpp.css') }}">
   <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
   @laravelPWA
+
+  {!! htmlScriptTagJsApi([
+      'action' => 'homepage',
+      'custom_validation' => 'myCustomValidation'
+  ]) !!}
 </head>
 
 <body class="medical-lp">

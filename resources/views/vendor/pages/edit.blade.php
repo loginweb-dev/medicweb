@@ -158,15 +158,12 @@
 
                     </div>
                 </div>
-      
-               
         </div>
     </div>
 @stop
 
 @section('javascript')
-<script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
-    <script src="{{ asset('js/websocket.js') }}"></script>
+    <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
     <script>
         $(document).ready(function(){
             

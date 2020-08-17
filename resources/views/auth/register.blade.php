@@ -139,16 +139,6 @@
                             @enderror
                         </div>
 
-                        <div class="md-form">
-                            @captcha
-                            <input type="text" class="form-control @error('captcha') is-invalid @enderror" id="captcha" name="captcha" autocomplete="off" placeholder="Ingresa el codigo de la imagen">
-                            @error('captcha')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-
                         <div class="text-center">
                             <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Enviar</button>
                             <a href="/" class="btn green-gradient btn-block btn-rounded z-depth-1a">Volver al Home</a>

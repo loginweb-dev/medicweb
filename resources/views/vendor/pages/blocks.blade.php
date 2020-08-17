@@ -213,7 +213,7 @@
 @endsection
 
 @section('javascript')
-    <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+    <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
     
