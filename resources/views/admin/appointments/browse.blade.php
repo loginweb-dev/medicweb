@@ -109,10 +109,12 @@
             Echo.channel('StartMeetChannel')
             .listen('StartMeetEvent', (res) => {
                 if(Notification.permission==='granted'){
-                    let notificacion = new Notification(`Cita médica ${res.meet.status}`,{
-                        body: `${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name} - ${res.meet.cliente.name} ${res.meet.cliente.last_name}`,
-                        // icon: '{{ url("img/assets/success.png") }}'
-                    });
+                    if(res.meet.status != 'Conectando'){
+                        let notificacion = new Notification(`Cita médica ${res.meet.status}`,{
+                            body: `${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name} - ${res.meet.cliente.name} ${res.meet.cliente.last_name}`,
+                            // icon: '{{ url("img/assets/success.png") }}'
+                        });
+                    }
                 }
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });

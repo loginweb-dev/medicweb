@@ -17,6 +17,7 @@ use App\Speciality;
 
 // Events
 use App\Events\StartMeetEvent;
+use App\Events\IncomingCallEvent;
 
 class AppointmentsController extends Controller
 {
@@ -169,10 +170,14 @@ class AppointmentsController extends Controller
 
             DB::commit();
             
-            try {
+            // Eventos
+            // try {
                 $cita = Appointment::with(['especialista', 'cliente'])->where('id', $id)->first();
                 event(new StartMeetEvent($cita));
-            } catch (\Throwable $th) {}
+                if($status == 'Conectando'){
+                    event(new IncomingCallEvent($cita, $cita->cliente->user_id));
+                }
+            // } catch (\Throwable $th) {}
 
             return response()->json(['success' => 'Estado de la actualizado.']);
         } catch (\Exception $e) {

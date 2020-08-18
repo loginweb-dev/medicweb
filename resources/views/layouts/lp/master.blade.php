@@ -98,6 +98,62 @@
     $( "blockquote" ).addClass( "blockquote" );
   </script>
 
+  @php
+    $user_id = Auth::user() ? Auth::user()->id : '';
+  @endphp
+
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script>
+    // Pedir autorización para mostrar notificaciones
+    Notification.requestPermission();
+
+    $('#btn-answer-call').click(function(e){
+      $('.dark-mask').css('display', 'none');
+      $('#btn-answer-call').removeAttr('href');
+    });
+
+    // ***WebSockets***
+    // Escuchando los pedidos nuevo
+    Echo.channel('IncomingCallChannel-{{ $user_id }}')
+    .listen('IncomingCallEvent', (res) => {
+        $('.dark-mask').css('display', 'flex');
+        $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
+    });
+  </script>
+
+  <style>
+    .dark-mask{
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100vh;
+      z-index: 10000;
+      display: none;
+    }
+    .img-call{
+      width: 150px;
+      border-radius: 75px;
+      margin-bottom: 10px
+    }
+  </style>
+
+  <div class="dark-mask text-center">
+    <div id="div-call">
+      <img src="{{ asset('storage/users/default.png') }}" class="img-call" alt="avatar">
+      <h6 class="text-white">Llamada entrante</h6>
+      <h3 class="text-white">Dr. Juan perez perez</h3>
+      <div class="mt-3">
+        <a class="btn btn-danger btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-right: 50px" data-wow-delay="0.3s"><span class="fa fa-times fa-2x"></span></a>
+        <a id="btn-answer-call" target="_blank" class="btn btn-success btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-left: 50px" data-wow-delay="0.3s"><span class="fa fa-phone fa-2x"></span></a>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
