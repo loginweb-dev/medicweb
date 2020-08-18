@@ -172,9 +172,7 @@
                     $('.loading-call').css('display', 'block');
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/En_curso`, function(res){
-                        console.log('llamando...')
-                    });
+                    $.get(`${url}/${id}/Conectando`, function(res){});
                 });
 
                 // Cancalar llamada

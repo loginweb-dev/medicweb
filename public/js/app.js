@@ -37921,15 +37921,13 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "ASDASD1212",
-  // cluster: process.env.MIX_PUSHER_APP_CLUSTER,
   wsHost: window.location.hostname,
-  wsPort: "6002",
-  // Número de pueto
+  wsPort: 6001,
   // wssPort: 6001, // Número de pueto y descomentar para correr en entorno de producción
-  disableStats: true //encrypted : false, //true para correr en entorno de producción
-  //forceTLS: false // evitar que haga petición http en desarrollo
-  // wssPort: process.env.MIX_PUSHER_APP_PORT,
-  // enabledTransports: ['ws', 'wss'] 
+  disableStats: true,
+  encrypted: false,
+  //true para correr en entorno de producción
+  forceTLS: false // evitar que haga petición http en desarrollo (comentar en producción)
 
 });
 
@@ -38022,8 +38020,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\medicweb\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\medicweb\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/medicweb/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/medicweb/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
