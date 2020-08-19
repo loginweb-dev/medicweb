@@ -12,27 +12,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!--Links-->
                 <ul class="navbar-nav mr-auto smooth-scroll">
-                    {{-- <li class="nav-item">
-                    <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#about" data-offset="80">About</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#team" data-offset="80">Team</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#pricing" data-offset="20">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#features" data-offset="80">Features</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#testimonials" data-offset="80">Testimonials</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#modal-info">Info</a>
-                    </li> --}}
                     {{ menu('LandingPage', 'menus.LandingPage') }}
                 </ul>
                 <ul class="navbar-nav mr-auto smooth-scroll">
@@ -54,13 +33,10 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
                             <a class="dropdown-item" href="/home">
                                     Perfil
                             </a>
-
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -74,19 +50,6 @@
                         </li>
                     @endguest
                 </ul>
-                <!--Social Icons-->
-                {{-- <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
-                    <a class="nav-link"><i class="fab fa-facebook-f white-text"></i></a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link"><i class="fab fa-twitter white-text"></i></a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link"><i class="fab fa-instagram white-text"></i></a>
-                    </li>
-                </ul> --}}
-
                 </div>
             </div>
         </nav>

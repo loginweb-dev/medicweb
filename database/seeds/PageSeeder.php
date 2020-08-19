@@ -412,21 +412,113 @@ class PageSeeder extends Seeder
                         'name' => 'icon1',
                         'label' => 'Icon 1',
                         'value' => 'far fa-eye fa-2xt',
-                        'width' => 4
+                        'width' => 3
                     ],
                     'name_short1' => [
                         'type' => 'text',
                         'name' => 'name_short1',
                         'label' => 'Nombre Corto',
                         'value' => 'Jhon',
-                        'width' => 4
+                        'width' => 3
+                    ],
+                    'image1' => [
+                        'type' => 'image',
+                        'name' => 'image1',
+                        'label' => 'Image 1 (354x471)',
+                        'value' => 'image1.png',
+                        'width' => 3
                     ],
                     'name_lang1' => [
                         'type' => 'text',
                         'name' => 'name_lang1',
                         'label' => 'Nombre Completo',
                         'value' => 'John Doe',
-                        'width' => 4
+                        'width' => 3
+                    ],
+                    'description1' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'description1',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
+                    ],
+                    'space2' => [
+                        'type'  => 'space',
+                        'name'  => 'space2',
+                    ],
+                    'icon2' => [
+                        'type' => 'text',
+                        'name' => 'icon2',
+                        'label' => 'Icon 2',
+                        'value' => 'fas fa-heartbeat fa-2x',
+                        'width' => 3
+                    ],
+                    'name_short2' => [
+                        'type' => 'text',
+                        'name' => 'name_short2',
+                        'label' => 'Nombre Corto',
+                        'value' => 'Anna',
+                        'width' => 3
+                    ],
+                    'image2' => [
+                        'type' => 'image',
+                        'name' => 'image2',
+                        'label' => 'Image 2 (354x471)',
+                        'value' => 'image2.png',
+                        'width' => 3
+                    ],
+                    'name_lang2' => [
+                        'type' => 'text',
+                        'name' => 'name_lang2',
+                        'label' => 'Nombre Completo',
+                        'value' => 'Anna Moon',
+                        'width' => 3
+                    ],
+                    'description2' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'description2',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
+                    ],
+                    'space3' => [
+                        'type'  => 'space',
+                        'name'  => 'space3',
+                    ],
+                    'icon3' => [
+                        'type' => 'text',
+                        'name' => 'icon3',
+                        'label' => 'Icon 3',
+                        'value' => 'fas fa-search fa-2x',
+                        'width' => 3
+                    ],
+                    'name_short3' => [
+                        'type' => 'text',
+                        'name' => 'name_short3',
+                        'label' => 'Nombre Corto',
+                        'value' => 'Maria',
+                        'width' => 3
+                    ],
+                    'image3' => [
+                        'type' => 'image',
+                        'name' => 'image3',
+                        'label' => 'Image 3 (354x471)',
+                        'value' => 'image3.png',
+                        'width' => 3
+                    ],
+                    'name_lang3' => [
+                        'type' => 'text',
+                        'name' => 'name_lang3',
+                        'label' => 'Nombre Completo',
+                        'value' => 'Maria Clark',
+                        'width' => 3
+                    ],
+                    'description3' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'description3',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
                     ],
                 ])
             ]);
@@ -437,7 +529,22 @@ class PageSeeder extends Seeder
             'description' => 'Precios de los Servicios',
             'page_id'     => $page->id,
             'position'    => $count++,
-            'details'     => null
+            'details'     => json_encode([
+                    'title1' => [
+                        'type' => 'text',
+                        'name' => 'title1',
+                        'label' => 'Titulo #1',
+                        'value' => 'Basic',
+                        'width' => 6
+                    ],
+                    'value1' => [
+                        'type' => 'text',
+                        'name' => 'value1',
+                        'label' => 'Valor #1',
+                        'value' => '10',
+                        'width' => 6
+                    ],
+                ])
             ]);
         Block::create([
             'name'        => 'testimonials',
@@ -448,5 +555,58 @@ class PageSeeder extends Seeder
             'position'    => $count++,
             'details'     => null
             ]);
+    
+    
+        $page = Page::create([
+            'name'        =>  'Politicas & Privacidad',
+            'slug'        =>  'policies',
+            'user_id'     =>  1,
+            'direction'   =>  'pages.generica',
+            'description' =>  'Pagina para las politicas & seguridad'
+        ]);
+        $count = 1;
+        Block::create([
+            'name'        => 'body',
+            'title'       => 'Blocke Generico',
+            'description' => 'Blocke Generico para Paginas',
+            'page_id'     => $page->id,
+            'position'    => $count++,
+            'type'        => 'dinamyc-data',
+            'details'     => json_encode([
+                'body' => [
+                    'type'   => 'rich_text_box',
+                    'name'   => 'body',
+                    'label'  => 'Editor HTML',
+                    'value'  => null,
+                    'width'  => 12
+                ]
+            ])
+        ]);
+        
+        $page = Page::create([
+            'name'        =>  'Terminos & Condiones',
+            'slug'        =>  'terms',
+            'user_id'     =>  1,
+            'direction'   =>  'pages.generica',
+            'description' =>  'Pagina para los terminos y condiciones'
+        ]);
+        $count = 1;
+        Block::create([
+            'name'        => 'body',
+            'title'       => 'Blocke Generico',
+            'description' => 'Blocke Generico para Paginas',
+            'page_id'     => $page->id,
+            'position'    => $count++,
+            'type'        => 'dinamyc-data',
+            'details'     => json_encode([
+                'body' => [
+                    'type'   => 'rich_text_box',
+                    'name'   => 'body',
+                    'label'  => 'Editor HTML',
+                    'value'  => null,
+                    'width'  => 12
+                ]
+            ])
+        ]);
     }
 }

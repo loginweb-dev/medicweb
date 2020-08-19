@@ -26,6 +26,8 @@ Auth::routes();
 Route::get('login/{social}', 'SocialiteController@redirectToProvider')->name('socialLogin');
 Route::get('login/{social}/callback', 'SocialiteController@handleProviderCallback');
 
+Route::get('/page/{slug}', 'FrontEndController@pages')->name('pages');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
@@ -42,8 +44,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('appointments/list/{search}', 'AppointmentsController@list');
     Route::get('appointments/status/{id}/{status}', 'AppointmentsController@update_status');
 
-  
-  
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
