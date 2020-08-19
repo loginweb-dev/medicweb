@@ -4,22 +4,23 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-people"></i> Agregar cliente
+        <i class="voyager-people"></i> Editar cliente
     </h1>
 @stop
 
 @section('content')
     <div class="page-content container-fluid">
         <div class="row">
-            <form id="form-store" name="form" action="{{ route('customers.store') }}" method="POST">
+            <form id="form-store" name="form" action="{{ route('customers.update',$customer->id) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="col-md-6">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Nombre</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Jhon" required>
+                                    <input type="text" name="name" class="form-control" value="{{ $customer->name }}" placeholder="Jhon" required>
                                     @error('name')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -28,7 +29,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Apellidos</label>
-                                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name') }}" placeholder="Doe Smith" required>
+                                    <input type="text" name="last_name" class="form-control" value="{{ $customer->last_name }}" placeholder="Doe Smith" required>
                                     @error('last_name')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -38,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Número(s) de telefono(s)</label>
-                                <input type="text" name="phones" id="input-tags" data-role="tagsinput" class="form-control" value="{{ old('phones') }}" placeholder="Telefono">
+                                <input type="text" name="phones" id="input-tags" data-role="tagsinput" class="form-control" value="{{ $customer->phones }}" placeholder="Telefono">
                                 @error('phones')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -47,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Direción</label>
-                                <textarea name="adress" class="form-control" rows="3">{{ old('adress') }}</textarea>
+                                <textarea name="adress" class="form-control" rows="3">{{$customer->adress}}</textarea>
                                 @error('adress')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -64,7 +65,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label>Usuario(correo)</label>
-                                        <input type="text" name="email" class="form-control" value="{{ old('email') }}" required>
+                                        <input type="text" name="email" class="form-control" value="{{$customer->user->email}}" required>
                                         @error('email')
                                             <span class="text-danger" role="alert">
                                                 <strong>{{ $message }}</strong>

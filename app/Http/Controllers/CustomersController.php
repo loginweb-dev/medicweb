@@ -92,9 +92,9 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Customer $customer)
     {
-        //
+        return view('admin.customers.show',compact('customer'));
     }
 
     /**
@@ -103,9 +103,9 @@ class CustomersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit(Customer $customer)
+    {  
+        return view('admin.customers.edit',compact('customer'));
     }
 
     /**
@@ -117,7 +117,41 @@ class CustomersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      
+        $customer = Customer::findOrFail($id);
+         // Verificar si se hizo check para volver a la misma página
+        $route = $request->return ? 'customers.edit' : 'customers.index';
+
+         $request->validate([
+             'name' => 'required|max:191',
+             'last_name' => 'required|max:191',
+             'phones' => 'required|max:191'
+         ]);
+         
+         DB::beginTransaction();
+         try {
+            $customer->name = $request->name;
+            $customer->last_name = $request->last_name;
+            $customer->phones = $request->phones;
+            $customer->adress = $request->adress;
+            $customer->update();
+
+             if ($request->password) {
+                 $customer->user->update([
+                     'password'=> Hash::make($request['password'])
+                 ]);
+             } elseif($request->avatar) {
+                 # codigo...
+             } 
+            $customer->user->update([
+                'email'=> $request['email']
+            ]);
+             DB::commit();
+             return redirect()->route($route)->with(['message' => 'Cliente actualizado exitosamente.', 'alert-type' => 'success']);
+         } catch (\Exception $e) {
+             DB::rollback();
+             return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+         }
     }
 
     /**

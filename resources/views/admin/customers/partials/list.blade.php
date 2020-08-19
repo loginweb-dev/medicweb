@@ -6,25 +6,34 @@
                     <th></th>
                     <th>Nombre</th>
                     <th>Contacto</th>
-                    <th>Estado</th>
+                    <th>Direccion</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($cliente as $item)
+                @forelse ($cliente as $customer)
                     <tr>
-                        <th class="text-center" width="60px"><img src="{{ asset('storage/'.$item->user->avatar) }}" width="50px" alt="avatar"></th>
-                        <td>{{ $item->name }} {{ $item->last_name }}</td>
+                        <th class="text-center" width="60px"><img src="{{ asset('storage/'.$customer->user->avatar) }}" width="50px" alt="avatar"></th>
+                        <td>{{ $customer->name }} {{ $customer->last_name }}</td>
                         <td>
                             @php
-                                $phones = explode(',', $item->phones);
+                                $phones = explode(',', $customer->phones);
                             @endphp
                             @foreach ($phones as $phone)
                                 <a href="tel:{{ $phone }}">{{ $phone }}</a>
                             @endforeach
                             <br>
-                            {{ $item->adress }}
+                            {{ $customer->adress }}
                         </td>
                         <td></td>
+                        <td>
+                        <a href="{{ route('customers.show', $customer) }}" title="ver" class="btn btn-info btn-sm">
+                            <i class="voyager-eye"></i>
+                        </a>
+                         <a href="{{route('customers.edit',$customer)}}" title="editar" class="btn btn-success btn-sm">
+                          <i class="voyager-list-add"></i>
+                         </a>
+                        </td>
                     </tr>
                 @empty
                 <tr>
