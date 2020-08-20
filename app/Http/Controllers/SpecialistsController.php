@@ -40,7 +40,7 @@ class SpecialistsController extends Controller
         //$especialidades = Speciality::where('deleted_at', NULL)->get();
         $specialist = new Specialist;
         //$ciudades = DB::table('specialists')->select('location')->groupBy('location')->get();
-        return view('admin.specialists.edit', compact('specialist'));
+        return view('admin.specialists.form', compact('specialist'));
     }
 
     /**
@@ -117,7 +117,7 @@ class SpecialistsController extends Controller
      */
     public function edit(Specialist $specialist)
     {
-        return view('admin.specialists.edit', compact('specialist'));
+        return view('admin.specialists.form', compact('specialist'));
     }
 
     /**
