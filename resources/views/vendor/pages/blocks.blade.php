@@ -1,4 +1,16 @@
 @extends('voyager::master')
+@section('css')
+    <style>
+        select{
+            font-family: fontAwesome
+        }
+        .placeholder-sortable{
+            margin: 30px 0px;
+            background-color: #E5E5E5;
+            height: 80px;
+        }
+    </style>
+@endsection
 
 @section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural'))
 
@@ -143,6 +155,15 @@
                                                                 <input type="number" class="form-control" name="{{ $value['name'] }}"  placeholder="" value="{{ $value['value'] }}">
                                                             </div>
                                                             @break
+                                                        @case('checkbox')
+                                                            <div class="form-group col-md-{{ $value['width'] }}">
+                                                                <label>{{ $value['label'] }}</label>
+                                                                <br />
+                                                                <input type="checkbox" name="{{ $value['name']  }}" class="toggleswitch"
+                                                                data-on="on" {!! $value['value'] ? 'checked="checked"' : '' !!}
+                                                                data-off="off">
+                                                            </div>
+                                                            @break
                                                     @endswitch
                                                 @endforeach
                                             @else
@@ -199,19 +220,6 @@
     </div>
 @stop
 
-@section('css')
-    <style>
-        select{
-            font-family: fontAwesome
-        }
-        .placeholder-sortable{
-            margin: 30px 0px;
-            background-color: #E5E5E5;
-            height: 80px;
-        }
-    </style>
-@endsection
-
 @section('javascript')
     <script src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -244,5 +252,6 @@
             $( "#sortable" ).disableSelection();
             // =============================
         });
+        $('.toggleswitch').bootstrapToggle();
     </script>
 @endsection

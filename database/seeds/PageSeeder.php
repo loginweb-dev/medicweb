@@ -535,14 +535,84 @@ class PageSeeder extends Seeder
                         'name' => 'title1',
                         'label' => 'Titulo #1',
                         'value' => 'Basic',
-                        'width' => 6
+                        'width' => 4
                     ],
                     'value1' => [
                         'type' => 'text',
                         'name' => 'value1',
                         'label' => 'Valor #1',
                         'value' => '10',
-                        'width' => 6
+                        'width' => 4
+                    ],
+                    'checkbox1' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox1',
+                        'label' => 'Opcion #1',
+                        'value' => true,
+                        'width' => 2
+                    ],
+                    'caracteristica1' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica1',
+                        'label' => 'Caracteristica',
+                        'value' => '20 GB Of Storage',
+                        'width' => 2
+                    ],
+                    'checkbox2' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox2',
+                        'label' => 'Opcion #2',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica2' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica2',
+                        'label' => 'Caracteristica',
+                        'value' => '2 Email Accounts',
+                        'width' => 2
+                    ],
+                    'checkbox3' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox3',
+                        'label' => 'Opcion #3',
+                        'value' => false,
+                        'width' => 1
+                    ],
+                    'caracteristica3' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica3',
+                        'label' => 'Caracteristica',
+                        'value' => '24h Tech Support',
+                        'width' => 2
+                    ],
+                    'checkbox4' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox4',
+                        'label' => 'Opcion #4',
+                        'value' => false,
+                        'width' => 1
+                    ],
+                    'caracteristica4' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica4',
+                        'label' => 'Caracteristica',
+                        'value' => '300 GB Bandwidth',
+                        'width' => 2
+                    ],
+                    'checkbox5' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox5',
+                        'label' => 'Opc #5',
+                        'value' => false,
+                        'width' => 1
+                    ],
+                    'caracteristica5' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica5',
+                        'label' => 'Caracteristica',
+                        'value' => 'User Management',
+                        'width' => 2
                     ],
                 ])
             ]);

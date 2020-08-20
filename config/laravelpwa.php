@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'name' => 'LaravelPWA',
+    'name' => 'LiveMedic v1.0',
     'manifest' => [
-        'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
+        'name' => env('APP_NAME', 'LiveMedic v1.0'),
+        'short_name' => 'LiveMedic',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
