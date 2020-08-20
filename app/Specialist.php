@@ -11,4 +11,8 @@ class Specialist extends Model
     public function user(){
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function specialities(){
+        return $this->belongsToMany(Speciality::class);
+    }
 }

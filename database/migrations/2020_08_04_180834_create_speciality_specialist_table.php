@@ -13,12 +13,12 @@ class CreateSpecialitySpecialistTable extends Migration
      */
     public function up()
     {
-        Schema::create('speciality_specialist', function (Blueprint $table) {
+        Schema::create('specialist_speciality', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('speciality_id');
-            $table->foreign('speciality_id')->references('id')->on('specialities');
             $table->unsignedBigInteger('specialist_id');
             $table->foreign('specialist_id')->references('id')->on('specialists');
+            $table->unsignedBigInteger('speciality_id');
+            $table->foreign('speciality_id')->references('id')->on('specialities');
             $table->timestamps();
         });
     }

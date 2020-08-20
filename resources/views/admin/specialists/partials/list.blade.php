@@ -6,26 +6,32 @@
                     <th></th>
                     <th>Nombre</th>
                     <th>Contacto</th>
-                    <th>Estado</th>
+                    <th>Usuario</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($especialistas as $item)
+                @forelse ($especialistas as $specialist)
                     <tr>
-                        <th class="text-center" width="60px"><img src="{{ asset('storage/'.$item->user->avatar) }}" width="50px" alt="avatar"></th>
-                        <td>{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</td>
+                        <th class="text-center" width="60px"><img src="{{ asset('storage/'.$specialist->user->avatar) }}" width="50px" alt="avatar"></th>
+                        <td>{{ $specialist->prefix }} {{ $specialist->name }} {{ $specialist->last_name }}</td>
                         <td>
                             @php
-                                $phones = explode(',', $item->phones);
+                                $phones = explode(',', $specialist->phones);
                             @endphp
                             @foreach ($phones as $phone)
                                 <a href="tel:{{ $phone }}">{{ $phone }}</a>
                             @endforeach
                             <br>
-                            {{ $item->adress }} <br>
-                            {{ $item->location }}
+                            {{ $specialist->adress }} <br>
+                            {{ $specialist->location }}
                         </td>
-                        <td></td>
+                        <td>{{$specialist->user->name}}<br>{{$specialist->user->email}}
+                        </td>
+                        <td>
+                        <a href="{{route('specialists.edit',$specialist)}}" title="editar" class="btn btn-success btn-sm">
+                          <i class="voyager-list-add"></i>
+                        </a>
+                        </td>
                     </tr>
                 @empty
                 <tr>

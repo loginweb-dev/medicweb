@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Speciality extends Model
 {
     public $fillable = ['name', 'description', 'icon'];
+    
+    public function specialists(){
+        return $this->belongsToMany(Specialist::class,'speciality_specialist','specialist_id');
+    }
 }

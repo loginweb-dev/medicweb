@@ -37,9 +37,10 @@ class SpecialistsController extends Controller
      */
     public function create()
     {
-        $especialidades = Speciality::where('deleted_at', NULL)->get();
-        $ciudades = DB::table('specialists')->select('location')->groupBy('location')->get();
-        return view('admin.specialists.add', compact('especialidades', 'ciudades'));
+        //$especialidades = Speciality::where('deleted_at', NULL)->get();
+        $specialist = new Specialist;
+        //$ciudades = DB::table('specialists')->select('location')->groupBy('location')->get();
+        return view('admin.specialists.edit', compact('specialist'));
     }
 
     /**
@@ -50,6 +51,7 @@ class SpecialistsController extends Controller
      */
     public function store(Request $request)
     {
+       // return $request;
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'specialists.create' : 'specialists.index';
 
@@ -62,6 +64,7 @@ class SpecialistsController extends Controller
             'email' => 'required|unique:users|max:50',
             'password' => 'required|max:50',
         ]);
+        
 
         DB::beginTransaction();
         try {
@@ -84,14 +87,9 @@ class SpecialistsController extends Controller
                 'status' => 1,
                 'user_id' => $user->id
             ]);
-
             // Asignar especialidades
-            foreach ($request->speciality_id as $value) {
-                SpecialitySpecialist::create([
-                    'speciality_id' => $value,
-                    'specialist_id' => $especialista->id
-                ]);
-            }
+            $especialista->specialities()->attach($request->specialities);
+            
             DB::commit();
             return redirect()->route($route)->with(['message' => 'Especialista agregado exitosamente.', 'alert-type' => 'success']);
         } catch (\Exception $e) {
@@ -117,9 +115,9 @@ class SpecialistsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialist $specialist)
     {
-        //
+        return view('admin.specialists.edit', compact('specialist'));
     }
 
     /**
@@ -131,7 +129,50 @@ class SpecialistsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      
+        // Verificar si se hizo check para volver a la misma página
+        $route = $request->return ? 'specialists.update' : 'specialists.index';
+        $especialista = Specialist::findOrFail($id);
+        $request->validate([
+            'name' => 'required|max:191',
+            'last_name' => 'required|max:191',
+            'phones' => 'required|max:191',
+            'location' => 'required|max:191',
+            'adress' => 'required',
+            'email' => 'required|max:50'
+        ]);
+
+        DB::beginTransaction();
+        try {
+             // Crear especialista
+            $especialista->name = $request->name;
+            $especialista->last_name = $request->last_name;
+            $especialista->phones = $request->phones;
+            $especialista->adress = $request->adress;
+            $especialista->location = $request->location;
+            $especialista->prefix = $request->prefix;
+            $especialista->update();
+            
+            //actualizamos el usuario del especialista
+            if ($request->password) {
+                $especialista->user->update([
+                    'password'=> Hash::make($request['password'])
+                ]);
+            } elseif($request->avatar) {
+                # codigo...
+            } 
+           $especialista->user->update([
+               'email'=> $request['email']
+           ]);
+           
+            // Actualizar especialidades
+            $especialista->specialities()->sync($request->specialities);
+            DB::commit();
+            return redirect()->route($route)->with(['message' => 'Especialista actualizado exitosamente.', 'alert-type' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+        }
     }
 
     /**

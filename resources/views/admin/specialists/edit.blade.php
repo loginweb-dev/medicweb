@@ -1,17 +1,20 @@
 @extends('voyager::master')
 
-@section('page_title', 'Agregar especialista')
+@section('page_title', 'Editar especialista')
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-people"></i> Agregar especialista
+        <i class="voyager-people"></i> Editar especialista
     </h1>
 @stop
 
 @section('content')
     <div class="page-content container-fluid">
         <div class="row">
-            <form id="form-store" name="form" action="{{ route('specialists.store') }}" method="POST">
+            <form id="form-store" name="form" action="{{ ! $specialist->id ? route('specialists.store') : route('specialists.update', $specialist->id)}}" method="POST">
+            @if($specialist->id)
+                @method('PUT')
+            @endif
                 @csrf
                 <div class="col-md-6">
                     <div class="panel panel-bordered">
@@ -19,7 +22,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Nombre</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Jhon" required>
+                                    <input type="text" name="name" class="form-control" value="{{ old('name') ? :  $specialist->name }}" placeholder="Jhon" required>
                                     @error('name')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -28,7 +31,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Apellidos</label>
-                                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name') }}" placeholder="Doe Smith" required>
+                                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name') ? : $specialist->last_name }}" placeholder="Doe Smith" required>
                                     @error('last_name')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -38,7 +41,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Número(s) de telefono(s)</label>
-                                <input type="text" name="phones" id="input-tags" data-role="tagsinput" class="form-control" value="{{ old('phones') }}" placeholder="Telefono">
+                                <input type="text" name="phones" id="input-tags" data-role="tagsinput" class="form-control" value="{{ old('phones') ? : $specialist->phones }}" placeholder="Telefono">
                                 @error('phones')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,9 +52,9 @@
                                 <label>Localidad</label>
                                 <select name="location" id="select-location" class="form-control" required>
                                     <option value="">Seleccione la localidad</option>
-                                    @foreach ($ciudades as $item)
-                                    <option value="{{ $item->location }}">{{ $item->location }}</option>
-                                    @endforeach
+                                    @foreach(\App\Specialist::pluck('location') as $locat)
+											<option {{old('location') === $locat || $specialist->location === $locat ? 'selected' : ''}} value="{{ $locat }}">{{ $locat }} </option>
+									@endforeach
                                 </select>
                                 @error('location')
                                     <span class="text-danger" role="alert">
@@ -61,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Direción</label>
-                                <textarea name="adress" class="form-control" rows="3">{{ old('adress') }}</textarea>
+                                <textarea name="adress" class="form-control" rows="3">{{ old('adress') ? :$specialist->adress }}</textarea>
                                 @error('adress')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -76,21 +79,29 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label>Prefijo por defecto</label>
-                                <input type="text" name="prefix" class="form-control" value="{{ old('prefix') }}" placeholder="Dr." required>
+                                <input type="text" name="prefix" class="form-control" value="{{ old('prefix') ? : $specialist->prefix }}" placeholder="Dr." required>
                             </div>
                             <div class="form-group">
                                 <label>Especialidades</label>
                                 <select name="specialities[]" class="form-control select2" multiple id="">
-                                    @foreach ($especialidades as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    @foreach(\App\Speciality::orderBy('name')->pluck('name','id') as $id => $especialidad)
+											<option {{collect(old('',$specialist->specialities->pluck('id')))->contains($id) ? 'selected' : ''}} value="{{ $id }}">{{ $especialidad }} </option>
+									@endforeach
                                 </select>
                             </div>
                             <div class="row">
                                 <div class="col-md-9">
+                                    @php 
+                                        
+                                       if($specialist->user()->exists()) {
+                                        $email = $specialist->user->email;
+                                       } else {
+                                         $email = '';
+                                       }
+                                    @endphp
                                     <div class="form-group">
-                                        <label>Usuario</label>
-                                        <input type="text" name="email" class="form-control" value="{{ old('email') }}" required>
+                                        <label>Usuario(correo)</label>
+                                        <input type="text" name="email" class="form-control" value="{{ old('email') ? : $email}}" required>
                                         @error('email')
                                             <span class="text-danger" role="alert">
                                                 <strong>{{ $message }}</strong>
