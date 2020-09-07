@@ -37922,19 +37922,12 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "ASDASD1212",
   wsHost: window.location.hostname,
-<<<<<<< HEAD
-  wsPort: "6002",
-  disableStats: true //forceTLS: false // evitar que haga petición http en desarrollo
-  // wssPort: process.env.MIX_PUSHER_APP_PORT,
-  // enabledTransports: ['ws', 'wss'] 
-=======
   wsPort: 6001,
   // wssPort: 6001, // Número de pueto y descomentar para correr en entorno de producción
   disableStats: true,
   encrypted: false,
   //true para correr en entorno de producción
   forceTLS: false // evitar que haga petición http en desarrollo (comentar en producción)
->>>>>>> admin
 
 });
 

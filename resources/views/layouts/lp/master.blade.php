@@ -74,9 +74,9 @@
       headerTitle: '{{ setting('whatsapp.headerTitle') }}',
       headerColor: '{{ setting('whatsapp.color') }}',
       backgroundColor: '{{ setting('whatsapp.color') }}',
-      buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage' )) }}" />',
+      // buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage' )) }}" />',
       position: '{{ setting('whatsapp.position') }}',
-      autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
+      // autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
       size: '{{ setting('whatsapp.size') }}'
     });
 
@@ -118,6 +118,7 @@
     .listen('IncomingCallEvent', (res) => {
         $('.dark-mask').css('display', 'flex');
         $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
+        $('#name-call').text(`${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name}`);
     });
   </script>
 
@@ -146,10 +147,10 @@
     <div id="div-call">
       <img src="{{ asset('storage/users/default.png') }}" class="img-call" alt="avatar">
       <h6 class="text-white">Llamada entrante</h6>
-      <h3 class="text-white">Dr. Juan perez perez</h3>
+      <h3 class="text-white" id="name-call"></h3>
       <div class="mt-3">
         <a class="btn btn-danger btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-right: 50px" data-wow-delay="0.3s"><span class="fa fa-times fa-2x"></span></a>
-        <a id="btn-answer-call" target="_blank" class="btn btn-success btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-left: 50px" data-wow-delay="0.3s"><span class="fa fa-phone fa-2x"></span></a>
+        <a id="btn-answer-call" class="btn btn-success btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-left: 50px" data-wow-delay="0.3s"><span class="fa fa-phone fa-2x"></span></a>
       </div>
     </div>
   </div>
