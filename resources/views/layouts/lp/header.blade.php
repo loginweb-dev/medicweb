@@ -99,8 +99,7 @@
                 <div class="row pt-5 mt-3">
                     <div class="col-12 col-md-6 text-center text-md-left">
                     <div class="white-text">
-                        <h1 class="h1-responsive font-weight-bold mt-md-5 mt-0 wow fadeInLeft" data-wow-delay="0.3s">Medical
-                        landing page</h1>
+                        <h1 class="h1-responsive font-weight-bold mt-md-5 mt-0 wow fadeInLeft" data-wow-delay="0.3s">Live Medic Edgley</h1>
                         <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
                         <p class="wow fadeInLeft mb-3" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur
                         adipisicing elit. Rem repellendus quasi fuga nesciunt
