@@ -7,7 +7,7 @@
                     <th>Nombre</th>
                     <th>Contacto</th>
                     <th>Direccion</th>
-                    <th>Acciones</th>
+                    <th class="text-right">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,18 +26,18 @@
                             {{ $customer->adress }}
                         </td>
                         <td></td>
-                        <td>
-                        <a href="{{ route('customers.show', $customer) }}" title="ver" class="btn btn-info btn-sm">
-                            <i class="voyager-eye"></i>
-                        </a>
-                         <a href="{{route('customers.edit',$customer)}}" title="editar" class="btn btn-success btn-sm">
-                          <i class="voyager-list-add"></i>
-                         </a>
+                        <td class="no-sort no-click bread-actions text-right">
+                            <a href="{{ route('customers.show', $customer) }}" title="ver" class="btn btn-warning btn-sm">
+                                <i class="voyager-eye"></i> Ver
+                            </a>
+                            <a href="{{route('customers.edit',$customer)}}" title="editar" class="btn btn-primary btn-sm">
+                            <i class="voyager-edit"></i> Editar
+                            </a>
                         </td>
                     </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="text-center">No hay registros</td>
+                    <td colspan="5" class="text-center">No hay registros</td>
                 </tr>
                 @endforelse
             </tbody>

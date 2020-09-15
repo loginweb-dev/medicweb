@@ -87,7 +87,7 @@
             // Buscador
             $('#form-search').submit(function(e){
                 e.preventDefault();
-                let inputSearchNew = escape($('#search-input input[name="search"]').val()).split("/").join("");
+                inputSearchNew = escape($('#search-input input[name="search"]').val()).split("/").join("");
                 if(inputSearch !== inputSearchNew){
                     $('#list-table').html(loader);
                     inputSearch = inputSearchNew;

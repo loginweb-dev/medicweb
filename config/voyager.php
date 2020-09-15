@@ -135,27 +135,27 @@ return [
             'voyager::generic.home' => [
                 'route'        => '/',
                 'icon_class'   => 'voyager-home',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Parametros' => [
                 'route'      => 'voyager.settings.index',
                 'icon_class' => 'voyager-settings',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Bread' => [
                 'route'      => 'voyager.bread.index',
                 'icon_class' => 'voyager-bread',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Compass' => [
                 'route'      => 'voyager.compass.index',
                 'icon_class' => 'voyager-compass',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'Base de Datos' => [
                 'route'      => 'voyager.database.index',
                 'icon_class' => 'voyager-data',
-                'target_blank' => true,
+                'target_blank' => false,
             ],
             'voyager::generic.logout' => [
                 'route'      => 'voyager.logout',

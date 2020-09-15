@@ -14,6 +14,8 @@ use App\Customer;
 use App\Appointment;
 use App\User;
 use App\Speciality;
+use App\AppointmentTracking;
+use App\AppointmentsObservation;
 
 // Events
 use App\Events\StartMeetEvent;
@@ -47,12 +49,12 @@ class AppointmentsController extends Controller
                     Appointment::whereHas('especialista.user', function($query) {
                             $query->where('id', Auth::user()->id);
                         })
-                        ->with(['especialista.user', 'cliente'])
+                        ->with(['especialista.user', 'cliente', 'tracking'])
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get() :
 
-                    Appointment::with(['especialista', 'cliente'])
+                    Appointment::with(['especialista', 'cliente', 'tracking'])
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
@@ -91,6 +93,7 @@ class AppointmentsController extends Controller
 
         DB::beginTransaction();
         try {
+            // Calcular hora de finalización de la cita
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
             $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'En curso' : 'Pendiente';
@@ -149,7 +152,37 @@ class AppointmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response_json = $request->ajax ? 1 : 0;
+
+        DB::beginTransaction();
+        try {
+
+            // Calcular hora de finalización de la cita
+            $end = Carbon::create($request->date.' '.$request->start);
+            $end = $end->addMinutes(setting('citas.duracion'));
+            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'En curso' : 'Pendiente';
+            
+            $cita = Appointment::find($id);
+            $cita->date = $request->date;
+            $cita->start = $request->start;
+            $cita->end = $end;
+            $cita->status = $status;
+            $cita->save();
+
+            DB::commit();
+            if($response_json){
+                return response()->json(['success' => 'Cita médica pospuesta correctamente.']);
+            }else{
+                return redirect()->route('appointments.index')->with(['message' => 'Cita médica pospuesta correctamente.', 'alert-type' => 'success']);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            if($response_json){
+                return response()->json(['error' => 'Ocurrió un error inesperado.']);
+            }else{
+                return redirect()->route('appointments.index')->with(['message' => 'Ocurrio un error al posponer la cita médica.', 'alert-type' => 'error']);
+            }
+        }
     }
 
     /**
@@ -171,15 +204,63 @@ class AppointmentsController extends Controller
             DB::commit();
             
             // Eventos
-            // try {
+            try {
                 $cita = Appointment::with(['especialista', 'cliente'])->where('id', $id)->first();
                 event(new StartMeetEvent($cita));
                 if($status == 'Conectando'){
                     event(new IncomingCallEvent($cita, $cita->cliente->user_id));
                 }
-            // } catch (\Throwable $th) {}
+            } catch (\Throwable $th) {}
 
             return response()->json(['success' => 'Estado de la actualizado.']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Ocurrió un error inesperado.']);
+        }
+    }
+
+    /**
+     * Tracking duration meet.
+     *
+     * @param  int  $id
+     * @return void
+     */
+    public function tracking_duration($id)
+    {
+        AppointmentTracking::create(['appointment_id' => $id]);
+    }
+
+    /**
+     * browse observations appoiments.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function browse_observations($id)
+    {
+        $observaciones = Appointment::with(['observaciones', 'especialista'])
+                            ->where('id', $id)
+                            ->where('deleted_at', NULL)->get();
+        return view('admin.customers.partials.historial', compact('observaciones'));
+        // return response()->json(['observations' => $observaciones]);
+    }
+
+    /**
+     * Add observations appoiments.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create_observations(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            AppointmentsObservation::create([
+                'appointment_id' => $request->appointment_id,
+                'description' => $request->description
+            ]);
+            DB::commit();
+            return response()->json(['success' => 'Observación registrada correctamente.', 'action' => 'observations']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => 'Ocurrió un error inesperado.']);

@@ -15,7 +15,7 @@
                 @forelse ($citas as $item)
                     <tr>
                         <td>{{ $item->especialista->prefix }} {{ $item->especialista->name }} {{ $item->especialista->last_name }}</td>
-                        <td>{{ $item->cliente->name }} {{ $item->cliente->last_name }}</td>
+                        <td><a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->cliente->id }}" title="Ver historial">{{ $item->cliente->name }} {{ $item->cliente->last_name }}</a></td>
                         <td>
                             {{ date('d-m-Y H:i', strtotime($item->date.' '.$item->start)) }} <br>
                             <small class="text-update" id="date-{{ $item->id }}" data-id="{{ $item->id }}" data-date="{{ $item->date.' '.$item->start }}" data-status="{{ strtolower($item->status) }}"></small>
@@ -36,24 +36,30 @@
                                     break;
                             }
                         @endphp
-                        <td><label class="label label-{{ $type }}">{{ $item->status }}</label></td>
+                        <td class="text-center">
+                            <label class="label label-{{ $type }}">{{ $item->status }}</label>
+                            @if ($item->status == 'Finalizada')
+                                @php
+                                    $inicio = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[0]->created_at)));
+                                    $fin = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[count($item->tracking)-1]->created_at)));
+                                    $duracion = str_pad($inicio->diffInMinutes($fin), 2, "0", STR_PAD_LEFT).':'.str_pad(($inicio->diffInSeconds($fin)%60), 2, "0", STR_PAD_LEFT);
+                                @endphp
+                                <div style="margin-top: 5px">
+                                    <label class="label label-danger">Duración {{ $duracion }} min.</label>
+                                </div>
+                            @endif
+                        </td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right">
-                            @if(strtolower($item->status)==='pendiente' || strtolower($item->status)==='en curso')
                             <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
                                 <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
                             </a>
-                            @else
-                            <button disabled title="Ir a la llamada" class="btn btn-sm btn-warning view">
-                                <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
-                            </button>
-                            @endif
                             
                             <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
                                 <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
                             </button>
-                            <a href="#" title="Editar" class="btn btn-sm btn-primary edit">
-                                <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Editar</span>
+                            <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
+                                <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
                             </a>
                             <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="3" id="delete-3">
                                 <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
@@ -72,6 +78,54 @@
     <div role="status" class="show-res" aria-live="polite">Mostrando  a  de 0 entradas</div>
     </div>
     <div class="pull-right">    
+    </div>
+
+    {{-- modal postpone --}}
+    <form id="form-postpone" action="{{ route('appointments.update', ['appointment' => '_id']) }}" method="post">
+        @csrf
+        @method('put')
+        {{-- <input type="hidden" name="ajax" value="1"> --}}
+        <div class="modal modal-info fade" tabindex="-1" id="modal-postpone" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="voyager-person"></i> Nuevo cliente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="">Nueva fecha de consulta</label>
+                            <input type="date" name="date" min="{{ date('Y-m-d') }}" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Hora de consulta</label>
+                            <input type="time" name="start" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary pull-right"value="Guardar">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {{-- modal historial --}}
+    <div class="modal modal-info fade" tabindex="-1" id="modal-historial" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="voyager-person"></i> Historial clínico</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="historial-list"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="{{ url('js/moment.js') }}"></script>
@@ -93,6 +147,7 @@
             });
         }, 1000);
 
+        // Finalizar reunión
         $('.btn-end-meet').click(function(){
             Swal.fire({
                 title: 'Estás seguro?',
@@ -124,6 +179,27 @@
                 }
             })
         });
+
+        // Editar reunión
+        $('.edit').click(function(){
+            let id = $(this).data('id');
+            let date = $(this).data('date');
+            let start = $(this).data('start');
+            
+            $('#form-postpone input[name="id"]').val(id);
+            $('#form-postpone input[name="date"]').val(date);
+            $('#form-postpone input[name="start"]').val(start);
+            $('#form-postpone').attr('action', '{{ url("admin/appointments") }}/'+id);
+        });
+
+        // Ver histolrial
+        $('.btn-customer').click(function(){
+            let id = $(this).data('id');
+            $.get('{{ url("admin/appointments/observations/browse") }}/'+id, function(res){
+                $('#historial-list').html(res);
+            });  
+        });
+
     });
 
     function updateDiff(date){
