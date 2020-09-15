@@ -46,6 +46,10 @@
     @yield('footer')
 
   <div id="myWP"></div>
+
+  {{-- Tono de llamada --}}
+  <audio loop id="tone-call-incoming" src="{{ url('audio/tone.mp3') }}" preload="auto"></audio>
+
   <!-- SCRIPTS -->
   <!-- JQuery -->
   <script type="text/javascript" src="{{ asset('vendor/mdb/js/jquery-3.4.1.min.js') }}"></script>
@@ -119,6 +123,7 @@
         $('.dark-mask').css('display', 'flex');
         $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
         $('#name-call').text(`${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name}`);
+        document.getElementById('tone-call-incoming').play();
     });
   </script>
 

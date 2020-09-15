@@ -7,6 +7,7 @@
                     <th>Nombre</th>
                     <th>Contacto</th>
                     <th>Usuario</th>
+                    <th class="text-right">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,15 +28,15 @@
                         </td>
                         <td>{{$specialist->user->name}}<br>{{$specialist->user->email}}
                         </td>
-                        <td>
-                        <a href="{{route('specialists.edit',$specialist)}}" title="editar" class="btn btn-success btn-sm">
-                          <i class="voyager-list-add"></i>
-                        </a>
+                        <td class="no-sort no-click bread-actions text-right">
+                            <a href="{{route('specialists.edit',$specialist)}}" title="editar" class="btn btn-primary btn-sm">
+                            <i class="voyager-edit"></i> Editar
+                            </a>
                         </td>
                     </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="text-center">No hay registros</td>
+                    <td colspan="5" class="text-center">No hay registros</td>
                 </tr>
                 @endforelse
             </tbody>

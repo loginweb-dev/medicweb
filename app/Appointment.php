@@ -15,4 +15,12 @@ class Appointment extends Model
     public function cliente(){
         return $this->belongsTo('App\Customer', 'customer_id');
     }
+
+    public function tracking(){
+        return $this->hasMany('App\AppointmentTracking');
+    }
+
+    public function observaciones(){
+        return $this->hasMany('App\AppointmentsObservation');
+    }
 }

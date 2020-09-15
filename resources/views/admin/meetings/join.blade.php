@@ -4,6 +4,8 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="shortcut icon" href="{{ url('images/icons/icon-512x512.png') }}" type="image/x-icon">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,79 +36,111 @@
         <title>Consulta médica</title>
     </head>
     <body>
-        <div id="left-panel">
-            <ul style="list-style: none">
-                <li class="left-panel-item">
-                    <div class="mt-3">
-                        <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-white"></i></a>
-                    </div>
-                </li>
-                <li class="left-panel-item">
-                    <div class="mt-3">
-                        <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modalReceta"><i class="fa fa-edit fa-2x text-white"></i></a>
-                    </div>
-                </li>
-                <li class="left-panel-item">
-                    <div class="mt-3">
-                        <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modalReceta"><i class="fa fa-newspaper-o fa-2x text-white"></i></a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div id="meet"></div>
-  
-        <!-- Modal -->
-        <div class="modal fade" id="modalReceta" tabindex="-1" role="dialog" aria-labelledby="modalRecetaLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRecetaLabel">Redactar receta</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="">Medicamento</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Indicaciones</label>
-                        <textarea class="form-control"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                </div>
+        @if (Auth::user()->role_id != 2)
+            <div id="left-panel">
+                <ul style="list-style: none">
+                    <li class="left-panel-item">
+                        <div class="mt-3">
+                            <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-center"></i></a>
+                        </div>
+                    </li>
+                    <li class="left-panel-item">
+                        <div class="mt-3">
+                            <a href="#" title="Ver historial clínico" data-toggle="modal" data-target="#modal-historial"><i class="fa fa-user fa-2x text-center"></i></a>
+                        </div>
+                    </li>
+                    <li class="left-panel-item">
+                        <div class="mt-3">
+                            <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modal-prescription"><i class="fa fa-edit fa-2x text-center"></i></a>
+                        </div>
+                    </li>
+                    <li class="left-panel-item">
+                        <div class="mt-3">
+                            <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modal-analysis-order"><i class="fa fa-newspaper-o fa-2x text-center"></i></a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            </div>
-        </div>
+        
+            <!-- Modal -->
+            {{-- modal historial --}}
+            <form class="form-modal" action="{{ url('admin/appointments/observations/create') }}" method="post">
+                <div class="modal modal-info fade" tabindex="-1" id="modal-historial" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><i class="voyager-person"></i> Historial clínico</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-body">
 
-        <div class="modal fade" id="modalCall" tabindex="-1" role="dialog" aria-labelledby="modalCallLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalCallLabel">Llamar al paciente</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <h6 class="text-muted">Deseas iniciar la consulta virtual?</h6>
-                    <div class="text-center mt-3 loading-call">
-                        <div class="spinner-border text-success" role="status">
-                            <span class="sr-only">Loading...</span>
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="list-historial-tab" data-toggle="tab" href="#list-historial" role="tab" aria-controls="list-historial" aria-selected="true">Detalles</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="new-historial-tab" data-toggle="tab" href="#new-historial" role="tab" aria-controls="new-historial" aria-selected="false">Nuevo</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="list-historial" role="tabpanel" aria-labelledby="list-historial-tab">
+                                            <div class="form-group col-md-12 mt-3">
+                                                <div id="historial-list"></div>
+                                                {{-- @include('admin.customers.partials.historial') --}}
+                                            </div>
+                                            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Cerrar</button>
+                                            <br>
+                                        </div>
+                                        <div class="tab-pane fade" id="new-historial" role="tabpanel" aria-labelledby="new-historial-tab">
+                                            <div class="row">
+                                                @csrf
+                                                <input type="hidden" name="appointment_id" value="{{ $meet->id }}">
+                                                <div class="form-group col-md-12 mt-3">
+                                                    <textarea name="description" class="form-control" rows="10" placeholder="Observaciones de la cita médica..." required></textarea>
+                                                </div>
+                                                <div class="form-group col-md-12 mt-3">
+                                                    <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-cancel-call" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary btn-call">Lamar</button>
+            </form>
+
+            @include('admin.meetings.partials.prescriptions_create', ['customer_id' => $meet->customer_id, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'medicines' => $medicines])
+
+            @include('admin.meetings.partials.analysis_order_create', ['customer_id' => $meet->customer_id, 'customer_name' => $meet->cliente->name.' '.$meet->cliente->last_name, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'analisis' => $analisis])
+
+            <div class="modal fade" id="modalCall" tabindex="-1" role="dialog" aria-labelledby="modalCallLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCallLabel">Llamar al paciente</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-muted">Deseas iniciar la consulta virtual?</h6>
+                        <div class="text-center mt-3 loading-call">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-cancel-call" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary btn-call">Lamar</button>
+                    </div>
+                </div>
                 </div>
             </div>
-            </div>
-        </div>
+        @endif
+        <div id="meet"></div>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -115,7 +149,19 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         {{-- <script src='https://meet.jit.si/external_api.js'></script> --}}
         <script src='https://{{ setting('server-streaming.url_server') }}/external_api.js'></script>
+        
+        {{-- Select2 --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+        {{-- SweetAler2 --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+        <script src="{{ asset('js/app.js') }}"></script>
         <script>
+            // Pedir autorización para mostrar notificaciones
+            Notification.requestPermission();
+            
             // const domain = 'meet.jit.si';
             const domain = "{{ setting('server-streaming.url_server') }}";
             const options = {
@@ -133,30 +179,56 @@
                         'fodeviceselection', 'profile', 'etherpad', 'settings', 'hangup',
                         'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                         'tileview', 'download', 'help', 'mute-everyone', 'e2ee', 'security',
-                        // 'raisehand', 'chat',
+                        // 'raisehand',
+                        'chat',
                     ],
                     SHOW_JITSI_WATERMARK: false
                 }
             };
+
             const api = new JitsiMeetExternalAPI(domain, options);
 
             // Video conferencia clinte/médico inicada
             api.addEventListener('participantJoined', res => {
                 $('.btn-call').text('Llamar');
                 $('.loading-call').css('display', 'none');
-                $('#modalCall').modal('hide')
+                $('#modalCall').modal('hide');
+                @if (Auth::user()->role_id == 2)
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/En_curso`);
+                @else
+                    trackingMeet();
+                @endif
             })
 
             // Finalizar la video conferencia
             api.addEventListener('videoConferenceLeft', res => {
-                let id = "{{ $meet->id }}";
-                let url = "{{ url('admin/appointments/status') }}";
-                $.get(`${url}/${id}/Finalizada`, function(res){
+                @if (Auth::user()->role_id == 2)
+                    window.location = '{{ url("/") }}';
+                @else
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/Finalizada`);
                     window.close();
-                });
+                @endif
             });
 
             $(document).ready(function(){
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    // timerProgressBar: true,
+                    onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                getObservations();
 
                 // Mostrar/Ocultar menu lateral
                 $('#left-panel').mouseover(function(){
@@ -175,12 +247,117 @@
                     $.get(`${url}/${id}/Conectando`, function(res){});
                 });
 
-                // Cancalar llamada
+                // Cancelar llamada
                 $('.btn-cancel-call').click(function(){
                     $('.btn-call').text('Llamar');
                     $('.loading-call').css('display', 'none');
                 });
+
+                // Select de nombre de medicamento
+                $('#select-medicine_name').select2({
+                    tags: true,
+                    dropdownParent: $('#modal-prescription'),
+                    width: '100%',
+                    createTag: function (params) {
+                        return {
+                        id: params.term,
+                        text: params.term,
+                        newOption: true
+                        }
+                    },
+                    templateResult: function (data) {
+                        var $result = $("<span></span>");
+                        $result.text(data.text);
+                        if (data.newOption) {
+                            $result.append(" <em>(ENTER para agregar)</em>");
+                        }
+                        return $result;
+                    },
+                });
+
+                // Agregar detalle de receta
+                $('#btn-add-medicine').click(function(){
+                    let medicina = $('#select-medicine_name').val();
+                    let indicacion = $('#input-medicine_description').val();
+                    if(medicina && indicacion){
+                        $('#table-medicine tbody').append(`
+                            <tr>
+                                <td><input type="hidden" name="medicine_name[]" value="${medicina}">${medicina}</td>
+                                <td><input type="hidden" name="medicine_description[]" value="${indicacion}">${indicacion}</td>
+                            </tr>
+                        `);
+                        $('#input-medicine_description').val('');
+                    }else{
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Debes ingresar ambos campos'
+                        })
+                    }
+                });
+
+                // Guardar receta
+                $('.form-modal').on('submit', function(e){
+                    e.preventDefault();
+                    $.post($(this).attr('action'), $(this).serialize(), function(res){
+                        if(res.success){
+                            Toast.fire({
+                                icon: 'success',
+                                title: res.success
+                            });
+                            $('.modal').modal('hide');
+                            $('.form-modal').trigger("reset");
+                            if(res.action){
+                                switch (res.action) {
+                                    case 'observations':
+                                        getObservations()
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }else{
+                            Toast.fire({
+                                icon: 'error',
+                                title: res.error
+                            });
+                        }
+                    });
+                });
+
+                // Actualizar ultimo hora de la reunión
+                setInterval(() => {
+                    @if (Auth::user()->role_id == 2)
+                        if(api.getNumberOfParticipants() > 1){
+                            trackingMeet();
+                        }
+                    @endif
+                }, 20000);
             });
+
+            // ***WebSockets***
+            // Escuchando los pedidos nuevo
+            Echo.channel('OrderAnalysisNewChannel-{{ Auth::user()->id }}')
+            .listen('OrderAnalysisNewEvent', (res) => {
+                console.log(res)
+                let notificacion = new Notification('Nueva orden de laboratorio!',{
+                    body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
+                    icon: '{{ url("images/icons/icon-512x512.png") }}'
+                });
+            });
+
+            // Obtener el historial de un cliente
+            function getObservations(){
+                $.get('{{ url("admin/appointments/observations/browse/".$meet->customer_id) }}', function(res){
+                    $('#historial-list').html(res);
+                });
+            }
+
+            // Hacer tracking a la reunión para ver su duración
+            function trackingMeet(){
+                let id = "{{ $meet->id }}";
+                let url = "{{ url('admin/appointments/tracking') }}";
+                $.get(`${url}/${id}`);
+            }
         </script>
     </body>
 </html>
