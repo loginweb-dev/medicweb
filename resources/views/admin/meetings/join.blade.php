@@ -41,22 +41,22 @@
                 <ul style="list-style: none">
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-center"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-white"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Ver historial clínico" data-toggle="modal" data-target="#modal-historial"><i class="fa fa-user fa-2x text-center"></i></a>
+                            <a href="#" title="Ver historial clínico" data-toggle="modal" data-target="#modal-historial"><i class="fa fa-user fa-2x text-white"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modal-prescription"><i class="fa fa-edit fa-2x text-center"></i></a>
+                            <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modal-prescription"><i class="fa fa-edit fa-2x text-white"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modal-analysis-order"><i class="fa fa-newspaper-o fa-2x text-center"></i></a>
+                            <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modal-analysis-order"><i class="fa fa-newspaper-o fa-2x text-white"></i></a>
                         </div>
                     </li>
                 </ul>
