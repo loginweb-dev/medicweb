@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
-        "beyondcode/laravel-websockets": "^1.4",
+        "beyondcode/laravel-websockets": "^1.7",
         "binarytorch/larecipe": "^2.3",
         "biscolab/laravel-recaptcha": "^4.1",
         "fideloper/proxy": "^4.2",
@@ -20,7 +20,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
         "orangehill/iseed": "^2.6",
-        "pusher/pusher-php-server": "~4.0",
+        "pusher/pusher-php-server": "~3.0",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-backup": "^6.11",
         "tcg/voyager": "^1.4"
