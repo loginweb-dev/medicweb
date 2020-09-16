@@ -4,12 +4,9 @@
       <section id="team" class="mt-4 mb-2">
 
           <!--Section heading-->
-          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">Meet
-          our doctors</h1>
+          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{$data->title->value}}</h1>
           <!--Section description-->
-          <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">Duis aute irure
-          dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">{{$data->description_data->value}}.</p>
 
           <!--First row-->
           <div class="row wow fadeIn" data-wow-delay="0.4s">
@@ -23,15 +20,15 @@
               <ul class="nav md-pills pills-primary flex-center" role="tablist">
                   <li class="nav-item">
                   <a class="nav-link active" data-toggle="tab" href="#panel31" role="tab"><i class="far fa-eye fa-2x"></i><br>
-                      John</a>
+                  {{$data->name_short1->value}}</a>
                   </li>
                   <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#panel32" role="tab"><i class="fas fa-heartbeat fa-2x"></i><br>
-                      Anna</a>
+                  {{$data->name_short2->value}}</a>
                   </li>
                   <li class="nav-item">
                   <a class="nav-link" data-toggle="tab" href="#panel33" role="tab"><i class="fas fa-search fa-2x"></i><br>
-                      Maria</a>
+                  {{$data->name_short3->value}}</a>
                   </li>
               </ul>
 
@@ -61,15 +58,10 @@
                   <div class="col-lg-6 col-md-12 text-left">
 
                       <!--Title-->
-                      <h4 class="mb-3">John Doe</h4>
+                      <h4 class="mb-3">{{$data->name_lang1->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
-                      animi soluta ratione
-                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
-                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
-                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
-                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+                      <p class="grey-text" align="justify">{{$data->description1->value}}.</p>
 
                   </div>
                   <!--/Second column-->
@@ -100,15 +92,10 @@
                   <div class="col-lg-6 col-md-12 text-left">
 
                       <!--Title-->
-                      <h4 class="mb-3">Anna Moon</h4>
+                      <h4 class="mb-3">{{$data->name_lang2->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
-                      animi soluta ratione
-                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
-                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
-                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
-                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+                      <p class="grey-text" align="justify">{{$data->description2->value}}.</p>
 
                   </div>
                   <!--/Second column-->
@@ -139,15 +126,10 @@
                   <div class="col-lg-6 col-md-12 text-left">
 
                       <!--Title-->
-                      <h4 class="mb-3">Maria Clark</h4>
+                      <h4 class="mb-3">{{$data->name_lang3->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo
-                      animi soluta ratione
-                      quisquam, dicta ab cupiditate iure eaque? Repellendus voluptatum, magni impedit
-                      eaque delectus, beatae maxime temporibus maiores quibusdam quasi.Rem magnam ad
-                      perferendis iusto sint tempora ea voluptatibus iure, animi excepturi modi aut
-                      possimus in hic molestias repellendus illo ullam odit quia velit.</p>
+                      <p class="grey-text" align="justify">{{$data->description3->value}}.</p>
 
                   </div>
                   <!--/Second column-->

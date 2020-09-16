@@ -4,8 +4,8 @@
           <!--Section: Pricing v.1-->
           <section id="pricing" class="pb-5 pt-3">
 
-          <!--Section heading-->
-          <h1 class="text-center mb-5 h1 pt-5 mt-5">Our pricing plans</h1>
+          <!--Section heading--> 
+          <h1 class="text-center mb-5 h1 pt-5 mt-5">Precios</h1>
 
           <!--Section description-->
           <p class="text-center w-responsive mx-auto my-5 grey-text">Lorem ipsum dolor sit amet, consectetur
@@ -22,9 +22,9 @@
               <div class="card pricing-card">
                   <!-- Price -->
                   <div class="price header white-text blue lighten-3 rounded-top">
-                  <h2 class="number">10</h2>
+                  <h2 class="number">{{$data->value1->value}}</h2>
                   <div class="version">
-                      <h5 class="mb-0">Basic</h5>
+                      <h5 class="mb-0">{{$data->title1->value}}</h5>
                   </div>
                   </div>
 
@@ -32,23 +32,23 @@
                   <div class="card-body striped darker-striped">
                   <ul>
                       <li>
-                      <p class="mt-1"><i class="fas fa-check"></i> 20 GB Of Storage</p>
+                      <p class="mt-1"><i class="fas fa-check"></i>{{$data->caracteristica1->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 2 Email Accounts</p>
+                      <p><i class="fas fa-check"></i> {{$data->caracteristica2->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> 24h Tech Support</p>
+                      <p><i class="fas fa-times"></i> {{$data->caracteristica3->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> 300 GB Bandwidth</p>
+                      <p><i class="fas fa-times"></i>{{$data->caracteristica4->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> User Management </p>
+                      <p><i class="fas fa-times"></i>{{$data->caracteristica5->value}}</p>
                       </li>
                   </ul>
 
-                  <button class="btn btn-blue btn-rounded mb-3">Buy now</button>
+                  <button class="btn btn-blue btn-rounded mb-3">Comprar</button>
                   </div>
                   <!--Features-->
 
@@ -133,7 +133,7 @@
                       </li>
                   </ul>
 
-                  <button class="btn btn-blue btn-rounded mb-3">Buy now</button>
+                  <button class="btn btn-blue btn-rounded mb-3">Comprar</button>
                   </div>
                   <!--Features-->
 
