@@ -84,6 +84,8 @@ class AppointmentsController extends Controller
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'appointments.create' : 'appointments.index';
 
+        $response_json = $request->ajax ? 1 : 0;
+
         $request->validate([
             'specialist_id' => 'required',
             'customer_id' => 'required',
@@ -114,10 +116,18 @@ class AppointmentsController extends Controller
             $cita->save();
 
             DB::commit();
-            return redirect()->route($route)->with(['message' => 'Cita agregada exitosamente.', 'alert-type' => 'success']);
+            if($response_json){
+                return response()->json(['success' => 'Cita médica registrada correctamente.']);
+            }else{
+                return redirect()->route($route)->with(['message' => 'Cita agregada exitosamente.', 'alert-type' => 'success']);
+            }
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+            if($response_json){
+                return response()->json(['error' => 'Ocurrió un error inesperado.']);
+            }else{
+                return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+            }
         }
     }
 
@@ -205,7 +215,7 @@ class AppointmentsController extends Controller
             
             // Eventos
             try {
-                $cita = Appointment::with(['especialista', 'cliente'])->where('id', $id)->first();
+                $cita = Appointment::with(['especialista.user', 'cliente'])->where('id', $id)->first();
                 event(new StartMeetEvent($cita));
                 if($status == 'Conectando'){
                     event(new IncomingCallEvent($cita, $cita->cliente->user_id));

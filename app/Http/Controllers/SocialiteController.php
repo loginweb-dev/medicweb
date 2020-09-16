@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
+// Models
 use App\User;
+use App\Customer;
+
 class SocialiteController extends Controller
 {
         //function para redirecionar al cuenta social
@@ -28,12 +31,18 @@ class SocialiteController extends Controller
                        $user = new User;
                        $user->name = $auth_user->name;
                        $user->email = $auth_user->email ?? trim(str_ireplace(' ', '.', $auth_user->name)).'.'.rand(1001, 9999).'@loginweb.dev';
-                       $user->role_id = 3;
+                       $user->role_id = 2;
                        $user->password = Hash::make("loginweb_$social");
                        $user->avatar = $auth_user->avatar;
                        $user->save();
    
                        Auth::login($user, true);
+
+                    // Crear Paciente
+                    Customer::create([
+                        'name' => $auth_user->name,
+                        'user_id' => $user->id
+                    ]);
                    }
                    return redirect('/home');
                }

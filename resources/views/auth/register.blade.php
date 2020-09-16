@@ -108,8 +108,28 @@
                         <!--Body-->
                         <div class="md-form">
                             <input type="text" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required>
-                            <label for="name">Nombre completo</label>
+                            <label for="name">Nombre(s)</label>
                             @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="md-form">
+                            <input type="text" id="last_name" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required>
+                            <label for="name">Apellidos</label>
+                            @error('last_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="md-form">
+                            <input type="text" id="phones" class="form-control @error('phones') is-invalid @enderror" name="phones" value="{{ old('phones') }}" required>
+                            <label for="name">Telefono/Celular</label>
+                            @error('phones')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -140,15 +160,15 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Enviar</button>
-                            <a href="/" class="btn green-gradient btn-block btn-rounded z-depth-1a">Volver al Home</a>
+                            <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Registrarse</button>
+                            <a href="/" class="btn green-gradient btn-block btn-rounded z-depth-1a">Volver al inicio</a>
                         </div>
                         
                     </div>
                     
                     <div class="modal-footer">
-                    <p class="font-small grey-text d-flex justify-content-end">Ya tienes cuenta ? <a href="/login"
-                        class="blue-text"> Ingresar</a></p>
+                    <p class="font-small grey-text d-flex justify-content-end">
+                        Ya tienes cuenta? &nbsp; <a href="/login"class="blue-text"> Ingresar</a></p>
                     </div>
                 </div>
             </form>

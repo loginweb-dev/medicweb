@@ -61,8 +61,8 @@
                     </div>
 
                     <div class="modal-footer">
-                    <p class="font-small grey-text d-flex justify-content-end">No tienes cuenta<a href="/register"
-                        class="blue-text"> Registrarme</a></p>
+                    <p class="font-small grey-text d-flex justify-content-end">
+                        No tienes cuenta &nbsp; <a href="/register" class="blue-text"> Registrarme</a></p>
                     </div>
 
                 </div>

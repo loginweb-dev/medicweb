@@ -124,6 +124,7 @@
         $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
         $('#name-call').text(`${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name}`);
         document.getElementById('tone-call-incoming').play();
+        $('#div-call img').attr('src', "{{ url('storage') }}/"+res.meet.especialista.user.avatar);
     });
   </script>
 
