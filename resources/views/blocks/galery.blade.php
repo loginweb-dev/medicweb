@@ -22,7 +22,7 @@
                       <img src="https://mdbootstrap.com/img/Photos/Others/images/40.jpg" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
-                          <h4 class="white-text font-weight-bold">Lorem ipsum dolor sit amet</h4>
+                          <h4 class="white-text font-weight-bold">{{$data->title1->value}}</h4>
                       </div>
                       </div>
                       <!--/Image-->
@@ -46,7 +46,7 @@
                       <img src="https://mdbootstrap.com/img/Photos/Others/images/39.jpg" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
-                          <h4 class="white-text font-weight-bold">Lorem ipsum dolor sit amet</h4>
+                          <h4 class="white-text font-weight-bold">{{$data->title2->value}}</h4>
                       </div>
                       </div>
                       <!--/Image-->
@@ -70,7 +70,7 @@
                       <img src="https://mdbootstrap.com/img/Photos/Others/images/38.jpg" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
-                          <h4 class="white-text font-weight-bold">Lorem ipsum dolor sit amet</h4>
+                          <h4 class="white-text font-weight-bold">{{$data->title3->value}}</h4>
                       </div>
                       </div>
                       <!--/Image-->
@@ -94,7 +94,7 @@
                       <img src="https://mdbootstrap.com/img/Photos/Others/images/41.jpg" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
-                          <h4 class="white-text font-weight-bold">Lorem ipsum dolor sit amet</h4>
+                          <h4 class="white-text font-weight-bold">{{$data->title4->value}}</h4>
                       </div>
                       </div>
                       <!--/Image-->

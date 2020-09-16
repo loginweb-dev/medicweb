@@ -10,24 +10,16 @@
           <div class="col-md-7 mb-2 smooth-scroll wow fadeIn" data-wow-delay="0.2s">
 
               <!--Heading-->
-              <h2 class="mb-3 font-weight-bold">We Provide High Quality services</h2>
+              <h2 class="mb-3 font-weight-bold">{{$data->title1->value}}</h2>
               <!--Description-->
-              <h4 class="mb-5 dark-grey-text">Visit Our New Clinic in New York.</h4>
+              <h4 class="mb-5 dark-grey-text">{{$data->parrafo1->value}}</h4>
               <!--Content-->
-              <p class="grey-text" align="justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo animi
-              soluta ratione quisquam, dicta
-              ab cupiditate iure eaque? Repellendus voluptatum, magni impedit eaque delectus, beatae maxime
-              temporibus maiores quibusdam quasi. Rem magnam ad perferendis iusto sint tempora ea voluptatibus
-              iure, animi excepturi modi aut possimus in hic molestias repellendus illo ullam odit quia velit.
-              </p>
-
-              <p class="grey-text" align="justify">Qui expedita sit quo, maxime molestiae. Lorem ipsum dolor sit amet,
-              consectetur adipisicing elit.
-              Nemo animi soluta ratione quisquam, dicta ab cupiditate iure eaque repellendus voluptatum.
+              <p class="grey-text" align="justify">
+              {{$data->description_data1->value}}
               </p>
               <br>
               <!--Button-->
-              <a href="#home" class="btn btn-rounded btn-blue mb-4">Contact Us Now</a>
+              <a href="#home" class="btn btn-rounded btn-blue mb-4">  {{$data->btn1->value}}</a>
 
           </div>
           <!--/First column-->
