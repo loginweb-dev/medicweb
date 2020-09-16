@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use TCG\Voyager\VoyagerServiceProvider;
 class Install extends Command
 {
-    protected $signature = 'mediweb:install';
+    protected $signature = 'medicweb:install';
 
     protected $description = 'Command description';
 
