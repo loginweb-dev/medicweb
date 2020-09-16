@@ -30,6 +30,12 @@ class SpecialistsController extends Controller
         return view('admin.specialists.partials.list', compact('especialistas'));
     }
 
+    public function get($search){
+        $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
+        return Specialist::with(['user'])->where('deleted_at', NULL)->whereRaw($query_search)->get();
+        // return response()->json(['specialists' => $especialistas]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

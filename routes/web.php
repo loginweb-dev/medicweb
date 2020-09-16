@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
     // Specialists
     Route::resource('specialists', 'SpecialistsController');
     Route::get('specialists/list/{search}', 'SpecialistsController@list');
+    Route::get('specialists/get/{search}', 'SpecialistsController@get');
 
     // Customers
     Route::resource('customers', 'CustomersController');

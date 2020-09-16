@@ -13,7 +13,7 @@
             <tbody>
                 @forelse ($cliente as $customer)
                     <tr>
-                        <th class="text-center" width="60px"><img src="{{ asset('storage/'.$customer->user->avatar) }}" width="50px" alt="avatar"></th>
+                        <td class="text-center" width="60px"><img src="{{ strpos($customer->user->avatar, 'http') === false ? asset('storage/'.$customer->user->avatar) : $customer->user->avatar }}" width="50px" alt="avatar"></td>
                         <td>{{ $customer->name }} {{ $customer->last_name }}</td>
                         <td>
                             @php

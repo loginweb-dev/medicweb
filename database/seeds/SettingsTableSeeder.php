@@ -402,7 +402,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => 'Tamanio del boton',
-                'value'        => '72px',
+                'value'        => '56px',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => $count++,
