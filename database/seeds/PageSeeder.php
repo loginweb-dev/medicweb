@@ -614,6 +614,182 @@ class PageSeeder extends Seeder
                         'value' => 'User Management',
                         'width' => 2
                     ],
+                    'space' => [
+                        'type'  => 'space',
+                        'name'  => 'space',
+                    ],
+                    'title_b' => [
+                        'type' => 'text',
+                        'name' => 'title_b',
+                        'label' => 'Titulo #1',
+                        'value' => 'Pro',
+                        'width' => 4
+                    ],
+                    'value_b' => [
+                        'type' => 'text',
+                        'name' => 'value_b',
+                        'label' => 'Valor #2',
+                        'value' => '20',
+                        'width' => 4
+                    ],
+                    'checkbox_b1' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_b1',
+                        'label' => 'Opcion #1',
+                        'value' => true,
+                        'width' => 2
+                    ],
+                    'caracteristica_b1' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_b1',
+                        'label' => 'Caracteristica',
+                        'value' => '20 GB Of Storage',
+                        'width' => 2
+                    ],
+                    'checkbox_b2' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_b2',
+                        'label' => 'Opcion #2',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_b2' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_b2',
+                        'label' => 'Caracteristica',
+                        'value' => '2 Email Accounts',
+                        'width' => 2
+                    ],
+                    'checkbox_b3' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_b3',
+                        'label' => 'Opcion #3',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_b3' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_b3',
+                        'label' => 'Caracteristica',
+                        'value' => '24h Tech Support',
+                        'width' => 2
+                    ],
+                    'checkbox_b4' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_b4',
+                        'label' => 'Opcion #4',
+                        'value' => false,
+                        'width' => 1
+                    ],
+                    'caracteristica_b4' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_b4',
+                        'label' => 'Caracteristica',
+                        'value' => '300 GB Bandwidth',
+                        'width' => 2
+                    ],
+                    'checkbox_b5' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_b5',
+                        'label' => 'Opc #5',
+                        'value' => false,
+                        'width' => 1
+                    ],
+                    'caracteristica_b5' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_b5',
+                        'label' => 'Caracteristica',
+                        'value' => 'User Management',
+                        'width' => 2
+                    ],
+                    'space4' => [
+                        'type'  => 'space',
+                        'name'  => 'space',
+                    ],
+                    'title_c' => [
+                        'type' => 'text',
+                        'name' => 'title_c',
+                        'label' => 'Titulo #1',
+                        'value' => 'Enterprise',
+                        'width' => 4
+                    ],
+                    'value_c' => [
+                        'type' => 'text',
+                        'name' => 'value_c',
+                        'label' => 'Valor #2',
+                        'value' => '30',
+                        'width' => 4
+                    ],
+                    'checkbox_c1' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_c1',
+                        'label' => 'Opcion #1',
+                        'value' => true,
+                        'width' => 2
+                    ],
+                    'caracteristica_c1' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_c1',
+                        'label' => 'Caracteristica',
+                        'value' => '20 GB Of Storage',
+                        'width' => 2
+                    ],
+                    'checkbox_c2' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_c2',
+                        'label' => 'Opcion #2',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_c2' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_c2',
+                        'label' => 'Caracteristica',
+                        'value' => '2 Email Accounts',
+                        'width' => 2
+                    ],
+                    'checkbox_c3' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_c3',
+                        'label' => 'Opcion #3',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_c3' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_c3',
+                        'label' => 'Caracteristica',
+                        'value' => '24h Tech Support',
+                        'width' => 2
+                    ],
+                    'checkbox_c4' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_c4',
+                        'label' => 'Opcion #4',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_c4' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_c4',
+                        'label' => 'Caracteristica',
+                        'value' => '300 GB Bandwidth',
+                        'width' => 2
+                    ],
+                    'checkbox_c5' => [
+                        'type' => 'checkbox',
+                        'name' => 'checkbox_c5',
+                        'label' => 'Opc #5',
+                        'value' => true,
+                        'width' => 1
+                    ],
+                    'caracteristica_c5' => [
+                        'type' => 'text',
+                        'name' => 'caracteristica_c5',
+                        'label' => 'Caracteristica',
+                        'value' => 'User Management',
+                        'width' => 2
+                    ],
                 ])
             ]);
         Block::create([
@@ -623,7 +799,83 @@ class PageSeeder extends Seeder
             'description' => 'Testimonios de Clientes',
             'page_id'     => $page->id,
             'position'    => $count++,
-            'details'     => null
+            'details'     => json_encode([
+                    'nombre' => [
+                        'type' => 'text',
+                        'name' => 'nombre',
+                        'label' => 'Nombre Completo',
+                        'value' => 'Augusto Carvalho Chavez',
+                        'width' => 6
+                    ],
+                    'image' => [
+                        'type' => 'image',
+                        'name' => 'image',
+                        'label' => 'Imagen (250x250)',
+                        'value' => null,
+                        'width' => 6
+                    ],
+                    'parrafo' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'parrafo',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
+                    ],
+                    'space'=> [
+                        'type'=> 'space',
+                        'name' => 'space'
+                    ],
+                    'nombre1' => [
+                        'type' => 'text',
+                        'name' => 'nombre1',
+                        'label' => 'Nombre Completo',
+                        'value' => 'Mirian Hernandez Gonzales',
+                        'width' => 6
+                    ],
+                    'image1' => [
+                        'type' => 'image',
+                        'name' => 'image1',
+                        'label' => 'Imagen (250x250)',
+                        'value' => null,
+                        'width' => 6
+                    ],
+                    'parrafo1' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'parrafo1',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
+                    ],
+                    'space1'=> [
+                        'type'=> 'space',
+                        'name' => 'space1'
+                    ],
+                    'nombre2' => [
+                        'type' => 'text',
+                        'name' => 'nombre2',
+                        'label' => 'Nombre Completo',
+                        'value' => 'Marcelo gutierrez',
+                        'width' => 6
+                    ],
+                    'image2' => [
+                        'type' => 'image',
+                        'name' => 'image2',
+                        'label' => 'Imagen (250x250)',
+                        'value' => null,
+                        'width' => 6
+                    ],
+                    'parrafo2' => [
+                        'type' => 'rich_text_box',
+                        'name' => 'parrafo2',
+                        'label' => 'Descripcion',
+                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'width' => 12
+                    ],
+                    'space2'=> [
+                        'type'=> 'space',
+                        'name' => 'space2'
+                    ]
+                ])
             ]);
     
     

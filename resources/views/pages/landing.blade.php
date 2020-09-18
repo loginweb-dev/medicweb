@@ -9,7 +9,7 @@
     @switch($item->type)
       @case('dinamyc-data')
         
-          @include('blocks.'.$item->name, ['data' => json_decode($item->details)])
+          @include('blocks.'.$item->name, ['item'=>$item,'data' => json_decode($item->details)])
           @break
       @case('controller')
         @php

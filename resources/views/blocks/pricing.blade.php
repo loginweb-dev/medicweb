@@ -5,12 +5,10 @@
           <section id="pricing" class="pb-5 pt-3">
 
           <!--Section heading--> 
-          <h1 class="text-center mb-5 h1 pt-5 mt-5">Precios</h1>
+          <h1 class="text-center mb-5 h1 pt-5 mt-5">{{ $item->title }}</h1>
 
           <!--Section description-->
-          <p class="text-center w-responsive mx-auto my-5 grey-text">Lorem ipsum dolor sit amet, consectetur
-              adipisicing elit. Fugit, error amet numquam iure provident voluptate
-              esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
+          <p class="text-center w-responsive mx-auto my-5 grey-text">{{ $item->description }}.</p>
 
           <!--Grid row-->
           <div class="row">
@@ -32,19 +30,19 @@
                   <div class="card-body striped darker-striped">
                   <ul>
                       <li>
-                      <p class="mt-1"><i class="fas fa-check"></i>{{$data->caracteristica1->value}}</p>
+                      <p class="mt-1"><i class="{{ $data->checkbox1->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica1->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> {{$data->caracteristica2->value}}</p>
+                      <p><i class="{{ $data->checkbox2->value ? 'fas fa-check' : 'fas fa-times' }}"></i> {{$data->caracteristica2->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> {{$data->caracteristica3->value}}</p>
+                      <p><i class="{{ $data->checkbox3->value ? 'fas fa-check' : 'fas fa-times' }}"></i> {{$data->caracteristica3->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i>{{$data->caracteristica4->value}}</p>
+                      <p><i class="{{ $data->checkbox4->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica4->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i>{{$data->caracteristica5->value}}</p>
+                      <p><i class="{{ $data->checkbox5->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica5->value}}</p>
                       </li>
                   </ul>
 
@@ -65,9 +63,9 @@
               <div class="card pricing-card">
                   <!-- Price -->
                   <div class="price header white-text blue lighten-3 rounded-top">
-                  <h2 class="number">20</h2>
+                  <h2 class="number">{{$data->value_b->value}}</h2>
                   <div class="version">
-                      <h5 class="mb-0">Pro</h5>
+                      <h5 class="mb-0">{{$data->title_b->value}}</h5>
                   </div>
                   </div>
 
@@ -75,23 +73,23 @@
                   <div class="card-body striped darker-striped">
                   <ul>
                       <li>
-                      <p class="mt-1"><i class="fas fa-check"></i> 20 GB Of Storage</p>
+                      <p class="mt-1"><i class="{{ $data->checkbox_b1->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_b1->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 4 Email Accounts</p>
+                      <p><i class="{{ $data->checkbox_b2->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_b2->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 24h Tech Support</p>
+                      <p><i class="{{ $data->checkbox_b3->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_b3->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> 300 GB Bandwidth</p>
+                      <p><i class="{{ $data->checkbox_b4->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_b4->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-times"></i> User Management </p>
+                      <p><i class="{{ $data->checkbox_b5->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_b5->value}}</p>
                       </li>
                   </ul>
 
-                  <button class="btn btn-blue btn-rounded mb-3">Buy now</button>
+                  <button class="btn btn-blue btn-rounded mb-3">Comprar</button>
                   </div>
                   <!--Features-->
 
@@ -107,9 +105,9 @@
               <div class="card pricing-card">
                   <!-- Price -->
                   <div class="price header white-text blue lighten-3 rounded-top">
-                  <h2 class="number">30</h2>
+                  <h2 class="number">{{$data->value_c->value}}</h2>
                   <div class="version">
-                      <h5 class="mb-0">Enterprise</h5>
+                      <h5 class="mb-0">{{$data->title_c->value}}</h5>
                   </div>
                   </div>
 
@@ -117,19 +115,19 @@
                   <div class="card-body striped darker-striped">
                   <ul>
                       <li>
-                      <p class="mt-1"><i class="fas fa-check"></i> 30 GB Of Storage</p>
+                      <p class="mt-1"><i class="{{ $data->checkbox_c1->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c1->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 5 Email Accounts</p>
+                      <p><i class="{{ $data->checkbox_c2->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c2->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 24h Tech Support</p>
+                      <p><i class="{{ $data->checkbox_c3->value ? 'fas fa-check' : 'fas fa-times' }}"></i> {{$data->caracteristica_c3->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> 300 GB Bandwidth</p>
+                      <p><i class="{{ $data->checkbox_c4->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c4->value}}</p>
                       </li>
                       <li>
-                      <p><i class="fas fa-check"></i> User Management </p>
+                      <p><i class="{{ $data->checkbox_c5->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c5->value}}</p>
                       </li>
                   </ul>
 

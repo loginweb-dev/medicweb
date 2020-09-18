@@ -4,8 +4,7 @@
       <section id="testimonials" class="mb-5 pb-4">
 
           <!--Section heading-->
-          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">What
-          Clients said:</h1>
+          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{ $item->title }}:</h1>
 
           <div class="wrapper-carousel-fix">
 
@@ -21,16 +20,13 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2820%29.jpg" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image->value ? Voyager::Image($data->image->value) : 'https://mdbootstrap.com/img/Photos/Avatars/img%20%2820%29.jpg' }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
-                  <p><i class="fas fa-quote-left"></i> Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Quod eos id officiis hic tenetur quae quaerat ad velit ab. Lorem ipsum dolor sit amet,
-                      consectetur adipisicing elit. Dolore cum accusamus eveniet molestias voluptatum inventore
-                      laboriosam labore sit, aspernatur praesentium iste impedit quidem dolor veniam.
+                  <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}.
                   </p>
 
-                  <h4>Anna Deynah</h4>
+                  <h4>{{$data->nombre->value}}</h4>
 
                   <!--Review-->
                   <i class="fas fa-star"> </i>
@@ -49,16 +45,13 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%2817%29.jpg" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image1->value ? Voyager::Image($data->image1->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%2817%29.jpg'}}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
-                  <p><i class="fas fa-quote-left"></i> Nemo enim ipsam voluptatem quia voluptas sit aspernatur
-                      aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi
-                      nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                      adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore.
+                  <p><i class="fas fa-quote-left"></i>{!! $data->parrafo1->value !!}
                   </p>
 
-                  <h4>Maria Kate</h4>
+                  <h4>{{$data->nombre1->value}}</h4>
 
                   <!--Review-->
                   <i class="fas fa-star"> </i>
@@ -77,16 +70,13 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image2->value ? Voyager::Image($data->image2->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg'}}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
-                  <p><i class="fas fa-quote-left"></i> Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                      sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde
-                      omnis iste natus error sit voluptatem accusantium.
+                  <p><i class="fas fa-quote-left"></i> {!! $data->parrafo2->value !!}
                   </p>
 
-                  <h4>John Doe</h4>
+                  <h4>{{$data->nombre2->value}}</h4>
 
                   <!--Review-->
                   <i class="fas fa-star"> </i>

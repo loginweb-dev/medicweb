@@ -19,7 +19,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="https://mdbootstrap.com/img/Photos/Others/images/40.jpg" class="img-fluid" alt="">
+                      <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title1->value}}</h4>
@@ -43,7 +43,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="https://mdbootstrap.com/img/Photos/Others/images/39.jpg" class="img-fluid" alt="">
+                      <img src="{{ Voyager::Image($data->image2->value) }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title2->value}}</h4>
@@ -67,7 +67,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="https://mdbootstrap.com/img/Photos/Others/images/38.jpg" class="img-fluid" alt="">
+                      <img src="{{ Voyager::Image($data->image3->value) }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title3->value}}</h4>
@@ -91,7 +91,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="https://mdbootstrap.com/img/Photos/Others/images/41.jpg" class="img-fluid" alt="">
+                      <img src="{{ Voyager::Image($data->image4->value) }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title4->value}}</h4>
