@@ -58,21 +58,21 @@
                                             <div class="row">
                                                 <div class="form-group col-md-6">
                                                     <label for="input-name">Nombre(s)</label>
-                                                    <input type="text" name="name" class="form-control form-control-user" id="input-name" value="{{ $cliente->name }}" aria-describedby="input-name" placeholder="John">
+                                                    <input type="text" name="name" class="form-control form-control-user" id="input-name" value="{{ $cliente->name }}" aria-describedby="input-name" placeholder="John" required>
                                                     @error('name')
                                                         <strong class="text-danger">{{ $message }}</strong>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="input-last_name">Apellidos</label>
-                                                    <input type="text" name="last_name" class="form-control form-control-user" id="input-last_name" value="{{ $cliente->last_name }}" aria-describedby="input-last_name" placeholder="Smith A.">
+                                                    <input type="text" name="last_name" class="form-control form-control-user" id="input-last_name" value="{{ $cliente->last_name }}" aria-describedby="input-last_name" placeholder="Smith A." required>
                                                     @error('last_name')
                                                         <strong class="text-danger">{{ $message }}</strong>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group col-md-12">
                                                     <label for="input-phones">Telefonos</label>
-                                                    <input type="text" name="phones" class="form-control form-control-user" id="input-phones" value="{{ $cliente->phones }}" aria-describedby="input-phones" placeholder="75199157">
+                                                    <input type="text" name="phones" class="form-control form-control-user" id="input-phones" value="{{ $cliente->phones }}" aria-describedby="input-phones" placeholder="75199157" required>
                                                     @error('phones')
                                                         <strong class="text-danger">{{ $message }}</strong>
                                                     @enderror
@@ -171,7 +171,18 @@
 <script src="{{ url('js/loginweb.js') }}"></script>
     <script>
         $(document).ready(function(){
-            
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+                            
             // Actualizar información personal
             $('.form-user').on('submit', function(e){
                 e.preventDefault();
@@ -199,7 +210,11 @@
                     res = JSON.parse(res);
                     if(res.avatar){
                         let image = res.avatar ? `../../storage/${res.avatar.replace('.', '-cropped.')}` : `../../storage/users/default.png`;
-                        $('.img-preview').attr('src', image)
+                        $('.img-preview').attr('src', image);
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Imagen de perfil actualizada'
+                        });
                     }else{
                         if(res.error){
                             Swal.fire('Error!', res.error, 'error')

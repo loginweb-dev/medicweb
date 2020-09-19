@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Appointment;
 use App\PrescriptionDetail;
 use App\AnalysisType;
+use App\Customer;
+
+// Events
+use App\Events\DivertCallEvent;
 
 class MeetingsController extends Controller
 {
@@ -32,7 +36,7 @@ class MeetingsController extends Controller
         if(Auth::user()->role_id == 2){
             $meet = Appointment::where('id', $id)
                 ->with(['specialist', 'customer'])
-                ->whereHas('cliente', function(Builder $query) {
+                ->whereHas('customer', function(Builder $query) {
                     $query->where('user_id', Auth::user()->id);
                 })
                 ->where('status', '<>', 'Finalizada')->first();
@@ -50,6 +54,17 @@ class MeetingsController extends Controller
             return view('admin.meetings.join', compact('meet', 'medicines', 'analisis'));
         }else{
             return view('admin.meetings.error');
+        }
+    }
+
+    public function divert_call(Request $request){
+        $meet = Appointment::with(['specialist.user'])->where('id', $request->id)->first();
+        try {
+            // Eventos
+            event(new DivertCallEvent($request->message, $meet->id));
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
         }
     }
 }

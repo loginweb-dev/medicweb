@@ -132,7 +132,7 @@ class CustomersController extends Controller
         $request->validate([
             'name' => 'required|max:191',
             'last_name' => 'required|max:191',
-            'phones' => 'required|max:191'
+            // 'phones' => 'required|max:191'
         ]);
          
         DB::beginTransaction();

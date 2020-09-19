@@ -75,3 +75,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 // Meets
 Route::get('meet/{id}', 'MeetingsController@join');
+Route::post('meet/divert_call', 'MeetingsController@divert_call');

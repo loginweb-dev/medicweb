@@ -32,6 +32,9 @@
             .loading-call{
                 display: none;
             }
+            .text-shadow{
+                text-shadow: 2px 2px #dedede;
+            }
         </style>
         <title>Consulta médica</title>
     </head>
@@ -41,22 +44,22 @@
                 <ul style="list-style: none">
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-white"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#modalCall"><i class="fa fa-phone fa-2x text-white text-shadow"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Ver historial clínico" data-toggle="modal" data-target="#modal-historial"><i class="fa fa-user fa-2x text-white"></i></a>
+                            <a href="#" title="Ver historial clínico" data-toggle="modal" data-target="#modal-historial"><i class="fa fa-user fa-2x text-white text-shadow"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modal-prescription"><i class="fa fa-edit fa-2x text-white"></i></a>
+                            <a href="#" title="Redactar una receta" data-toggle="modal" data-target="#modal-prescription"><i class="fa fa-edit fa-2x text-white text-shadow"></i></a>
                         </div>
                     </li>
                     <li class="left-panel-item">
                         <div class="mt-3">
-                            <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modal-analysis-order"><i class="fa fa-newspaper-o fa-2x text-white"></i></a>
+                            <a href="#" title="Emitir orden de laboratorio" data-toggle="modal" data-target="#modal-analysis-order"><i class="fa fa-newspaper-o fa-2x text-white text-shadow"></i></a>
                         </div>
                     </li>
                 </ul>
@@ -113,7 +116,7 @@
 
             @include('admin.meetings.partials.prescriptions_create', ['customer_id' => $meet->customer_id, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'medicines' => $medicines])
 
-            @include('admin.meetings.partials.analysis_order_create', ['customer_id' => $meet->customer_id, 'customer_name' => $meet->cliente->name.' '.$meet->cliente->last_name, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'analisis' => $analisis])
+            @include('admin.meetings.partials.analysis_order_create', ['customer_id' => $meet->customer_id, 'customer_name' => $meet->customer->name.' '.$meet->customer->last_name, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'analisis' => $analisis])
 
             <div class="modal fade" id="modalCall" tabindex="-1" role="dialog" aria-labelledby="modalCallLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -186,33 +189,33 @@
                 }
             };
 
-            const api = new JitsiMeetExternalAPI(domain, options);
+            // const api = new JitsiMeetExternalAPI(domain, options);
 
-            // Video conferencia clinte/médico inicada
-            api.addEventListener('participantJoined', res => {
-                $('.btn-call').text('Llamar');
-                $('.loading-call').css('display', 'none');
-                $('#modalCall').modal('hide');
-                @if (Auth::user()->role_id == 2)
-                    let id = "{{ $meet->id }}";
-                    let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/En_curso`);
-                @else
-                    trackingMeet();
-                @endif
-            })
+            // // Video conferencia clinte/médico inicada
+            // api.addEventListener('participantJoined', res => {
+            //     $('.btn-call').text('Llamar');
+            //     $('.loading-call').css('display', 'none');
+            //     $('#modalCall').modal('hide');
+            //     @if (Auth::user()->role_id == 2)
+            //         let id = "{{ $meet->id }}";
+            //         let url = "{{ url('admin/appointments/status') }}";
+            //         $.get(`${url}/${id}/En_curso`);
+            //     @else
+            //         trackingMeet();
+            //     @endif
+            // })
 
-            // Finalizar la video conferencia
-            api.addEventListener('videoConferenceLeft', res => {
-                @if (Auth::user()->role_id == 2)
-                    window.location = '{{ url("/home") }}';
-                @else
-                    let id = "{{ $meet->id }}";
-                    let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/Finalizada`);
-                    window.close();
-                @endif
-            });
+            // // Finalizar la video conferencia
+            // api.addEventListener('videoConferenceLeft', res => {
+            //     @if (Auth::user()->role_id == 2)
+            //         window.location = '{{ url("/home") }}';
+            //     @else
+            //         let id = "{{ $meet->id }}";
+            //         let url = "{{ url('admin/appointments/status') }}";
+            //         $.get(`${url}/${id}/Finalizada`);
+            //         window.close();
+            //     @endif
+            // });
 
             $(document).ready(function(){
 
@@ -339,7 +342,6 @@
             // Escuchando receta nuevo
             Echo.channel('PrescriptionNewChannel-{{ Auth::user()->id }}')
             .listen('PrescriptionNewEvent', (res) => {
-                console.log(res)
                 let notificacion = new Notification('Nueva prescripción médica!',{
                     body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
                     icon: '{{ url("images/icons/icon-512x512.png") }}'
@@ -353,6 +355,15 @@
                     body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
                     icon: '{{ url("images/icons/icon-512x512.png") }}'
                 });
+            });
+
+            // Escuchando desvío de llamada
+            Echo.channel('DivertCallChannel-{{ $meet->id }}')
+            .listen('DivertCallEvent', (res) => {
+                $('.btn-call').text('Llamar');
+                $('.loading-call').css('display', 'none');
+                $('#modalCall').modal('hide');
+                Swal.fire('Llamada desviada', `Motivo: ${res.message ? res.message : 'No definido'}`, 'warning')
             });
 
             // Obtener el historial de un cliente

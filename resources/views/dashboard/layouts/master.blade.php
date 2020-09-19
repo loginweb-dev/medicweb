@@ -139,6 +139,28 @@
         }, 500);
       });
 
+      // Presionar desvío de llamada
+      $('.btn-divert-call').click(function(){
+        $('.btn-actions').css('display', 'none');
+        $('#form-divert-call').css('display', 'block');
+      });
+
+      // Desviar llamada
+      $('#form-divert-call').submit(function(e){
+        e.preventDefault();
+        $.post($(this).attr('action'), $(this).serialize(), function(res){
+          if(res){
+            $('#form-divert-call').trigger('reset');
+            $('.dark-mask').css('display', 'none');
+            $('.btn-actions').css('display', 'block');
+            $('#form-divert-call').css('display', 'none');
+            document.getElementById('tone-call-incoming').pause();
+          }else{
+            console.log('error')
+          }
+        });
+      });
+
       // Pedir autorización para mostrar notificaciones
       Notification.requestPermission();
     });
@@ -147,11 +169,13 @@
     // Escuchando los pedidos nuevo
     Echo.channel('IncomingCallChannel-{{ $user_id }}')
     .listen('IncomingCallEvent', (res) => {
+        Swal.close();
         $('.dark-mask').css('display', 'flex');
         $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
         $('#name-call').text(`${res.meet.specialist.prefix} ${res.meet.specialist.name} ${res.meet.specialist.last_name}`);
         document.getElementById('tone-call-incoming').play();
         $('#div-call img').attr('src', "{{ url('storage') }}/"+res.meet.specialist.user.avatar);
+        $('#form-divert-call input[name="id"]').val(res.meet.id);
     });
   </script>
 
@@ -184,10 +208,17 @@
       <img src="{{ asset('storage/users/default.png') }}" class="img-call" alt="avatar">
       <h6 class="text-white">Llamada entrante</h6>
       <h3 class="text-white" id="name-call"></h3>
-      <div class="mt-3">
-        <button type="submit" class="btn btn-danger btn-circle btn-lg mx-3"><span class="fa fa-times"></span></button>
+      <div class="mt-3 btn-actions">
+        <button type="button" class="btn btn-danger btn-circle btn-lg mx-3 btn-divert-call"><span class="fa fa-times"></span></button>
         <a id="btn-answer-call" class="btn btn-success text-white btn-circle btn-lg mx-3"><span class="fa fa-phone "></span></a>
       </div>
+      <br>
+      <form id="form-divert-call" action="{{ url('meet/divert_call') }}" style="display: none">
+        @csrf
+        <input type="hidden" name="id">
+        <textarea name="message" class="form-control form-control-user" style="width:300px" rows="3" placeholder="Ingrese el motivo..."></textarea> <br>
+        <button type="submit" class="btn btn-danger mx-3"><span class="fa fa-times"></span> Colgar llamada</button>
+      </form>
     </div>
   </div>
 </body>

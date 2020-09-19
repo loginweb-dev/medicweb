@@ -3,7 +3,7 @@
 </div>
 
 @forelse ($especialistas as $item)
-<div class="col-md-4">
+<div class="col-md-3">
     <div class="card">
         <img class="card-img-top" src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" alt="Card image cap">
         <div class="card-body" style="padding-bottom: 10px">
@@ -48,7 +48,7 @@
         $('.btn-breadcrunb').click(function(){
             let value = $(this).data('show');
             $('.div-dismiss').fadeOut('fast', () => {
-            $(value).fadeIn();
+                $(value).fadeIn();
             });
         });
 
