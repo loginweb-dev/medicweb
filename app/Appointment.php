@@ -8,11 +8,11 @@ class Appointment extends Model
 {
     public $fillable = ['specialist_id', 'customer_id', 'date', 'start', 'end', 'status', 'code', 'observations'];
 
-    public function especialista(){
+    public function specialist(){
         return $this->belongsTo('App\Specialist', 'specialist_id');
     }
 
-    public function cliente(){
+    public function customer(){
         return $this->belongsTo('App\Customer', 'customer_id');
     }
 
@@ -20,7 +20,7 @@ class Appointment extends Model
         return $this->hasMany('App\AppointmentTracking');
     }
 
-    public function observaciones(){
+    public function observatons(){
         return $this->hasMany('App\AppointmentsObservation');
     }
 }

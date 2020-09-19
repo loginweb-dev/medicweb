@@ -14,8 +14,8 @@
             <tbody>
                 @forelse ($citas as $item)
                     <tr>
-                        <td>{{ $item->especialista->prefix }} {{ $item->especialista->name }} {{ $item->especialista->last_name }}</td>
-                        <td><a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->cliente->id }}" title="Ver historial">{{ $item->cliente->name }} {{ $item->cliente->last_name }}</a></td>
+                        <td>{{ $item->specialist->prefix }} {{ $item->specialist->name }} {{ $item->specialist->last_name }}</td>
+                        <td><a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->customer->id }}" title="Ver historial">{{ $item->customer->name }} {{ $item->customer->last_name }}</a></td>
                         <td>
                             {{ date('d-m-Y H:i', strtotime($item->date.' '.$item->start)) }} <br>
                             <small class="text-update" id="date-{{ $item->id }}" data-id="{{ $item->id }}" data-date="{{ $item->date.' '.$item->start }}" data-status="{{ strtolower($item->status) }}"></small>

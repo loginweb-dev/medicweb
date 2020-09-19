@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'FrontEndController@default')->name('page_default');
 
+// Dashboard del cliente
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile', 'HomeController@profile')->name('profile');
 
 Auth::routes();
 
@@ -35,10 +37,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('specialists', 'SpecialistsController');
     Route::get('specialists/list/{search}', 'SpecialistsController@list');
     Route::get('specialists/get/{search}', 'SpecialistsController@get');
+    Route::get('specialists/specialities/{id}', 'SpecialistsController@specialities');
+
 
     // Customers
     Route::resource('customers', 'CustomersController');
     Route::get('customers/list/{search}', 'CustomersController@list');
+    Route::post('customers/update/avatar', 'CustomersController@update_avatar');
 
     // Appointments
     Route::resource('appointments', 'AppointmentsController');

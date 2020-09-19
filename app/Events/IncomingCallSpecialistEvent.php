@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class PrescriptionNewEvent implements ShouldBroadcastNow
+class IncomingCallSpecialistEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,13 +20,13 @@ class PrescriptionNewEvent implements ShouldBroadcastNow
      *
      * @return void
      */
-    
-    public $prescription;
+
+    public $meet;
     public $user_id;
 
-    public function __construct($prescription, $user_id)
+    public function __construct($meet, $user_id)
     {
-        $this->prescription = $prescription;
+        $this->meet = $meet;
         $this->user_id = $user_id;
     }
 
@@ -37,6 +37,6 @@ class PrescriptionNewEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('PrescriptionNewChannel-'.$this->user_id);
+        return new Channel('IncomingCallSpecialistChannel-'.$this->user_id);
     }
 }

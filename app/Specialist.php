@@ -15,4 +15,11 @@ class Specialist extends Model
     public function specialities(){
         return $this->belongsToMany(Speciality::class);
     }
+
+    protected $appends = ['full_name'];
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['prefix'].' '.$this->attributes['name'].' '.$this->attributes['last_name'];
+    }
 }

@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Blank</title>
+  @yield('header')
 
   <!-- Custom fonts for this template-->
   <link href="{{ url("dashboard/vendor/fontawesome-free/css/all.min.css") }}" rel="stylesheet" type="text/css">
@@ -105,6 +105,13 @@
   {{-- SweetAlert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+  {{-- Ratings --}}
+  <link rel="stylesheet" type="text/css" href="{{ url('js/plugins/star-rating-svg/star-rating-svg.css') }}">
+  <script src="{{ url('js/plugins/star-rating-svg/jquery.star-rating-svg.js') }}"></script>
+
+  {{-- Select2 themes --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.css" integrity="sha512-CbQfNVBSMAYmnzP3IC+mZZmYMP2HUnVkV4+PwuhpiMUmITtSpS7Prr3fNncV1RBOnWxzz4pYQ5EAGG4ck46Oig==" crossorigin="anonymous" />
 
   {{-- Laravel echo --}}
   @php
@@ -113,12 +120,27 @@
 
   <script src="{{ asset('js/app.js') }}"></script>
   <script>
-    // Pedir autorización para mostrar notificaciones
-    Notification.requestPermission();
+    $(document).ready(function(){
 
-    $('#btn-answer-call').click(function(e){
-      $('.dark-mask').css('display', 'none');
-      $('#btn-answer-call').removeAttr('href');
+      // Toggle sidebar
+      if(sessionStorage.getItem('sidebarToggle') != ''){
+        $("body").toggleClass("sidebar-toggled");
+        $(".sidebar").toggleClass("toggled");
+        if ($(".sidebar").hasClass("toggled")) {
+          $('.sidebar .collapse').collapse('hide');
+        };
+      }
+
+      // Guardar sidebarToggle en sesión
+      $('.btn-sidebarToggle').click(function(){
+        setTimeout(() => {
+          let val = $('#page-top').attr('class');
+          sessionStorage.setItem('sidebarToggle', val)
+        }, 500);
+      });
+
+      // Pedir autorización para mostrar notificaciones
+      Notification.requestPermission();
     });
 
     // ***WebSockets***
@@ -127,9 +149,9 @@
     .listen('IncomingCallEvent', (res) => {
         $('.dark-mask').css('display', 'flex');
         $('#btn-answer-call').attr('href', "{{ url('meet') }}/"+res.meet.id);
-        $('#name-call').text(`${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name}`);
+        $('#name-call').text(`${res.meet.specialist.prefix} ${res.meet.specialist.name} ${res.meet.specialist.last_name}`);
         document.getElementById('tone-call-incoming').play();
-        $('#div-call img').attr('src', "{{ url('storage') }}/"+res.meet.especialista.user.avatar);
+        $('#div-call img').attr('src', "{{ url('storage') }}/"+res.meet.specialist.user.avatar);
     });
   </script>
 
@@ -163,8 +185,8 @@
       <h6 class="text-white">Llamada entrante</h6>
       <h3 class="text-white" id="name-call"></h3>
       <div class="mt-3">
-        <a class="btn btn-danger btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-right: 50px" data-wow-delay="0.3s"><span class="fa fa-times fa-2x"></span></a>
-        <a id="btn-answer-call" class="btn btn-success btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" style="margin-left: 50px" data-wow-delay="0.3s"><span class="fa fa-phone fa-2x"></span></a>
+        <button type="submit" class="btn btn-danger btn-circle btn-lg mx-3"><span class="fa fa-times"></span></button>
+        <a id="btn-answer-call" class="btn btn-success text-white btn-circle btn-lg mx-3"><span class="fa fa-phone "></span></a>
       </div>
     </div>
   </div>

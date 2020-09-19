@@ -16,4 +16,17 @@ $(document).ready(function(){
             $('.btn-reset-search').addClass('hidden');
         }
     });
-})
+});
+
+function storeFormData(formData, url, callBack){
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: "html",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: callBack
+    });
+}

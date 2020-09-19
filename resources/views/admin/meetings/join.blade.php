@@ -179,8 +179,8 @@
                         'fodeviceselection', 'profile', 'etherpad', 'settings', 'hangup',
                         'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                         'tileview', 'download', 'help', 'mute-everyone', 'e2ee', 'security',
-                        // 'raisehand',
                         'chat',
+                        // 'raisehand',
                     ],
                     SHOW_JITSI_WATERMARK: false
                 }
@@ -205,7 +205,7 @@
             // Finalizar la video conferencia
             api.addEventListener('videoConferenceLeft', res => {
                 @if (Auth::user()->role_id == 2)
-                    window.location = '{{ url("/") }}';
+                    window.location = '{{ url("/home") }}';
                 @else
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";
@@ -335,10 +335,20 @@
             });
 
             // ***WebSockets***
-            // Escuchando los pedidos nuevo
+
+            // Escuchando receta nuevo
+            Echo.channel('PrescriptionNewChannel-{{ Auth::user()->id }}')
+            .listen('PrescriptionNewEvent', (res) => {
+                console.log(res)
+                let notificacion = new Notification('Nueva prescripción médica!',{
+                    body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
+                    icon: '{{ url("images/icons/icon-512x512.png") }}'
+                });
+            });
+
+            // Escuchando orden de analisis nueva
             Echo.channel('OrderAnalysisNewChannel-{{ Auth::user()->id }}')
             .listen('OrderAnalysisNewEvent', (res) => {
-                console.log(res)
                 let notificacion = new Notification('Nueva orden de laboratorio!',{
                     body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
                     icon: '{{ url("images/icons/icon-512x512.png") }}'
