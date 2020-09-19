@@ -170,7 +170,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.site.title'),
-                'value'        => 'LiveMedic v1.0',
+                'value'        => 'LiveMedic',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => $count++,
@@ -232,7 +232,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.admin.title'),
-                'value'        => 'MedicWeb v1.0',
+                'value'        => 'MedicWeb',
                 'details'      => null,
                 'type'         => 'text',
                 'order'        => $count++,

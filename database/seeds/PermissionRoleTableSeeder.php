@@ -20,5 +20,18 @@ class PermissionRoleTableSeeder extends Seeder
         $role->permissions()->sync(
             $permissions->pluck('id')->all()
         );
+
+
+        // Persmisos agregados manualmente
+        $role = Role::where('name', 'specialist')->firstOrFail();
+        \DB::table('permission_role')->insert(
+            array (
+                0 => 
+                array (
+                    'permission_id' => 1,
+                    'role_id' => $role->id,
+                )
+            )
+        );
     }
 }

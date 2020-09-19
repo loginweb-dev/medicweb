@@ -31,13 +31,13 @@ class MeetingsController extends Controller
     public function join($id){
         if(Auth::user()->role_id == 2){
             $meet = Appointment::where('id', $id)
-                ->with(['especialista', 'cliente'])
+                ->with(['specialist', 'customer'])
                 ->whereHas('cliente', function(Builder $query) {
                     $query->where('user_id', Auth::user()->id);
                 })
                 ->where('status', '<>', 'Finalizada')->first();
         }else{
-            $meet = Appointment::where('id', $id)->with(['especialista', 'cliente'])->where('deleted_at', NULL)->first();
+            $meet = Appointment::where('id', $id)->with(['specialist', 'customer'])->where('deleted_at', NULL)->first();
         }
         
         $medicines = PrescriptionDetail::where('deleted_at', NULL)->groupBy('medicine_name')->get();

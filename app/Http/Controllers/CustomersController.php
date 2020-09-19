@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
+// Controllers
+use App\Http\Controllers\LoginWebController as LoginWeb;
 
 // Models
 use App\Customer;
@@ -122,36 +126,82 @@ class CustomersController extends Controller
          // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'customers.edit' : 'customers.index';
 
-         $request->validate([
-             'name' => 'required|max:191',
-             'last_name' => 'required|max:191',
-             'phones' => 'required|max:191'
-         ]);
+        $response_json = $request->ajax ? 1 : 0;
+
+        
+        $request->validate([
+            'name' => 'required|max:191',
+            'last_name' => 'required|max:191',
+            'phones' => 'required|max:191'
+        ]);
          
-         DB::beginTransaction();
-         try {
+        DB::beginTransaction();
+        try {
             $customer->name = $request->name;
             $customer->last_name = $request->last_name;
             $customer->phones = $request->phones;
             $customer->adress = $request->adress;
             $customer->update();
+            
+            if($request->change_password){
+                if($request->password){
+                    if($request->new_password){
+                        $credentials = $request->only('email', 'password');
+                        if (Auth::attempt($credentials)) {
+                            $customer->user->update([
+                                'password'=> Hash::make($request['new_password'])
+                            ]);
+                        }else{
+                            return response()->json(['error' => 'La contraseña actual es incorrecta.']);
+                        }
+                    }else{
+                        return response()->json(['error' => 'Debes ingresar una nueva contraseña válida.']);
+                    }
+                }
+                if($request->new_password && !$request->password){
+                    return response()->json(['error' => 'Debes ingresar tu contraseña actual para validarla.']);
+                }
+            }elseif ($request->password) {
+                $customer->user->update([
+                    'password'=> Hash::make($request['password'])
+                ]);
+            }
 
-             if ($request->password) {
-                 $customer->user->update([
-                     'password'=> Hash::make($request['password'])
-                 ]);
-             } elseif($request->avatar) {
+            if($request->avatar) {
                  # codigo...
-             } 
-            $customer->user->update([
-                'email'=> $request['email']
+            }
+            if($request->email) {
+                $customer->user->update([
+                    'email'=> $request['email']
+                ]);
+            }
+
+            DB::commit();
+            if($response_json){
+                return response()->json(['success' => 'Información actualizada correctamente.']);
+            }else{
+                return redirect()->route($route)->with(['message' => 'Cliente actualizado exitosamente.', 'alert-type' => 'success']);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            if($response_json){
+                return response()->json(['error' => 'Ocurrió un error inesperado.']);
+            }else{
+                return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+            }
+        }
+    }
+
+    public function update_avatar(Request $request){
+        $avatar = (new LoginWeb)->save_image($request->avatar, 'users');
+        if($avatar){
+            $cliente = Customer::findOrFail($request->id);
+            $cliente->user->update([
+                'avatar' => $avatar
             ]);
-             DB::commit();
-             return redirect()->route($route)->with(['message' => 'Cliente actualizado exitosamente.', 'alert-type' => 'success']);
-         } catch (\Exception $e) {
-             DB::rollback();
-             return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
-         }
+            return response()->json(['avatar' => $avatar]);
+        }
+        return response()->json(['error' => 'Ocurrió un error inesperado al guardar la imagen.']);
     }
 
     /**

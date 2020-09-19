@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 // Models
 use App\Prescription;
 use App\PrescriptionDetail;
+use App\Customer;
+
+// Events
+use App\Events\PrescriptionNewEvent;
 
 class PrescriptionsController extends Controller
 {
@@ -55,6 +59,13 @@ class PrescriptionsController extends Controller
                     'medicine_description' => $request->medicine_description[$i]
                 ]);
             }
+
+            // Eventos
+            try {
+                $customer = Customer::find($request->customer_id);
+                $prescription = Prescription::with(['specialist'])->where('id', $receta->id)->first();
+                event(new PrescriptionNewEvent($prescription, $customer->user_id));
+            } catch (\Throwable $th) {}
             
             DB::commit();
             if($response_json){

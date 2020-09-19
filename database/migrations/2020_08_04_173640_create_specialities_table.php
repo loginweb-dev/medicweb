@@ -18,6 +18,7 @@ class CreateSpecialitiesTable extends Migration
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('icon', 50)->nullable();
+            $table->string('color', 50)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

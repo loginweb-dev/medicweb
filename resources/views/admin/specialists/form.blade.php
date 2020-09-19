@@ -11,7 +11,7 @@
 @section('content')
     <div class="page-content container-fluid">
         <div class="row">
-            <form id="form-store" name="form" action="{{ ! $specialist->id ? route('specialists.store') : route('specialists.update', $specialist->id)}}" method="POST">
+            <form id="form-store" name="form" action="{{ ! $specialist->id ? route('specialists.store') : route('specialists.update', $specialist->id)}}" method="POST" enctype="multipart/form-data">
             @if($specialist->id)
                 @method('PUT')
             @endif
@@ -131,10 +131,12 @@
                 <div class="col-md-12" style="margin-top: -10px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
-                                <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
-                            </div>
+                            @if (!$specialist->id)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="return" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">Permanecer aquí</label>
+                                </div>
+                            @endif
                             <button type="button" class="btn btn-primary btn-submit">Guardar</button>
                         </div>
                     </div>
@@ -162,6 +164,10 @@
             $('.btn-submit').click(function(){
                 $('#form-store').submit();
             });
+
+            @if ($specialist->id)
+            $('.img-preview').attr('src', "{{ url('storage/'.$specialist->user->avatar) }}");
+            @endif
 
             initSelect2Editable(`#select-location`);
         });

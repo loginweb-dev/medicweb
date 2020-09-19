@@ -26,21 +26,17 @@ class PermissionsTableSeeder extends Seeder
         }
 
         Permission::generateFor('menus');
-
         Permission::generateFor('roles');
-
         Permission::generateFor('users');
-
         Permission::generateFor('settings');
-
         Permission::generateFor('specialities');
-
         Permission::generateFor('specialists');
-
         Permission::generateFor('customers');
+        Permission::generateFor('analysis');
+        Permission::generateFor('analysis_types');
+
 
         Permission::generateFor('pages');
-
         Permission::generateFor('blocks');
     }
 }

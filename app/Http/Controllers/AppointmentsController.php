@@ -20,6 +20,7 @@ use App\AppointmentsObservation;
 // Events
 use App\Events\StartMeetEvent;
 use App\Events\IncomingCallEvent;
+use App\Events\IncomingCallSpecialistEvent;
 
 class AppointmentsController extends Controller
 {
@@ -46,15 +47,15 @@ class AppointmentsController extends Controller
     public function list($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%')" : 1;
         $citas = Auth::user()->role_id == 5 ?
-                    Appointment::whereHas('especialista.user', function($query) {
+                    Appointment::whereHas('specialist.user', function($query) {
                             $query->where('id', Auth::user()->id);
                         })
-                        ->with(['especialista.user', 'cliente', 'tracking'])
+                        ->with(['specialist.user', 'customer', 'tracking'])
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get() :
 
-                    Appointment::with(['especialista', 'cliente', 'tracking'])
+                    Appointment::with(['specialist', 'customer', 'tracking'])
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
@@ -98,7 +99,7 @@ class AppointmentsController extends Controller
             // Calcular hora de finalización de la cita
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
-            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'En curso' : 'Pendiente';
+            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
 
             // Crear cita
             $cita = Appointment::create([
@@ -114,6 +115,14 @@ class AppointmentsController extends Controller
             $cita = Appointment::find($cita->id);
             $cita->code = date('Ymdhis').$cita->id;
             $cita->save();
+
+            // Eventos
+            try {
+                $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $cita->id)->first();
+                if($status == 'Conectando'){
+                    event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
+                }
+            } catch (\Throwable $th) {}
 
             DB::commit();
             if($response_json){
@@ -170,7 +179,7 @@ class AppointmentsController extends Controller
             // Calcular hora de finalización de la cita
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
-            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'En curso' : 'Pendiente';
+            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
             
             $cita = Appointment::find($id);
             $cita->date = $request->date;
@@ -215,10 +224,10 @@ class AppointmentsController extends Controller
             
             // Eventos
             try {
-                $cita = Appointment::with(['especialista.user', 'cliente'])->where('id', $id)->first();
+                $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $id)->first();
                 event(new StartMeetEvent($cita));
                 if($status == 'Conectando'){
-                    event(new IncomingCallEvent($cita, $cita->cliente->user_id));
+                    event(new IncomingCallEvent($cita, $cita->customer->user_id));
                 }
             } catch (\Throwable $th) {}
 
@@ -248,7 +257,7 @@ class AppointmentsController extends Controller
      */
     public function browse_observations($id)
     {
-        $observaciones = Appointment::with(['observaciones', 'especialista'])
+        $observaciones = Appointment::with(['observations', 'specialist'])
                             ->where('id', $id)
                             ->where('deleted_at', NULL)->get();
         return view('admin.customers.partials.historial', compact('observaciones'));

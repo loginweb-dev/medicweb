@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+// Controllers
+use App\Http\Controllers\LoginWebController as LoginWeb;
+
 // Models
 use App\Specialist;
 use App\SpecialitySpecialist;
@@ -32,8 +35,19 @@ class SpecialistsController extends Controller
 
     public function get($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
-        return Specialist::with(['user'])->where('deleted_at', NULL)->whereRaw($query_search)->get();
+        return Specialist::with(['specialities', 'user'])
+                    ->where('deleted_at', NULL)->whereRaw($query_search)->get();
         // return response()->json(['specialists' => $especialistas]);
+    }
+
+    public function specialities($id){
+        $especialistas = Specialist::with(['user', 'specialities'])
+                            ->whereHas('specialities', function($query)use ($id){
+                                $query->where('speciality_id', $id);
+                            })
+                            ->where('deleted_at', NULL)->get();
+        $especialidad = Speciality::find($id)->name;
+        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad'));
     }
 
     /**
@@ -150,6 +164,8 @@ class SpecialistsController extends Controller
 
         DB::beginTransaction();
         try {
+            $avatar = (new LoginWeb)->save_image($request->avatar, 'users');
+            // dd($avatar);
              // Crear especialista
             $especialista->name = $request->name;
             $especialista->last_name = $request->last_name;
@@ -162,13 +178,17 @@ class SpecialistsController extends Controller
             //actualizamos el usuario del especialista
             if ($request->password) {
                 $especialista->user->update([
-                    'password'=> Hash::make($request['password'])
+                    'password' => Hash::make($request['password'])
                 ]);
-            } elseif($request->avatar) {
-                # codigo...
+            }
+
+            if($avatar) {
+                $especialista->user->update([
+                    'avatar' => $avatar
+                ]);
             } 
            $especialista->user->update([
-               'email'=> $request['email']
+               'email' => $request['email']
            ]);
            
             // Actualizar especialidades

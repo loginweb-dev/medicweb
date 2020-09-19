@@ -105,16 +105,28 @@
 
 
             // ***WebSockets***
-            // Escuchando los pedidos nuevo
+            // Escuchando inicio de cita médica
             Echo.channel('StartMeetChannel')
             .listen('StartMeetEvent', (res) => {
                 if(Notification.permission==='granted'){
                     if(res.meet.status != 'Conectando'){
                         let notificacion = new Notification(`Cita médica ${res.meet.status}`,{
-                            body: `${res.meet.especialista.prefix} ${res.meet.especialista.name} ${res.meet.especialista.last_name} - ${res.meet.cliente.name} ${res.meet.cliente.last_name}`,
-                            // icon: '{{ url("img/assets/success.png") }}'
+                            body: `${res.meet.specialist.prefix} ${res.meet.specialist.name} ${res.meet.specialist.last_name} - ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                            icon: '{{ url("images/icons/icon-512x512.png") }}'
                         });
                     }
+                }
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+            });
+
+            // Escuchando llamada a specialista
+            Echo.channel('IncomingCallSpecialistChannel-{{ Auth::user()->id }}')
+            .listen('IncomingCallSpecialistEvent', (res) => {
+                if(Notification.permission==='granted'){
+                    let notificacion = new Notification(`Tienes una cita médica en espera`,{
+                        body: `Paciente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                        icon: '{{ url("images/icons/icon-512x512.png") }}'
+                    });
                 }
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
