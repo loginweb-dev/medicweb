@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'FrontEndController@default')->name('page_default');
 
 // Dashboard del cliente
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{meet_id?}', 'HomeController@index')->name('home');
+Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
+Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
+Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details')->name('home.prescriptions.details');
+Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.order_analysis');
 Route::get('/profile', 'HomeController@profile')->name('profile');
 
 Auth::routes();
@@ -76,3 +80,4 @@ Route::group(['prefix' => 'admin'], function () {
 // Meets
 Route::get('meet/{id}', 'MeetingsController@join');
 Route::post('meet/divert_call', 'MeetingsController@divert_call');
+Route::post('meet/rating/store', 'MeetingsController@rating_store');

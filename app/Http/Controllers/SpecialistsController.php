@@ -36,12 +36,17 @@ class SpecialistsController extends Controller
     public function get($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
         return Specialist::with(['specialities', 'user'])
-                    ->where('deleted_at', NULL)->whereRaw($query_search)->get();
+                    ->whereRaw($query_search)
+                    ->orWhereHas('specialities', function($query) use ($search) {
+                        $query->where('name', 'like', "%$search%");
+                    })
+                    ->where('deleted_at', NULL)
+                    ->get();
         // return response()->json(['specialists' => $especialistas]);
     }
 
     public function specialities($id){
-        $especialistas = Specialist::with(['user', 'specialities'])
+        $especialistas = Specialist::with(['user', 'specialities', 'appointments.rating'])
                             ->whereHas('specialities', function($query)use ($id){
                                 $query->where('speciality_id', $id);
                             })
@@ -88,11 +93,13 @@ class SpecialistsController extends Controller
 
         DB::beginTransaction();
         try {
+            $avatar = (new LoginWeb)->save_image($request->avatar, 'users');
             // Crear usuario
             $user = User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => Hash::make($request['password']),
+                'avatar' => $avatar,
                 'role_id' => 5
             ]);
 

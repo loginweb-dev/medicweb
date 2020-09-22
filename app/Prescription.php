@@ -12,6 +12,10 @@ class Prescription extends Model
         return $this->hasMany('App\PrescriptionDetail');
     }
 
+    public function customer(){
+        return $this->belongsTo('App\Customer', 'customer_id');
+    }
+
     public function specialist(){
         return $this->belongsTo('App\Specialist', 'specialist_id');
     }

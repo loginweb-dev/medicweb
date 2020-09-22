@@ -20,28 +20,28 @@ class SpecialitiesSeeder extends Seeder
         ]);
 
         Speciality::create([
-            'name' => 'Pediatría',
+            'name' => 'Pediatra',
             'description' => 'NN',
             'icon' => 'fas fa-baby',
             'color' => 'success'
         ]);
 
         Speciality::create([
-            'name' => 'Enfermería',
+            'name' => 'Enfermera(o)',
             'description' => 'NN',
             'icon' => 'fas fa-hand-holding-medical',
             'color' => 'danger'
         ]);
 
         Speciality::create([
-            'name' => 'Odontología',
+            'name' => 'Odontólogo',
             'description' => 'NN',
             'icon' => 'fas fa-tooth',
             'color' => 'info'
         ]);
 
         Speciality::create([
-            'name' => 'Cardiología',
+            'name' => 'Cardiólogo',
             'description' => 'NN',
             'icon' => 'fas fa-heartbeat',
             'color' => 'danger'

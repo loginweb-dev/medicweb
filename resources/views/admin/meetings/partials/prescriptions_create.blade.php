@@ -41,8 +41,10 @@
                                 <table id="table-medicine" class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Cantidad</th>
                                             <th>Medicamento</th>
                                             <th>Indicaciones</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>

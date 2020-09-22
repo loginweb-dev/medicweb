@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 // Models
 use App\Appointment;
 use App\PrescriptionDetail;
 use App\AnalysisType;
 use App\Customer;
+use App\AppointmentsRating;
 
 // Events
 use App\Events\DivertCallEvent;
@@ -65,6 +67,23 @@ class MeetingsController extends Controller
             return 1;
         } catch (\Throwable $th) {
             return 0;
+        }
+    }
+
+    public function rating_store(Request $request){
+        DB::beginTransaction();
+        try {
+            AppointmentsRating::create([
+                'appointment_id' => $request->id,
+                'user_id' => Auth::user()->id,
+                'rating' => $request->rating,
+                'comment' => $request->comment
+            ]);
+            DB::commit();
+            return response()->json(['success' => 'Gracias por tu puntuación!', 'message' => 'Esto nos ayuda a brindarte un mejor servicio.']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Ocurrió un error!', 'message' => 'Ha ocurrido un error inesperado en nuestro servidor.']);
         }
     }
 }

@@ -51,9 +51,11 @@
             
         </div>
 
-        <div class="row div-dismiss" id="div-list-specialists" style="display: none">
-          
-        </div>
+        <div class="row div-dismiss" id="div-list-specialists" style="display: none"></div>
+    </div>
+
+    <div class="col-md-12 text-center" id="div-loading" style="display: none;top: 25%;">
+      <img src="{{ url('images/loader.gif') }}" width="150px" />
     </div>
 
     {{-- Modal de nueva cita --}}
@@ -112,6 +114,34 @@
             </div>
         </div>
     </form>
+
+  <!-- Logout Modal-->
+  <form id="form-rating" action="{{ url('meet/rating/store') }}"method="post">
+    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ratingModalLabel">Que te pareció la atención?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-12 text-center">
+              <div class="store-rating"></div>
+              <br>
+              @csrf              
+              <input type="hidden" name="id" value="{{ $meet_id }}">
+              <input type="hidden" name="rating">
+              <textarea name="comment" class="form-control mt-3" rows="5" placeholder="Si deseas déjanos un comentario..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success btn-rating" disabled>Puntuar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 @endsection
 
 @section('css')
@@ -175,6 +205,34 @@
                 $('#form-appointments input[name="specialist_id"]').val(id);
                 $('#modal-appointments').modal('show');
               }
+            });
+
+            @if($meet_id)
+            // Mostrar modal de puntuación
+            $('#ratingModal').modal('show');
+            // Inicializar Ratings
+            $(".store-rating").starRating({
+                starSize: 40,
+                starGradient: {start: '#FFDC0F', end: '#F0CF0E'},
+                callback: function(currentRating){
+                  $('#ratingModal input[name="rating"]').val(currentRating);
+                  $('.btn-rating').removeAttr('disabled');
+                }
+            });
+            @endif
+
+            // Guardar puntuación
+            $('#form-rating').submit(function(e){
+              e.preventDefault();
+              $.post($(this).attr('action'), $(this).serialize(), function(res){
+                $('#ratingModal').modal('hide');
+                if(res.success){
+                  Swal.fire(res.success, res.message, 'success');
+                }else{
+                  Swal.fire(res.error, res.message,'error');
+                }
+                $('#form-rating').trigger('reset');
+              });
             });
 
             // Registrar cita
