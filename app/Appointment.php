@@ -20,6 +20,10 @@ class Appointment extends Model
         return $this->hasMany('App\AppointmentTracking');
     }
 
+    public function rating(){
+        return $this->hasMany('App\AppointmentsRating');
+    }
+
     public function observatons(){
         return $this->hasMany('App\AppointmentsObservation');
     }

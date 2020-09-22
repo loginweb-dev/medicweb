@@ -16,6 +16,7 @@ class CreatePrescriptionDetailsTable extends Migration
         Schema::create('prescription_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('prescription_id')->constrained();
+            $table->decimal('quantity', 10, 2)->nullable();
             $table->string('medicine_name')->nullable();
             $table->text('medicine_description')->nullable();
             $table->timestamps();

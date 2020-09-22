@@ -16,6 +16,10 @@ class Specialist extends Model
         return $this->belongsToMany(Speciality::class);
     }
 
+    public function appointments(){
+        return $this->hasMany(Appointment::class);
+    }
+
     protected $appends = ['full_name'];
 
     public function getFullNameAttribute()

@@ -12,4 +12,12 @@ class AnalysisCustomer extends Model
     public function specialist(){
         return $this->belongsTo('App\Specialist', 'specialist_id');
     }
+
+    public function customer(){
+        return $this->belongsTo('App\Customer', 'customer_id');
+    }
+
+    public function details(){
+        return $this->hasMany('App\AnalysisCustomerDetail', 'analysis_customer_id');
+    }
 }

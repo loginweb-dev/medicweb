@@ -15,7 +15,7 @@
             </p>
             <div class="row">
                 <div class="col-md-12 text-right">
-                    <div class="my-rating"></div>
+                    <div class="my-rating-{{ $item->id }}"></div>
                 </div>
             </div>
         </div>
@@ -53,12 +53,25 @@
         });
 
         // Inicializar Ratings
-        $(".my-rating").starRating({
+        @foreach($especialistas as $item)
+        @php
+            // Calcular puntuación
+            $cont = 0;
+            $rating = 0;
+            foreach($item->appointments as $citas){
+                if(count($citas->rating)){
+                    $cont++;
+                    $rating += $citas->rating[0]->rating;
+                }
+            }
+        @endphp
+        $(".my-rating-{{ $item->id }}").starRating({
             starSize: 20,
-            initialRating: 4.2,
+            initialRating: {{ $rating/$cont }},
             readOnly: true,
             starGradient: {start: '#FFDC0F', end: '#F0CF0E'}
         });
+        @endforeach
 
         // Crear nueva cita
         $('.btn-new-appointment').click(function(){

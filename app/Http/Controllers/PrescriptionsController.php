@@ -55,6 +55,7 @@ class PrescriptionsController extends Controller
             for ($i=0; $i < count($request->medicine_name); $i++) { 
                 PrescriptionDetail::create([
                     'prescription_id' => $receta->id,
+                    'quantity' => $request->quantity[$i],
                     'medicine_name' => $request->medicine_name[$i],
                     'medicine_description' => $request->medicine_description[$i]
                 ]);

@@ -33,7 +33,7 @@
                 display: none;
             }
             .text-shadow{
-                text-shadow: 2px 2px #dedede;
+                text-shadow: 2px 2px #000;
             }
         </style>
         <title>Consulta médica</title>
@@ -189,35 +189,37 @@
                 }
             };
 
-            // const api = new JitsiMeetExternalAPI(domain, options);
+            const api = new JitsiMeetExternalAPI(domain, options);
 
-            // // Video conferencia clinte/médico inicada
-            // api.addEventListener('participantJoined', res => {
-            //     $('.btn-call').text('Llamar');
-            //     $('.loading-call').css('display', 'none');
-            //     $('#modalCall').modal('hide');
-            //     @if (Auth::user()->role_id == 2)
-            //         let id = "{{ $meet->id }}";
-            //         let url = "{{ url('admin/appointments/status') }}";
-            //         $.get(`${url}/${id}/En_curso`);
-            //     @else
-            //         trackingMeet();
-            //     @endif
-            // })
+            // Video conferencia clinte/médico inicada
+            api.addEventListener('participantJoined', res => {
+                $('.btn-call').text('Llamar');
+                $('.loading-call').css('display', 'none');
+                $('#modalCall').modal('hide');
+                @if (Auth::user()->role_id == 2)
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/En_curso`);
+                @else
+                    trackingMeet();
+                @endif
+            })
 
-            // // Finalizar la video conferencia
-            // api.addEventListener('videoConferenceLeft', res => {
-            //     @if (Auth::user()->role_id == 2)
-            //         window.location = '{{ url("/home") }}';
-            //     @else
-            //         let id = "{{ $meet->id }}";
-            //         let url = "{{ url('admin/appointments/status') }}";
-            //         $.get(`${url}/${id}/Finalizada`);
-            //         window.close();
-            //     @endif
-            // });
+            // Finalizar la video conferencia
+            api.addEventListener('videoConferenceLeft', res => {
+                @if (Auth::user()->role_id == 2)
+                    window.location = '{{ url("/home/".$meet->id) }}';
+                @else
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/Finalizada`);
+                    window.close();
+                @endif
+            });
 
             $(document).ready(function(){
+
+                var index = 1;
 
                 const Toast = Swal.mixin({
                     toast: true,
@@ -284,12 +286,15 @@
                     let indicacion = $('#input-medicine_description').val();
                     if(medicina && indicacion){
                         $('#table-medicine tbody').append(`
-                            <tr>
+                            <tr id="tr-${index}">
+                                <td><input type="number" class="form-control" name="quantity[]" value="1" style="width:100px"></td>
                                 <td><input type="hidden" name="medicine_name[]" value="${medicina}">${medicina}</td>
                                 <td><input type="hidden" name="medicine_description[]" value="${indicacion}">${indicacion}</td>
+                                <td><button type="button" class="btn btn-link btn-sm text-danger" onclick="removeTr(${index})"><i class="fa fa-trash"></i></button></td>
                             </tr>
                         `);
                         $('#input-medicine_description').val('');
+                        index++;
                     }else{
                         Toast.fire({
                             icon: 'error',
@@ -346,6 +351,9 @@
                     body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
                     icon: '{{ url("images/icons/icon-512x512.png") }}'
                 });
+                notificacion.onclick = (e) => {
+                    window.open("{{ url('home/prescriptions/details') }}/"+res.prescription.id, "_blank");
+                }
             });
 
             // Escuchando orden de analisis nueva
@@ -378,6 +386,10 @@
                 let id = "{{ $meet->id }}";
                 let url = "{{ url('admin/appointments/tracking') }}";
                 $.get(`${url}/${id}`);
+            }
+
+            function removeTr(index){
+                $(`#tr-${index}`).remove();
             }
         </script>
     </body>
