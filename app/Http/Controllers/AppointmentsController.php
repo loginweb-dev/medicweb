@@ -257,11 +257,13 @@ class AppointmentsController extends Controller
      */
     public function browse_observations($id)
     {
-        $observaciones = Appointment::with(['observations', 'specialist'])
-                            ->where('id', $id)
-                            ->where('deleted_at', NULL)->get();
+        $observaciones = Appointment::with(['details', 'specialist'])
+                            ->whereHas('specialist', function($query) use ($id) {
+                                $query->where('id', $id);
+                            })
+                            ->where('deleted_at', NULL)
+                            ->get();
         return view('admin.customers.partials.historial', compact('observaciones'));
-        // return response()->json(['observations' => $observaciones]);
     }
 
     /**

@@ -30,14 +30,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($meet_id = null)
+    public function index()
     {
         $especialidades = Speciality::with(['specialists:specialist_id'])->where('deleted_at', null)->get();
         
         // Verificar si la cita médica ya fue puntuada
-        $rating = AppointmentsRating::where('appointment_id', $meet_id)->first();
-        if($rating){
-            $meet_id = null;
+        if(request('id')){
+            $meet_id = AppointmentsRating::where('appointment_id', $meet_id)->first() ? null : request('id');
         }
 
         if(Auth::user()->role_id == 2){
