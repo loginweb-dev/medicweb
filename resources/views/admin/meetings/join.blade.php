@@ -208,7 +208,7 @@
             // Finalizar la video conferencia
             api.addEventListener('videoConferenceLeft', res => {
                 @if (Auth::user()->role_id == 2)
-                    window.location = '{{ url("/home/".$meet->id) }}';
+                    window.location = '{{ url("/home?id=".$meet->id) }}';
                 @else
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";

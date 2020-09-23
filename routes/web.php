@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'FrontEndController@default')->name('page_default');
 
 // Dashboard del cliente
-Route::get('/home/{meet_id?}', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
 Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
 Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details')->name('home.prescriptions.details');

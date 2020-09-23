@@ -67,7 +67,7 @@
         @endphp
         $(".my-rating-{{ $item->id }}").starRating({
             starSize: 20,
-            initialRating: {{ $rating/$cont }},
+            initialRating: {{ $cont > 0 ? $rating/$cont : 0 }},
             readOnly: true,
             starGradient: {start: '#FFDC0F', end: '#F0CF0E'}
         });

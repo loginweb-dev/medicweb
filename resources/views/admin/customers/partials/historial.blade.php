@@ -8,10 +8,10 @@
             <li>
                 <a href="#">{{ $item->observations }}</a>
                 <a href="#" class="float-right">{{ strftime("%d de %B, %Y",  strtotime($item->created_at)) }}</a>
-                @if (count($item->observaciones) > 1)
-                    @forelse ($item->observaciones as $observacion)
+                @if (count($item->details) > 1)
+                    @forelse ($item->details as $detail)
                         @if ($cont == 0)
-                            <p>{{ $observacion->description }} <button type="button" class="btn btn-link btn-learn-more" id="btn-learn-more-{{ $item->id }}" data-id="{{ $item->id }}">Ver más</button></p>
+                            <p>{{ $detail->description }} <button type="button" class="btn btn-link btn-learn-more" id="btn-learn-more-{{ $item->id }}" data-id="{{ $item->id }}">Ver más</button></p>
                         @else
                             <p class="text-hidden text-{{ $item->id }}">{{ $observacion->description }}</p>
                         @endif
@@ -19,18 +19,18 @@
                             $cont++;
                         @endphp
                     @empty
-                    <p class="text-center">No hay histotial</p>
+                    <p class="text-center">No hay historial</p>
                     @endforelse
                 @else
-                    @if (count($item->observaciones) > 0)
-                        <p>{{ $item->observaciones[0]->description }}</p>
+                    @if (count($item->details) > 0)
+                        <p>{{ $item->details[0]->description }}</p>
                     @else
-                        <p class="text-center">No hay histotial</p>
+                        <p class="text-center">No hay historial</p>
                     @endif
                 @endif
             </li>
             @empty
-                <h3 class="text-center">No hay histotial</h3>
+                <h3 class="text-center">No hay historial</h3>
             @endforelse
         </ul>
     </div>
