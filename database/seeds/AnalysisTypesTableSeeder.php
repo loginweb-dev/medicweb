@@ -30,11 +30,11 @@ class AnalysisTypesTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'INMUNOLOGIA',
-                'description' => 'INMUNOLOGIA',
+                'name' => 'SERO INMUNOLOGIA ELECTROQUIMIOLUMINISCENCIA',
+                'description' => 'SERO INMUNOLOGIA ELECTROQUIMIOLUMINISCENCIA',
                 'order' => 2,
                 'created_at' => '2020-09-23 16:16:34',
-                'updated_at' => '2020-09-23 16:21:46',
+                'updated_at' => '2020-09-23 17:28:09',
                 'deleted_at' => NULL,
             ),
             2 => 
@@ -55,6 +55,46 @@ class AnalysisTypesTableSeeder extends Seeder
                 'order' => 4,
                 'created_at' => '2020-09-23 16:17:43',
                 'updated_at' => '2020-09-23 16:22:08',
+                'deleted_at' => NULL,
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'name' => 'INMUNOGLOBULINAS',
+                'description' => 'Inmunoglobulinas',
+                'order' => 5,
+                'created_at' => '2020-09-23 18:23:36',
+                'updated_at' => '2020-09-23 18:23:43',
+                'deleted_at' => NULL,
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'name' => 'ALERGIAS',
+                'description' => 'Alergias',
+                'order' => 6,
+                'created_at' => '2020-09-23 18:26:03',
+                'updated_at' => '2020-09-23 18:26:03',
+                'deleted_at' => NULL,
+            ),
+            6 => 
+            array (
+                'id' => 7,
+                'name' => 'ELECTROLITOS',
+                'description' => 'ELECTROLITOS',
+                'order' => 7,
+                'created_at' => '2020-09-23 18:30:22',
+                'updated_at' => '2020-09-23 18:30:22',
+                'deleted_at' => NULL,
+            ),
+            7 => 
+            array (
+                'id' => 8,
+                'name' => 'QUIMICA CINETICA',
+                'description' => 'QUIMICA CINETICA',
+                'order' => 8,
+                'created_at' => '2020-09-23 18:32:52',
+                'updated_at' => '2020-09-23 18:32:52',
                 'deleted_at' => NULL,
             ),
         ));
