@@ -78,29 +78,58 @@
                     @endphp
                     <div class="modal-body">
                         <div class="row">
+                          <div class="col-md-12">
+                            <ul class="nav nav-tabs" id="myTabType" role="tablist">
+                              <li class="nav-item">
+                                <a class="nav-link tab-link active" id="now-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Ahora mismo</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link tab-link" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Programar</a>
+                              </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContentType">
+                              <div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="now-tab">
+                                <div class="row mt-3">
+                                    <div class="form-group col-md-6">
+                                        <label>Fecha</label>
+                                        <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
+                                        @error('date')
+                                            <span class="text-danger" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Hora de inicio</label>
+                                        <input type="time" readonly name="start" class="form-control" required>
+                                        @error('start')
+                                            <span class="text-danger" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
+                                <div class="form-group mt-3">
+                                  <label>Fecha</label>
+                                  <input type="date" id="input-date-2" disabled name="date" class="form-control input-date">
+                                  @error('date')
+                                      <span class="text-danger" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                  @enderror
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
                             @csrf
                             <input type="hidden" name="ajax" value="1">
                             <input type="hidden" name="specialist_id">
                             <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                            <div class="form-group col-md-6">
-                                {{-- <label>Fecha</label> --}}
-                                <input type="date" readonly name="date" class="form-control" value="{{ date('Y-m-d') }}" required>
-                                @error('date')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-6">
-                                {{-- <label>Hora de inicio</label> --}}
-                                <input type="time" readonly name="start" class="form-control" value="{{ date('H:i') }}" required>
-                                @error('start')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-12 mt-3">
                                 {{-- <label>Descripción</label> --}}
                                 <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="5" required></textarea>
                             </div>
@@ -254,6 +283,20 @@
                   )
                 }
               })
+            });
+
+            // Halitar/Deshabilitar campo fecha según tipo de cita (ahor/programada)
+            $('.tab-link').click(function(){
+              let type = $(this).attr('href');
+              $('.input-date').removeAttr('disabled');
+              $('.input-date').removeAttr('required');
+              if(type == '#future'){
+                $('#input-date-1').attr('disabled', 'disabled');
+                $('#input-date-2').attr('required', 'required');
+              }else{
+                $('#input-date-2').attr('disabled', 'disabled');
+                $('#input-date-1').attr('required', 'required');
+              }
             });
 
             // Desplegar lista de especialistas
