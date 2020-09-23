@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSheduleSpecialistTable extends Migration
+class CreateScheduleSpecialistTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSheduleSpecialistTable extends Migration
      */
     public function up()
     {
-        Schema::create('shedule_specialist', function (Blueprint $table) {
+        Schema::create('schedule_specialist', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('schedule_id');
             $table->foreign('schedule_id')->references('id')->on('schedules');
@@ -31,6 +31,6 @@ class CreateSheduleSpecialistTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shedule_specialist');
+        Schema::dropIfExists('schedule_specialist');
     }
 }

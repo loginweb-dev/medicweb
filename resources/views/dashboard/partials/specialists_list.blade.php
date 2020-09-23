@@ -20,6 +20,7 @@
             </div>
         </div>
         <div class="card-footer bg-white text-right">
+            <button class="btn btn-info btn-sm" data-id="{{ $item->id }}">Ver horarios <span class="fas fa-calendar"></span></button>
             <button class="btn btn-success btn-sm btn-new-appointment" data-id="{{ $item->id }}">Hacer cita <span class="fas fa-laptop-medical"></span></button>
         </div>
     </div>
@@ -78,6 +79,7 @@
             let id = $(this).data('id');
             if(id){
                 $('#form-appointments input[name="specialist_id"]').val(id);
+                $('#form-schedules input[name="specialist_id"]').val(id);
                 $('#modal-appointments').modal('show');
                 let date = new Date();
                 let year = date.getFullYear();

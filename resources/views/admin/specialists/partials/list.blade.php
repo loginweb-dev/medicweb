@@ -12,6 +12,11 @@
             </thead>
             <tbody>
                 @forelse ($especialistas as $specialist)
+                    @php
+                        if($specialist->user->avatar != 'users/default.png'){
+                            $specialist->user->avatar = str_replace('.', '-cropped.', $specialist->user->avatar);
+                        }
+                    @endphp
                     <tr>
                         <th class="text-center" width="60px"><img src="{{ asset('storage/'.$specialist->user->avatar) }}" width="50px" alt="avatar"></th>
                         <td>{{ $specialist->prefix }} {{ $specialist->name }} {{ $specialist->last_name }}</td>

@@ -63,6 +63,9 @@ Route::group(['prefix' => 'admin'], function () {
     // Analisys Customer
     Route::resource('analysiscustomer', 'AnalyisisCustomersController');
 
+    // Schedules
+    Route::post('schedules/specialist', 'SchedulesController@specialist');
+
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');

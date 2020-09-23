@@ -113,13 +113,14 @@
                               <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
                                 <div class="form-group mt-3">
                                   <label>Fecha</label>
-                                  <input type="date" id="input-date-2" disabled name="date" class="form-control input-date">
+                                  <input type="date" id="input-date-2" disabled name="date" min="{{ date('Y-m-d') }}" class="form-control input-date">
                                   @error('date')
                                       <span class="text-danger" role="alert">
                                           <strong>{{ $message }}</strong>
                                       </span>
                                   @enderror
                                 </div>
+                                <div id="schedules-list"></div>
                               </div>
                             </div>
                           </div>
@@ -144,33 +145,40 @@
         </div>
     </form>
 
-  <!-- Logout Modal-->
-  <form id="form-rating" action="{{ url('meet/rating/store') }}"method="post">
-    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="ratingModalLabel">Que te pareció la atención?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="col-md-12 text-center">
-              <div class="store-rating"></div>
-              <br>
-              @csrf              
-              <input type="hidden" name="id" value="{{ $meet_id }}">
-              <input type="hidden" name="rating">
-              <textarea name="comment" class="form-control mt-3" rows="5" placeholder="Si deseas déjanos un comentario..."></textarea>
+    <form id="form-schedules" action="{{ url('admin/schedules/specialist') }}">
+      @csrf              
+      <input type="hidden" name="specialist_id">
+      <input type="hidden" name="date">
+    </form>
+
+    <!-- Logout Modal-->
+    <form id="form-rating" action="{{ url('meet/rating/store') }}"method="post">
+      <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ratingModalLabel">Que te pareció la atención?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success btn-rating" disabled>Puntuar</button>
+            <div class="modal-body">
+              <div class="col-md-12 text-center">
+                <div class="store-rating"></div>
+                <br>
+                @csrf              
+                <input type="hidden" name="id" value="{{ $meet_id }}">
+                <input type="hidden" name="rating">
+                <textarea name="comment" class="form-control mt-3" rows="5" placeholder="Si deseas déjanos un comentario..."></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success btn-rating" disabled>Puntuar</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+
 @endsection
 
 @section('css')
@@ -297,6 +305,17 @@
                 $('#input-date-2').attr('disabled', 'disabled');
                 $('#input-date-1').attr('required', 'required');
               }
+            });
+
+            // Obtener lista de horarios según fecha
+            $('#input-date-2').change(function(){
+              let date = $(this).val();
+              $('#form-schedules input[name="date"]').val(date)
+              setTimeout(()=>{
+                $.post($('#form-schedules').attr('action'), $('#form-schedules').serialize(), function(res){
+                  $('#schedules-list').html(res);
+                });
+              }, 200);
             });
 
             // Desplegar lista de especialistas

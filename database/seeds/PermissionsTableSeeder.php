@@ -35,6 +35,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('analysis');
         Permission::generateFor('analysis_types');
         Permission::generateFor('schedules');
+        Permission::generateFor('appointments');
 
 
         Permission::generateFor('pages');
