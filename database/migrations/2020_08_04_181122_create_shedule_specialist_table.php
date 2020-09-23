@@ -19,6 +19,7 @@ class CreateSheduleSpecialistTable extends Migration
             $table->foreign('schedule_id')->references('id')->on('schedules');
             $table->unsignedBigInteger('specialist_id');
             $table->foreign('specialist_id')->references('id')->on('specialists');
+            $table->decimal('price_add',8,2)->nullable();
             $table->timestamps();
         });
     }

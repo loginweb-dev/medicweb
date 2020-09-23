@@ -161,6 +161,24 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-09-19 15:16:31',
                 'updated_at' => '2020-09-19 15:20:55',
             ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'schedules',
+                'slug' => 'schedules',
+                'display_name_singular' => 'Horario',
+                'display_name_plural' => 'Horarios',
+                'icon' => 'voyager-watch',
+                'model_name' => 'App\\Schedule',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":null,"scope":null}',
+                'created_at' => '2020-09-23 14:57:13',
+                'updated_at' => '2020-09-23 16:07:17',
+            ),
         ));
         
         
