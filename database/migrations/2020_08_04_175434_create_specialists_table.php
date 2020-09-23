@@ -22,6 +22,7 @@ class CreateSpecialistsTable extends Migration
             $table->string('location')->nullable();
             $table->string('prefix',20)->nullable();
             $table->string('status',20)->nullable();
+            $table->decimal('price_add',8,2)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
