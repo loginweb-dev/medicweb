@@ -33,8 +33,9 @@ class HomeController extends Controller
     public function index()
     {
         $especialidades = Speciality::with(['specialists:specialist_id'])->where('deleted_at', null)->get();
-        
+
         // Verificar si la cita médica ya fue puntuada
+        $meet_id = null;
         if(request('id')){
             $meet_id = AppointmentsRating::where('appointment_id', $meet_id)->first() ? null : request('id');
         }

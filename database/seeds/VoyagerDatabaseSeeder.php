@@ -29,5 +29,8 @@ class VoyagerDatabaseSeeder extends Seeder
 
         // App
         $this->seed('SpecialitiesSeeder');
+        $this->seed('SchedulesTableSeeder');
+        $this->seed('AnalysisTypesTableSeeder');
+        $this->seed('AnalysisTableSeeder');
     }
 }
