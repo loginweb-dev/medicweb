@@ -19,6 +19,9 @@ class CreateSchedulesTable extends Migration
             $table->time('start')->nullable();
             $table->time('end')->nullable();
             $table->string('status',20)->nullable();
+            $table->decimal('price_add',8,2)
+                  ->default(0)
+                  ->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

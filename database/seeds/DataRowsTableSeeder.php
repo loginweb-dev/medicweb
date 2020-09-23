@@ -1182,8 +1182,8 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{}',
-                'order' => 5,
+                'details' => '{"on":"Activo","off":"Inactivo","checked":true}',
+                'order' => 6,
             ),
             73 => 
             array (
@@ -1199,7 +1199,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 6,
+                'order' => 7,
             ),
             74 => 
             array (
@@ -1215,7 +1215,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 7,
+                'order' => 8,
             ),
             75 => 
             array (
@@ -1231,7 +1231,23 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 8,
+                'order' => 9,
+            ),
+            76 => 
+            array (
+                'id' => 77,
+                'data_type_id' => 9,
+                'field' => 'price_add',
+                'type' => 'number',
+                'display_name' => 'Price Adicional',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"step":0.1,"min":0}',
+                'order' => 5,
             ),
         ));
         
