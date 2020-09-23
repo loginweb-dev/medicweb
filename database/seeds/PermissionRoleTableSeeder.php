@@ -33,5 +33,10 @@ class PermissionRoleTableSeeder extends Seeder
                 )
             )
         );
+        // Appointments
+        $permissions = Permission::where('table_name', 'appointments')->get();
+        $role->permissions()->sync(
+            $permissions->pluck('id')->all()
+        );
     }
 }

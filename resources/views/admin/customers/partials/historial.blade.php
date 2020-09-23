@@ -3,6 +3,7 @@
         <ul class="timeline">
             @php
                 $cont = 0;
+                setlocale(LC_ALL,"es_ES");
             @endphp
             @forelse ($observaciones as $item)
             <li>
