@@ -79,6 +79,14 @@
             if(id){
                 $('#form-appointments input[name="specialist_id"]').val(id);
                 $('#modal-appointments').modal('show');
+                let date = new Date();
+                let year = date.getFullYear();
+                let month = String(date.getMonth()+1).padStart(2, "0");
+                let day = date.getDate();
+                let hours = String(date.getHours()).padStart(2, "0");
+                let minutes = String(date.getMinutes()).padStart(2, "0");
+                $('#input-date-1').val(`${year}-${month}-${day}`);
+                $('#form-appointments input[name="start"]').val(`${hours}:${minutes}`);
             }
         });
     });
