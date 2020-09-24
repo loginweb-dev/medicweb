@@ -438,7 +438,7 @@ class SchedulesTableSeeder extends Seeder
             38 =>
             array (
                 'id' => 39,
-                'day' => 1,
+                'day' => 5,
                 'start' => '20:00:00',
                 'end' => '22:00:00',
                 'status' => '1',
