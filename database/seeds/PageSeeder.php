@@ -23,7 +23,7 @@ class PageSeeder extends Seeder
                         'type' => 'text',
                         'name' => 'title',
                         'label' => 'Titulo',
-                        'value' => 'Make purchases with our app',
+                        'value' => 'LiveMedic v1.0',
                         'width' => 6
                     ],
                     'image1' => [
@@ -37,35 +37,35 @@ class PageSeeder extends Seeder
                         'type' => 'text',
                         'name' => 'button_text1',
                         'label' => 'Texto Boton #1',
-                        'value' => 'DOWNLOAD',
+                        'value' => 'Solicitar Servicio',
                         'width' => 6
                     ],
                     'button_link1' => [
                         'type' => 'text',
                         'name' => 'button_link1',
                         'label' => 'Link Text #1',
-                        'value' => '#',
+                        'value' => '/home',
                         'width' => 6
                     ],
                     'button_text2' => [
                         'type' => 'text',
                         'name' => 'button_text2',
                         'label' => 'Texto Boton #2',
-                        'value' => 'LEAR MORE',
+                        'value' => 'Ver Precios',
                         'width' => 6
                     ],
                     'button_link2' => [
                         'type' => 'text',
                         'name' => 'button_link2',
                         'label' => 'Link Text #2',
-                        'value' => '#',
+                        'value' => '#pricing',
                         'width' => 6
                     ],
                     'description_data' => [
                         'type' => 'rich_text_box',
                         'name' => 'description_data',
                         'label' => 'Descripcion',
-                        'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                        'value' => 'SER RECONOCIDOS POR NUESTRA INNOVACIÓN Y SER LA EMPRESA LÍDER EN SERVICIOS DE ATENCIÓN MÉDICA A NIVEL NACIONAL E INTERNACIONAL.',
                         'width' => 12
                     ]
                 ])
@@ -877,8 +877,8 @@ class PageSeeder extends Seeder
                     ]
                 ])
             ]);
-    
-    
+
+
         $page = Page::create([
             'name'        =>  'Politicas & Privacidad',
             'slug'        =>  'policies',
@@ -904,7 +904,7 @@ class PageSeeder extends Seeder
                 ]
             ])
         ]);
-        
+
         $page = Page::create([
             'name'        =>  'Terminos & Condiones',
             'slug'        =>  'terms',

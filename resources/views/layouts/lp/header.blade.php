@@ -1,6 +1,5 @@
     <!--Navigation & Intro-->
     <header>
-
         <!--Navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
             <div class="container">
@@ -62,17 +61,14 @@
                 <div class="row pt-5 mt-3">
                     <div class="col-12 col-md-6 text-center text-md-left">
                     <div class="white-text">
-                        <h1 class="h1-responsive font-weight-bold mt-md-5 mt-0 wow fadeInLeft" data-wow-delay="0.3s">Live Medic Edgley</h1>
+                        <h1 class="h1-responsive font-weight-bold mt-md-5 mt-0 wow fadeInLeft" data-wow-delay="0.3s">{{ $collection['title']['value'] }} </h1>
                         <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
-                        <p class="wow fadeInLeft mb-3" data-wow-delay="0.3s">Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit. Rem repellendus quasi fuga nesciunt
-                        dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae
-                        iste.
+                        <p class="wow fadeInLeft mb-3" data-wow-delay="0.3s">{{ $collection['description_data']['value'] }}
                         </p>
                         <br>
-                        <a class="btn btn-unique btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" data-wow-delay="0.3s">Download</a>
-                        <a class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft" data-wow-delay="0.3s">Learn
-                        more
+                        <a href="{{ $collection['button_link1']['value'] }}" class="btn btn-unique btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft" data-wow-delay="0.3s">{{ $collection['button_text1']['value'] }}</a>
+                        <a href="{{ $collection['button_link2']['value'] }}" class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft" data-wow-delay="0.3s">
+                            {{ $collection['button_text2']['value'] }}
                         </a>
                     </div>
                     </div>
