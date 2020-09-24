@@ -89,7 +89,7 @@ class SpecialistsController extends Controller
             'email' => 'required|unique:users|max:50',
             'password' => 'required|max:50',
         ]);
-        
+
 
         DB::beginTransaction();
         try {
@@ -116,7 +116,8 @@ class SpecialistsController extends Controller
             ]);
             // Asignar especialidades
             $especialista->specialities()->attach($request->specialities);
-            
+            // Asignar los horarios
+            $especialista->horarios()->attach($request->horarios);
             DB::commit();
             return redirect()->route($route)->with(['message' => 'Especialista agregado exitosamente.', 'alert-type' => 'success']);
         } catch (\Exception $e) {
@@ -156,7 +157,7 @@ class SpecialistsController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'specialists.update' : 'specialists.index';
         $especialista = Specialist::findOrFail($id);
@@ -181,7 +182,7 @@ class SpecialistsController extends Controller
             $especialista->location = $request->location;
             $especialista->prefix = $request->prefix;
             $especialista->update();
-            
+
             //actualizamos el usuario del especialista
             if ($request->password) {
                 $especialista->user->update([
@@ -193,11 +194,11 @@ class SpecialistsController extends Controller
                 $especialista->user->update([
                     'avatar' => $avatar
                 ]);
-            } 
+            }
            $especialista->user->update([
                'email' => $request['email']
            ]);
-           
+
             // Actualizar especialidades
             $especialista->specialities()->sync($request->specialities);
             DB::commit();
