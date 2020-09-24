@@ -14,6 +14,7 @@ use App\Specialist;
 use App\SpecialitySpecialist;
 use App\User;
 use App\Speciality;
+use App\Schedule;
 
 class SpecialistsController extends Controller
 {
@@ -29,7 +30,7 @@ class SpecialistsController extends Controller
 
     public function list($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
-        $especialistas = Specialist::with(['user'])->where('deleted_at', NULL)->whereRaw($query_search)->get();
+        $especialistas = Specialist::with(['user', 'schedules'])->where('deleted_at', NULL)->whereRaw($query_search)->get();
         return view('admin.specialists.partials.list', compact('especialistas'));
     }
 
@@ -65,7 +66,8 @@ class SpecialistsController extends Controller
         //$especialidades = Speciality::where('deleted_at', NULL)->get();
         $specialist = new Specialist;
         //$ciudades = DB::table('specialists')->select('location')->groupBy('location')->get();
-        return view('admin.specialists.form', compact('specialist'));
+        $horarios = Schedule::where('status', 1)->where('deleted_at', NULL)->orderBy('day')->orderBy('start')->get();
+        return view('admin.specialists.form', compact('specialist', 'horarios'));
     }
 
     /**
@@ -117,7 +119,7 @@ class SpecialistsController extends Controller
             // Asignar especialidades
             $especialista->specialities()->attach($request->specialities);
             // Asignar los horarios
-            $especialista->horarios()->attach($request->horarios);
+            $especialista->schedules()->attach($request->schedules);
             DB::commit();
             return redirect()->route($route)->with(['message' => 'Especialista agregado exitosamente.', 'alert-type' => 'success']);
         } catch (\Exception $e) {
@@ -145,7 +147,9 @@ class SpecialistsController extends Controller
      */
     public function edit(Specialist $specialist)
     {
-        return view('admin.specialists.form', compact('specialist'));
+        $horario_especialista = Specialist::with(['schedules'])->where('id', $specialist->id)->where('deleted_at', NULL)->first()->schedules;
+        $horarios = Schedule::where('status', 1)->where('deleted_at', NULL)->orderBy('day')->orderBy('start')->get();
+        return view('admin.specialists.form', compact('specialist', 'horarios', 'horario_especialista'));
     }
 
     /**
@@ -201,6 +205,9 @@ class SpecialistsController extends Controller
 
             // Actualizar especialidades
             $especialista->specialities()->sync($request->specialities);
+
+            // Asignar los horarios
+            $especialista->schedules()->sync($request->schedules);
             DB::commit();
             return redirect()->route($route)->with(['message' => 'Especialista actualizado exitosamente.', 'alert-type' => 'success']);
         } catch (\Exception $e) {

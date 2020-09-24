@@ -52,8 +52,8 @@
                                 <label>Localidad</label>
                                 <select name="location" id="select-location" class="form-control" required>
                                     <option value="">Seleccione la localidad</option>
-                                    @foreach(\App\Specialist::pluck('location') as $locat)
-											<option {{old('location') === $locat || $specialist->location === $locat ? 'selected' : ''}} value="{{ $locat }}">{{ $locat }} </option>
+                                    @foreach(\App\Specialist::groupBy('location')->get() as $locat)
+                                        <option {{old('location') === $locat || $specialist->location === $locat->location  ? 'selected' : ''}} value="{{ $locat->location  }}">{{ $locat->location  }} </option>
 									@endforeach
                                 </select>
                                 @error('location')
@@ -131,14 +131,42 @@
                 <div class="col-md-12" style="margin-top: -10px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                                <h3>Asignar horarios</h3>
-                            <div class="form-group">
+                            <h4>Asignar horarios <br>  <small>Los horarios tienen una duración de 2 horas</small></h4>
+                            {{-- <div class="form-group">
                               <select name="horarios[]" id="horarios" class="form-control select2" multiple>
                                 @foreach(\App\Horario::orderBy('titulo')->pluck('titulo','id') as $id => $horario)
 									<option {{collect(old('',$specialist->horarios->pluck('id')))->contains($id) ? 'selected' : ''}} value="{{ $id }}">{{ $horario }} </option>
 								@endforeach
                               </select>
-                            </div>
+                            </div> --}}
+                            <table class="table">
+                                <tbody>
+                                    @php
+                                        $dias = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+                                    @endphp
+                                    @foreach ($horarios->groupBy('day') as $item)
+                                    <tr>
+                                        <td><b>{{ $dias[$item[0]->day] }}</b></td>
+                                        @foreach ($item as $horario)
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="schedules[]" value="{{ $horario->id }}" id="exampleCheck-{{ $horario->id }}"
+                                                    @isset($horario_especialista)
+                                                        @foreach ($horario_especialista as $h_e)
+                                                            @if ($h_e->id == $horario->id)
+                                                                checked
+                                                            @endif
+                                                        @endforeach
+                                                    @endisset
+                                                >
+                                                <label class="form-check-label" for="exampleCheck-{{ $horario->id }}">{{ date('H', strtotime($horario->start)).' - '.date('H  A', strtotime($horario->end)) }}</label>
+                                            </div>
+                                        </td>
+                                        @endforeach
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
