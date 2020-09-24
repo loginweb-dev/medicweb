@@ -20,6 +20,10 @@ class Specialist extends Model
         return $this->belongsToMany(Horario::class,'horario_medicos');
     }
 
+    public function schedules(){
+        return $this->belongsToMany(Schedule::class,'schedule_specialist');
+    }
+
     public function appointments(){
         return $this->hasMany(Appointment::class);
     }
