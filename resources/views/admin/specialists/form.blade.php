@@ -91,8 +91,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-9">
-                                    @php 
-                                        
+                                    @php
+
                                        if($specialist->user()->exists()) {
                                         $email = $specialist->user->email;
                                        } else {
@@ -124,6 +124,20 @@
                                         <img class="img-thumbnail img-preview" id="img-preview" data-toggle="tooltip" title="Has click para agregar una imagen" alt="avatar" />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-top: -10px">
+                    <div class="panel panel-bordered">
+                        <div class="panel-body">
+                                <h3>Asignar horarios</h3>
+                            <div class="form-group">
+                              <select name="horarios[]" id="horarios" class="form-control select2" multiple>
+                                @foreach(\App\Horario::orderBy('titulo')->pluck('titulo','id') as $id => $horario)
+									<option {{collect(old('',$specialist->horarios->pluck('id')))->contains($id) ? 'selected' : ''}} value="{{ $id }}">{{ $horario }} </option>
+								@endforeach
+                              </select>
                             </div>
                         </div>
                     </div>
