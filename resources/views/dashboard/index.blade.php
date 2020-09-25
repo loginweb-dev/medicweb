@@ -77,78 +77,89 @@
                         }
                     @endphp
                     <div class="modal-body">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <ul class="nav nav-tabs" id="myTabType" role="tablist">
-                              <li class="nav-item">
-                                <a class="nav-link tab-link active" id="now-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Ahora mismo</a>
-                              </li>
-                              <li class="nav-item">
-                                <a class="nav-link tab-link" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Programar</a>
-                              </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContentType">
-                              <div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="now-tab">
-                                <div class="row mt-3">
-                                    <div class="form-group col-md-6">
-                                        <label>Fecha</label>
-                                        <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
-                                        @error('date')
-                                            <span class="text-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Hora de inicio</label>
-                                        <input type="time" readonly name="start" class="form-control" required>
-                                        @error('start')
-                                            <span class="text-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                        <div id="div-appointment-details">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <ul class="nav nav-tabs" id="myTabType" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link tab-link active" id="now-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Ahora mismo</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link tab-link" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Programar</a>
+                                </li>
+                              </ul>
+                              <div class="tab-content" id="myTabContentType">
+                                <div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="now-tab">
+                                  <div class="row mt-3">
+                                      <div class="form-group col-md-6">
+                                          <label>Fecha</label>
+                                          <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
+                                          @error('date')
+                                              <span class="text-danger" role="alert">
+                                                  <strong>{{ $message }}</strong>
+                                              </span>
+                                          @enderror
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                          <label>Hora de inicio</label>
+                                          <input type="time" readonly name="start" class="form-control" required>
+                                          @error('start')
+                                              <span class="text-danger" role="alert">
+                                                  <strong>{{ $message }}</strong>
+                                              </span>
+                                          @enderror
+                                      </div>
+                                  </div>
                                 </div>
-                              </div>
-                              <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
-                                <div class="form-group mt-3">
-                                  <label>Fecha</label>
-                                  <input type="date" id="input-date-2" disabled name="date" min="{{ date('Y-m-d') }}" class="form-control input-date">
-                                  @error('date')
-                                      <span class="text-danger" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                      </span>
-                                  @enderror
+                                <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
+                                  <div class="form-group mt-3">
+                                    <label>Fecha</label>
+                                    <input type="date" id="input-date-2" disabled name="date" min="{{ date('Y-m-d') }}" class="form-control input-date">
+                                    @error('date')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                  </div>
+                                  <div id="schedules-list"></div>
                                 </div>
-                                <div id="schedules-list"></div>
                               </div>
                             </div>
                           </div>
+                          <div class="row">
+                              @csrf
+                              <input type="hidden" name="ajax" value="1">
+                              <input type="hidden" name="specialist_id">
+                              <input type="hidden" name="customer_id" value="{{ $customer_id }}">
+                              <div class="form-group col-md-12 mt-3">
+                                  {{-- <label>Descripción</label> --}}
+                                  <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="5" required></textarea>
+                                  <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
+                              </div>
+                          </div>
                         </div>
-                        <div class="row">
-                            @csrf
-                            <input type="hidden" name="ajax" value="1">
-                            <input type="hidden" name="specialist_id">
-                            <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                            <div class="form-group col-md-12 mt-3">
-                                {{-- <label>Descripción</label> --}}
-                                <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="5" required></textarea>
-                            </div>
+                        <div id="div-payment-details">
+                          <div class="row">
+
+                          </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Registrar</button>
+                        <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-secondary btn-back-payment" type="button" style="display:none"><span class="fas fa-arrow-alt-circle-left"></span> Volver</button>
+                        <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
+                        <button type="submit" class="btn btn-primary btn-store-appointment" style="display:none">Registrar <span class="fa fa-check-square"></span></button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form id="form-schedules" action="{{ url('admin/schedules/specialist') }}">
+    <form id="form-schedules" action="{{ url('admin/schedules/specialist') }}" method="post">
       @csrf              
       <input type="hidden" name="specialist_id">
       <input type="hidden" name="date">
+      {{-- <button type="submit">ok</button> --}}
     </form>
 
     <!-- Logout Modal-->
@@ -282,7 +293,9 @@
                     res.success,
                     'El especialista se pondrá en contacto contigo, aguarda un momento.',
                     'success'
-                  )
+                  );
+                  $('#form-appointments').trigger('reset');
+                  $('#schedules-list').empty();
                 }else{
                   Swal.fire(
                     res.error,
@@ -301,9 +314,18 @@
               if(type == '#future'){
                 $('#input-date-1').attr('disabled', 'disabled');
                 $('#input-date-2').attr('required', 'required');
+                $('#input-date-2').val('');
+                $('#form-appointments input[name="start"]').val('');
+                $('#schedules-list').empty();
+                $('.btn-payment').attr('disabled', 'disabled');
               }else{
                 $('#input-date-2').attr('disabled', 'disabled');
                 $('#input-date-1').attr('required', 'required');
+                let date = new Date();
+                let hours = String(date.getHours()).padStart(2, "0");
+                let minutes = String(date.getMinutes()).padStart(2, "0");
+                $('#form-appointments input[name="start"]').val(`${hours}:${minutes}`);
+                $('.btn-payment').removeAttr('disabled');
               }
             });
 
@@ -328,6 +350,36 @@
                   $('#div-list-specialists').html(res);
                 });
               });
+            });
+
+            // Mostrar formulario de pasarela de pago
+            $('.btn-payment').click(function(){
+              if($('#form-appointments textarea[name="observations"]').val()){
+                $(this).css('display', 'none');
+                $('.btn-cancel').css('display', 'none');
+                $('.btn-store-appointment').css('display', 'block');
+                $('.btn-back-payment').css('display', 'block');
+                $('#div-appointment-details').fadeOut('fast');
+                $('#div-payment').fadeIn();
+              }else{
+                $('#form-appointments textarea[name="observations"]').css('border', '1px solid red');
+                $('.text-error').css('display', 'block');
+              }
+            });
+
+            $('#form-appointments textarea[name="observations"]').click(function(){
+              $('#form-appointments textarea[name="observations"]').css('border', '1px solid #dedede');
+              $('.text-error').css('display', 'none');
+            });
+
+            // Mostrar formulario de detalles de cita
+            $('.btn-back-payment').click(function(){
+              $(this).css('display', 'none');
+              $('.btn-store-appointment').css('display', 'none');
+              $('.btn-payment').css('display', 'block');
+              $('.btn-cancel').css('display', 'block');
+              $('#div-payment').fadeOut('fast');
+              $('#div-appointment-details').fadeIn();
             });
         });
     </script>

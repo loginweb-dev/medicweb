@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 // Models
-use App\Schedule;
+use App\Specialist;
 
 class SchedulesController extends Controller
 {
@@ -86,12 +86,12 @@ class SchedulesController extends Controller
     }
 
     public function specialist(Request $request){
-        if($request->date){
-            $horarios = Schedule::where('day', date('N', strtotime($request->date)))->get();
-        }else{
-            $horarios = [];
-        }
+        $fecha = $request->date;
 
-        return view('admin.schedules.partials.list_day', compact('horarios'));
+        $horarios = Specialist::with(['schedules'])
+                        ->where('id', $request->specialist_id)
+                        ->first();
+        
+        return view('admin.schedules.partials.list_day', compact('horarios', 'fecha'));
     }
 }
