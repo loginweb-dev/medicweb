@@ -19,9 +19,15 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer bg-white text-right">
-            <button class="btn btn-info btn-sm" data-id="{{ $item->id }}">Ver horarios <span class="fas fa-calendar"></span></button>
-            <button class="btn btn-success btn-sm btn-new-appointment" data-id="{{ $item->id }}">Hacer cita <span class="fas fa-laptop-medical"></span></button>
+        <div class="card-footer bg-white text-center">
+            <button class="btn btn-info btn-sm" data-id="{{ $item->id }}">Detalles <span class="fas fa-calendar"></span></button>
+            @if($item->status == 1)
+            <button class="btn btn-success btn-sm btn-new-appointment" data-id="{{ $item->id }}">Llamar <span class="fas fa-laptop-medical"></span></button>
+            @elseif($item->status == 2)
+            <span class="badge badge-danger">En una consulta médica</span> <span class="fas fa-circle faa-flash animated text-danger"></span>
+            @else
+            <span class="badge badge-danger">No disponible</span>
+            @endif
         </div>
     </div>
 </div>
