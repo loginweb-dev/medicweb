@@ -21,6 +21,7 @@ use App\AppointmentsObservation;
 use App\Events\StartMeetEvent;
 use App\Events\IncomingCallEvent;
 use App\Events\IncomingCallSpecialistEvent;
+use App\Events\VerifyPaymentEvent;
 
 class AppointmentsController extends Controller
 {
@@ -53,6 +54,7 @@ class AppointmentsController extends Controller
                         ->with(['specialist.user', 'customer', 'tracking'])
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
+                        ->where('status', '<>', 'Validar')
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get() :
 
                     Appointment::with(['specialist', 'customer', 'tracking'])
@@ -99,7 +101,11 @@ class AppointmentsController extends Controller
             // Calcular hora de finalización de la cita
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
-            $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
+            if($request->payment_type == 1){
+                $status = 'Validar';
+            }else{
+                $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
+            }
 
             // Crear cita
             $cita = Appointment::create([
@@ -121,6 +127,8 @@ class AppointmentsController extends Controller
                 $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $cita->id)->first();
                 if($status == 'Conectando'){
                     event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
+                }elseif($status == 'Validar'){
+                    event(new VerifyPaymentEvent($cita));
                 }
             } catch (\Throwable $th) {}
 
@@ -211,10 +219,18 @@ class AppointmentsController extends Controller
      * @param  string $status
      * @return \Illuminate\Http\Response
      */
-    public function update_status($id, $status)
+    public function update_status($id, $status = '')
     {
         $status = str_replace('_', ' ', $status);
+        $verify_payment = false;
+        if(!$status){
+            $cita = Appointment::findOrFail($id);
+            $status = $cita->date.' '.$cita->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
+            $verify_payment = true;
+        }
+
         DB::beginTransaction();
+
         try {
             $cita = Appointment::find($id);
             $cita->status = $status;
@@ -226,8 +242,10 @@ class AppointmentsController extends Controller
             try {
                 $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $id)->first();
                 event(new StartMeetEvent($cita));
-                if($status == 'Conectando'){
+                if($status == 'Conectando' && !$verify_payment){
                     event(new IncomingCallEvent($cita, $cita->customer->user_id));
+                }else{
+                    event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
                 }
             } catch (\Throwable $th) {}
 

@@ -87,7 +87,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"id","scope":null}',
                 'created_at' => '2020-09-17 16:36:01',
-                'updated_at' => '2020-09-17 16:36:01',
+                'updated_at' => '2020-09-28 20:59:28',
             ),
             4 => 
             array (
@@ -178,6 +178,24 @@ class DataTypesTableSeeder extends Seeder
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-09-23 14:57:13',
                 'updated_at' => '2020-09-23 16:07:17',
+            ),
+            9 => 
+            array (
+                'id' => 11,
+                'name' => 'payment_accounts',
+                'slug' => 'payment-accounts',
+                'display_name_singular' => 'Cuenta bancaria',
+                'display_name_plural' => 'Cuentas bancarias',
+                'icon' => 'voyager-credit-card',
+                'model_name' => 'App\\PaymentAccount',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 0,
+                'details' => '{"order_column":"id","order_display_column":"id","order_direction":"desc","default_search_key":null,"scope":null}',
+                'created_at' => '2020-09-28 18:50:55',
+                'updated_at' => '2020-09-28 19:02:37',
             ),
         ));
         

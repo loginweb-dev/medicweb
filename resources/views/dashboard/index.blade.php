@@ -92,7 +92,7 @@
                                 <div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="now-tab">
                                   <div class="row mt-3">
                                       <div class="form-group col-md-6">
-                                          <label>Fecha</label>
+                                          <label>Fecha de cita</label>
                                           <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
                                           @error('date')
                                               <span class="text-danger" role="alert">
@@ -131,16 +131,79 @@
                               <input type="hidden" name="ajax" value="1">
                               <input type="hidden" name="specialist_id">
                               <input type="hidden" name="customer_id" value="{{ $customer_id }}">
+                              <input type="hidden" name="payment_type" value="1">
                               <div class="form-group col-md-12 mt-3">
                                   {{-- <label>Descripción</label> --}}
-                                  <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="5" required></textarea>
+                                  <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
                                   <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
                               </div>
                           </div>
                         </div>
-                        <div id="div-payment-details">
+                        <div id="div-payment-details" style="display: none">
                           <div class="row">
+                            <div class="col-md-12">
+                              <div id="accordion">
+                                <div class="card">
+                                  <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
+                                    <h6 class="mb-0 text-white">
+                                      Transferencia bancaria
+                                    </h6>
+                                  </div>
+                                  <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
+                                    <div class="card-body text-center">
+                                      <div class="row">
+                                        <div class="col-md-7">
+                                          <table class="table table-hover">
+                                            <tbody>
+                                              @php
+                                                $cuentas = \App\PaymentAccount::all();
+                                              @endphp
+                                              @forelse ($cuentas as $item)
+                                              <tr style="cursor: pointer">
+                                                <td width="120px"><img src="{{ !$item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
+                                                <td>
+                                                  <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
+                                                  <small>{{ $item->name }}</small><br>
+                                                  <small>{{ $item->ci }}</small><br>
+                                                  <small>{{ $item->type }} - {{ $item->currency }}</small>
+                                                </td>
+                                              </tr>
+                                              @empty
+                                                  
+                                              @endforelse
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                        <div class="col-md-5 text-center">
+                                          <div id="div-payment-details">
+                                            <div class="card text-white bg-info">
+                                              <div class="card-header bg-info">Instrucciones</div>
+                                              <div class="card-body">
+                                                {{-- <h5 class="card-title">Info card title</h5> --}}
+                                                <p class="card-text">Debe realizar una transacción bancaria mediante la web o su dispositivo móvil a cualquiera de las cuentas disponibles. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
+                                <div class="card">
+                                  <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
+                                    <h6 class="mb-0 text-white">
+                                      Pago con tarjeta de crédito/débito
+                                    </h6>
+                                  </div>
+                                  <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
+                                    <div class="card-body">
+                                      <h4 class="text-muted text-center">En desarrollo</h4>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                     </div>
@@ -329,8 +392,15 @@
               }
             });
 
+            var spinner_loader = `  <div class="d-flex justify-content-center">
+                                      <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                      </div>
+                                    </div>`;
+
             // Obtener lista de horarios según fecha
             $('#input-date-2').change(function(){
+              $('#schedules-list').empty().html(spinner_loader);
               let date = $(this).val();
               $('#form-schedules input[name="date"]').val(date)
               setTimeout(()=>{
@@ -360,7 +430,8 @@
                 $('.btn-store-appointment').css('display', 'block');
                 $('.btn-back-payment').css('display', 'block');
                 $('#div-appointment-details').fadeOut('fast');
-                $('#div-payment').fadeIn();
+                $('#div-payment-details').fadeIn();
+                $('#form-appointments input[name="payment_type"]').val(1);
               }else{
                 $('#form-appointments textarea[name="observations"]').css('border', '1px solid red');
                 $('.text-error').css('display', 'block');
@@ -378,8 +449,19 @@
               $('.btn-store-appointment').css('display', 'none');
               $('.btn-payment').css('display', 'block');
               $('.btn-cancel').css('display', 'block');
-              $('#div-payment').fadeOut('fast');
+              $('#div-payment-details').fadeOut('fast');
               $('#div-appointment-details').fadeIn();
+            });
+
+            // Asignar valor del tipo de pago de ña cita médica
+            $('.btn-payment-type').click(function(){
+              let value = $(this).data('value');
+              $('#form-appointments input[name="payment_type"]').val(value);
+              if(value == 1){
+                $('.btn-store-appointment').removeAttr('disabled');
+              }else{
+                $('.btn-store-appointment').attr('disabled', 'disabled');
+              }
             });
         });
     </script>
