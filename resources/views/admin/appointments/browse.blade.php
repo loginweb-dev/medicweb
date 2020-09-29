@@ -130,6 +130,18 @@
                 }
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
+
+            // Escuchando pago en revisión
+            Echo.channel('VerifyPaymentChannel')
+            .listen('VerifyPaymentEvent', (res) => {
+                if(Notification.permission==='granted'){
+                    let notificacion = new Notification(`Tienes un pago espera`,{
+                        body: `Cliente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                        icon: '{{ url("images/icons/icon-512x512.png") }}'
+                    });
+                }
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+            });
         });
     </script>
 @stop
