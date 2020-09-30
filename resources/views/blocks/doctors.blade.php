@@ -49,7 +49,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="https://mdbootstrap.com/img/Photos/Vertical/People/img%20%281%29.jpg" class="img-fluid">
+                      <img src="{{ Voyager::Image($data->image1->value) }}">
                       </div>
                   </div>
                   <!--/First column-->
@@ -83,7 +83,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="https://mdbootstrap.com/img/Photos/Vertical/People/img%20%283%29.jpg" class="img-fluid">
+                      <img src="{{ Voyager::Image($data->image2->value) }}" class="img-fluid">
                       </div>
                   </div>
                   <!--/First column-->
@@ -117,7 +117,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="https://mdbootstrap.com/img/Photos/Vertical/People/img%20%284%29.jpg" class="img-fluid">
+                      <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid">
                       </div>
                   </div>
                   <!--/First column-->

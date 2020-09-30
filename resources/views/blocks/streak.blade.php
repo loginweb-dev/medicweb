@@ -1,5 +1,5 @@
   <!--Streak-->
-  <div class="streak streak-photo streak-long-2" style="background-image: url('https://mdbootstrap.com/img/Others/doctor.jpg');">
+  <div class="streak streak-photo streak-long-2" style="background-image: url('{{ Voyager::Image($data->image1->value) }}');">
       <div class="flex-center mask rgba-blue-strong">
           <div class="container text-center white-text">
           <h3 class="text-center text-white text-uppercase font-weight-bold mt-5 mb-5 pt-3 wow fadeIn" data-wow-delay="0.2s">

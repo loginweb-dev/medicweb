@@ -23,7 +23,7 @@ class PageSeeder extends Seeder
                         'type' => 'text',
                         'name' => 'title',
                         'label' => 'Titulo',
-                        'value' => 'Make purchases with our app',
+                        'value' => 'Live Medic Edgley',
                         'width' => 6
                     ],
                     'image1' => [
@@ -31,6 +31,13 @@ class PageSeeder extends Seeder
                         'name' => 'image1',
                         'label' => 'Imagen (600x670)',
                         'value' => 'myimage.png',
+                        'width' => 6
+                    ],
+                    'icono' => [
+                        'type' => 'image',
+                        'name' => 'icono',
+                        'label' => 'Imagen (110x110)',
+                        'value' => 'myimage1.png',
                         'width' => 6
                     ],
                     'button_text1' => [

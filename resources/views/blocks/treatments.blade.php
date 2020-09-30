@@ -14,7 +14,7 @@
         <div class="col-md-4 mb-4 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
             <i class="fas fa-heart blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4"">{{$data->title1->value}}</h5>
+            <h5 class="font-weight-bold mb-4">{{$data->title1->value}}</h5>
                             <p class=" grey-text
                 font-small mx-3">{{$data->description_data2->value}}</p fa-3x mb-4>
             </div>

@@ -115,19 +115,19 @@
                   <div class="card-body striped darker-striped">
                   <ul>
                       <li>
-                      <p class="mt-1"><i class="{{ $data->checkbox_c1->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c1->value}}</p>
+                      <p class="mt-1"><i class="{{ $data->checkbox_c1->value ? 'fas fa-check' : 'fas fa-times' }}"></i>  {{$data->caracteristica_c1->value}}</p>
                       </li>
                       <li>
-                      <p><i class="{{ $data->checkbox_c2->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c2->value}}</p>
+                      <p><i class="{{ $data->checkbox_c2->value ? 'fas fa-check' : 'fas fa-times' }}"></i>  {{$data->caracteristica_c2->value}}</p>
                       </li>
                       <li>
-                      <p><i class="{{ $data->checkbox_c3->value ? 'fas fa-check' : 'fas fa-times' }}"></i> {{$data->caracteristica_c3->value}}</p>
+                      <p><i class="{{ $data->checkbox_c3->value ? 'fas fa-check' : 'fas fa-times' }}"></i>  {{$data->caracteristica_c3->value}}</p>
                       </li>
                       <li>
-                      <p><i class="{{ $data->checkbox_c4->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c4->value}}</p>
+                      <p><i class="{{ $data->checkbox_c4->value ? 'fas fa-check' : 'fas fa-times' }}"></i>  {{$data->caracteristica_c4->value}}</p>
                       </li>
                       <li>
-                      <p><i class="{{ $data->checkbox_c5->value ? 'fas fa-check' : 'fas fa-times' }}"></i>{{$data->caracteristica_c5->value}}</p>
+                      <p><i class="{{ $data->checkbox_c5->value ? 'fas fa-check' : 'fas fa-times' }}"></i>  {{$data->caracteristica_c5->value}}</p>
                       </li>
                   </ul>
 

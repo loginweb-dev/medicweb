@@ -19,7 +19,7 @@
               </p>
               <br>
               <!--Button-->
-              <a href="#home" class="btn btn-rounded btn-blue mb-4">  {{$data->btn1->value}}</a>
+              <a target="_blank" href="{{ $data->btn_action1->value }}" class="btn btn-rounded btn-blue mb-4">  {{$data->btn1->value}}</a>
 
           </div>
           <!--/First column-->
@@ -28,7 +28,7 @@
           <div class="col-lg-4 flex-center ml-lg-auto col-md-5 mb-5 wow fadeIn" data-wow-delay="0.3s">
 
               <!--Image-->
-              <img src="https://mdbootstrap.com/img/Photos/Vertical/People/img%20%282%29.jpg" class="img-fluid z-depth-1">
+          <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid z-depth-1">
 
           </div>
           <!--/Second column-->
