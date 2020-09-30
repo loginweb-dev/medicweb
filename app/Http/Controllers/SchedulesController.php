@@ -87,10 +87,10 @@ class SchedulesController extends Controller
 
     public function specialist(Request $request){
         $fecha = $request->date;
-
-        $horarios = Specialist::with(['schedules'])
+        $datos = Specialist::with('schedules')
                         ->where('id', $request->specialist_id)
                         ->first();
+        $horarios = $datos->schedules->where('day', date('N', strtotime($fecha)));
         
         return view('admin.schedules.partials.list_day', compact('horarios', 'fecha'));
     }

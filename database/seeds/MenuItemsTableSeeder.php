@@ -353,6 +353,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.schedules.index',
                 'parameters' => NULL,
             ),
+            21 => 
+            array (
+                'id' => 22,
+                'menu_id' => 1,
+                'title' => 'Cuentas bancarias',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-credit-card',
+                'color' => NULL,
+                'parent_id' => 20,
+                'order' => 4,
+                'created_at' => '2020-09-28 18:50:55',
+                'updated_at' => '2020-09-28 18:51:13',
+                'route' => 'voyager.payment-accounts.index',
+                'parameters' => NULL,
+            ),
         ));
         
         

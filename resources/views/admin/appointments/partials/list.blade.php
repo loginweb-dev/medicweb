@@ -31,6 +31,9 @@
                                 case 'finalizada':
                                     $type = 'default';
                                     break;
+                                case 'validar':
+                                    $type = 'danger';
+                                    break;
                                 default:
                                     $type = 'dark';
                                     break;
@@ -51,13 +54,18 @@
                         </td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right">
-                            <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
-                                <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
-                            </a>
-                            
-                            <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
-                                <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
-                            </button>
+                            @if ($item->status == 'Validar')
+                                <button type="button" title="Validar" class="btn btn-sm btn-warning btn-verify-payment edit" data-id="{{ $item->id }}">
+                                    <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validad</span>
+                                </button>
+                            @else
+                                <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
+                                    <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
+                                </a>
+                                <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
+                                    <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
+                                </button>
+                            @endif
                             <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
                                 <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
                             </a>
@@ -151,7 +159,7 @@
         $('.btn-end-meet').click(function(){
             Swal.fire({
                 title: 'Estás seguro?',
-                text: "deseas terminar la cita médica!",
+                text: "Deseas terminar la cita médica?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -173,6 +181,34 @@
                                 'Error!',
                                 'Ocurrió un  problema al finalizar la cita.',
                                 'error'
+                            )
+                        }
+                    });
+                }
+            })
+        });
+
+        $('.btn-verify-payment').click(function(){
+            Swal.fire({
+                title: 'Estás seguro?',
+                text: "Deseas validar la transferencia a tu cuenta bancaria?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, validar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${$(this).data('id')}`, function(res){
+                        if(!res.error){
+                            Swal.fire(
+                                'Bien hecho!', re.success, 'success'
+                            )
+                        }else{
+                            Swal.fire(
+                                'Error!', re.error, 'error'
                             )
                         }
                     });
