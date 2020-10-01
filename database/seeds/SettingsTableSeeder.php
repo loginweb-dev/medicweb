@@ -286,7 +286,7 @@ class SettingsTableSeeder extends Seeder
                 'id' => 25,
                 'key' => 'citas.duracion',
                 'display_name' => 'Duración',
-                'value' => '15',
+                'value' => '30',
                 'details' => NULL,
                 'type' => 'text',
                 'order' => 1,

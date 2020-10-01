@@ -1,18 +1,18 @@
 <div class="col-md-12 mb-3">
     <h5><a href="#" class="btn-breadcrunb" data-show="#div-list-specialities">Especialidades</a> / {{ $especialidad }}</h5>
 </div>
-
 @forelse ($especialistas as $item)
 <div class="col-md-3">
     <div class="card">
         <img class="card-img-top" src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" alt="Card image cap">
         <div class="card-body" style="padding-bottom: 10px">
-            <h5 class="card-title">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</h5>
-            <p class="card-text mb-0">
+            <h5 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</h5>
+            <p class="card-text mt-0 mb-0">
                 @foreach ($item->specialities as $especialidad)
                     <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label>
                 @endforeach
             </p>
+            <h6 class="card-title text-right"><small>Precio de consulta </small>{{ count($item->specialities) ? $item->specialities[0]->price : 'NN' }} Bs.</h6>
             <div class="row">
                 <div class="col-md-12 text-right">
                     <div class="my-rating-{{ $item->id }}"></div>
@@ -20,14 +20,13 @@
             </div>
         </div>
         <div class="card-footer bg-white text-center">
-            <button class="btn btn-info btn-sm" data-id="{{ $item->id }}">Detalles <span class="fas fa-calendar"></span></button>
-            @if($item->status == 1)
-            <button class="btn btn-success btn-sm btn-new-appointment" data-id="{{ $item->id }}">Llamar <span class="fas fa-laptop-medical"></span></button>
-            @elseif($item->status == 2)
-            <span class="badge badge-danger">En una consulta médica</span> <span class="fas fa-circle faa-flash animated text-danger"></span>
-            @else
-            <span class="badge badge-danger">No disponible</span>
+            @if($item->status == 2)
+            <span class="badge badge-danger mb-2">En una consulta médica</span> <span class="fas fa-circle faa-flash animated text-danger"></span>
+            @elseif($item->status == 0)
+            <span class="badge badge-danger mb-2">No disponible</span>
             @endif
+            <button class="btn btn-success btn-sm btn-block btn-new-appointment" data-specilalist='@json($item)'>Nueva cita <span class="fas fa-laptop-medical"></span></button>
+            <button class="btn btn-info btn-sm btn-block" data-id="{{ $item->id }}">Ver detalles <span class="fas fa-calendar"></span></button>
         </div>
     </div>
 </div>
@@ -48,6 +47,13 @@
 <div class="col-md-12 text-center mt-5">
     <button type="button" class="btn btn-lg btn-primary btn-breadcrunb" data-show="#div-list-specialities"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
 </div>
+
+<style>
+    .btn-schedules:hover{
+        text-decoration-line: underline;
+        font-size: 14px
+    }
+</style>
 
 <script>
     $(document).ready(function(){
@@ -82,10 +88,13 @@
 
         // Crear nueva cita
         $('.btn-new-appointment').click(function(){
-            let id = $(this).data('id');
-            if(id){
-                $('#form-appointments input[name="specialist_id"]').val(id);
-                $('#form-schedules input[name="specialist_id"]').val(id);
+            $('#div-schedules-specilaist').empty();
+            $('#schedules-list').empty();
+            $('.btn-payment').removeAttr('disabled');
+            
+            let specilalist = $(this).data('specilalist');
+            if(specilalist.id){
+                $('#form-appointments input[name="specialist_id"]').val(specilalist.id);
                 $('#modal-appointments').modal('show');
                 let date = new Date();
                 let year = date.getFullYear();
@@ -95,7 +104,56 @@
                 let minutes = String(date.getMinutes()).padStart(2, "0");
                 $('#input-date-1').val(`${year}-${month}-${day}`);
                 $('#form-appointments input[name="start"]').val(`${hours}:${minutes}`);
+
+                // Set información del especialista
+                $('#img-specialist').attr('src', `storage/${specilalist.user.avatar.replace('.','-cropped.')}`);
+                
+                let days = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+                for (let index = 1; index <= 7; index++) {
+                    let schedules_details = '';
+                    specilalist.schedules.map(data => {
+                        if(index == data.day){
+                            schedules_details += `<small style="cursor:pointer;" class="text-primary btn-schedules" onclick="getAvalilable(${data.id})"><b>${data.start.slice(0, -3)} a ${data.end.slice(0, -3)}</b></small><a><br>`;
+                        }
+                    });
+                    $('#div-schedules-specilaist').append(`
+                        <div class="col-md-4 mb-2">
+                            <div class="card">
+                                <div class="card-header text-center" style="padding:0px">${days[index]}</div>
+                                <div class="card-body text-center" style="padding:0px">
+                                    ${schedules_details}
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                }
+
+                $('.alert-message').css('display', 'none');
+                if(specilalist.status == 0){
+                    $('#message-error-available').css('display', 'block');
+                    $('#badge-available').html(`<span class="badge badge-danger">No disponible</span>`);
+                    $('.btn-payment').attr('disabled', 'disabled');
+                }else if(specilalist.status == 1){
+                    $('#message-success-available').css('display', 'block');
+                    $('#badge-available').html(`<span class="badge badge-success">Disponible Ahora</span>`);
+                }
             }
         });
     });
+
+    var spinner_loader = `  <div class="d-flex justify-content-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>`;
+
+    // Obtener lista de turnos disponibles
+    function getAvalilable(id){
+        $('#schedules-list').empty().html(spinner_loader);
+        $.get("{{ url('admin/specialist/schedules/') }}/"+id ,function(res){
+            $('.alert-message').css('display', 'none');
+            $('#schedules-list').html(res);
+            $('.btn-payment').attr('disabled', 'disabled');
+        });
+    }
 </script>
