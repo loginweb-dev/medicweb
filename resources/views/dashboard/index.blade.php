@@ -80,63 +80,104 @@
                         <div id="div-appointment-details">
                           <div class="row">
                             <div class="col-md-12">
-                              <ul class="nav nav-tabs" id="myTabType" role="tablist">
-                                <li class="nav-item">
-                                  <a class="nav-link tab-link active" id="now-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Ahora mismo</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link tab-link" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Programar</a>
-                                </li>
-                              </ul>
-                              <div class="tab-content" id="myTabContentType">
-                                <div class="tab-pane fade show active" id="now" role="tabpanel" aria-labelledby="now-tab">
-                                  <div class="row mt-3">
-                                      <div class="form-group col-md-6">
-                                          <label>Fecha de cita</label>
-                                          <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
-                                          @error('date')
-                                              <span class="text-danger" role="alert">
-                                                  <strong>{{ $message }}</strong>
-                                              </span>
-                                          @enderror
-                                      </div>
-                                      <div class="form-group col-md-6">
-                                          <label>Hora de inicio</label>
-                                          <input type="time" readonly name="start" class="form-control" required>
-                                          @error('start')
-                                              <span class="text-danger" role="alert">
-                                                  <strong>{{ $message }}</strong>
-                                              </span>
-                                          @enderror
-                                      </div>
+                              <div class="row mt-3" style="display: none">
+                                  <div class="form-group col-md-6">
+                                      <label>Fecha de cita</label>
+                                      <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
+                                      @error('date')
+                                          <span class="text-danger" role="alert">
+                                              <strong>{{ $message }}</strong>
+                                          </span>
+                                      @enderror
                                   </div>
-                                </div>
-                                <div class="tab-pane fade" id="future" role="tabpanel" aria-labelledby="future-tab">
-                                  <div class="form-group mt-3">
-                                    <label>Fecha</label>
-                                    <input type="date" id="input-date-2" disabled name="date" min="{{ date('Y-m-d') }}" class="form-control input-date">
-                                    @error('date')
+                                  <div class="form-group col-md-6">
+                                      <label>Hora de inicio</label>
+                                      <input type="time" readonly name="start" class="form-control" required>
+                                      @error('start')
                                         <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                          <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror
+                                      @enderror
                                   </div>
-                                  <div id="schedules-list"></div>
-                                </div>
                               </div>
                             </div>
                           </div>
                           <div class="row">
-                              @csrf
-                              <input type="hidden" name="ajax" value="1">
-                              <input type="hidden" name="specialist_id">
-                              <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                              <input type="hidden" name="payment_type" value="1">
-                              <div class="form-group col-md-12 mt-3">
-                                  {{-- <label>Descripción</label> --}}
-                                  <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
-                                  <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
+                            {{-- Detalles del especialista --}}
+                            <div class="col-md-12 mt-3">
+                              <div id="accordion-specilaist">
+                                <div class="card">
+                                  <div class="card-header" id="headingOne-1" data-toggle="collapse" data-target="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1">Información</div>
+                                  <div id="collapseOne-1" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordion-specilaist">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <div class="col-md-2">
+                                          <img id="img-specialist" width="100%">
+                                          <div id="badge-available"></div>
+                                        </div>
+                                        <div class="col-md-10">
+                                          <div class="row" id="div-schedules-specilaist"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
+                            </div>
+                            {{-- ========================= --}}
+
+                            {{-- Mensaje de no disponible --}}
+                            <div class="col-md-12 mt-3">
+                                <div class="card border-left-danger shadow h-100 py-2 alert-message" style="display: none" id="message-error-available">
+                                  <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                      <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
+                                        <div class="h6 mb-0 font-weight-bold text-danger">
+                                          <p>El especialista no está disponible en este momento, debe programar una cita seleccionando algún horario de la lista superior.</p>
+                                        </div>
+                                      </div>
+                                      <div class="col-auto">
+                                        <i class="fas fa-ban fa-2x text-danger"></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+
+                            {{-- Mensaje de disponible --}}
+                            <div class="col-md-12 mt-3">
+                              <div class="card border-left-success shadow h-100 py-2 alert-message" style="display: none" id="message-success-available">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="text-xs font-weight-bold text-uppercase mb-1">Disponible</div>
+                                      <div class="h6 mb-0 font-weight-bold text-success">
+                                        <p>El especialista está disponible en este momento, ingrese el motivo de su cosulta y realize el pago para ser atendido en un momento.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <i class="fas fa-video fa-2x text-success"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div id="schedules-list"></div>
+                            </div>
+
+                            @csrf
+                            <input type="hidden" name="ajax" value="1">
+                            <input type="hidden" name="specialist_id">
+                            <input type="hidden" name="customer_id" value="{{ $customer_id }}">
+                            <input type="hidden" name="payment_type" value="1">
+                            <input type="hidden" name="payment_account_id">
+                            <div class="form-group col-md-12 mt-3">
+                                <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
+                                <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
+                            </div>
                           </div>
                         </div>
                         <div id="div-payment-details" style="display: none">
@@ -159,7 +200,7 @@
                                                 $cuentas = \App\PaymentAccount::all();
                                               @endphp
                                               @forelse ($cuentas as $item)
-                                              <tr style="cursor: pointer">
+                                              <tr class="tr-payment" id="tr-payment-{{ $item->id }}" data-id="{{ $item->id }}" style="cursor: pointer">
                                                 <td width="120px"><img src="{{ !$item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
                                                 <td>
                                                   <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
@@ -180,7 +221,8 @@
                                               <div class="card-header bg-info">Instrucciones</div>
                                               <div class="card-body">
                                                 {{-- <h5 class="card-title">Info card title</h5> --}}
-                                                <p class="card-text">Debe realizar una transacción bancaria mediante la web o su dispositivo móvil a cualquiera de las cuentas disponibles. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
+                                                <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
+                                                <p id="message-2" style="display: none" class="card-justify">Debe realizar una transacción bancaria mediante la web o su dispositivo móvil a cualquiera de las cuentas disponibles. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
                                               </div>
                                             </div>
                                           </div>
@@ -211,18 +253,11 @@
                         <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button>
                         <button class="btn btn-secondary btn-back-payment" type="button" style="display:none"><span class="fas fa-arrow-alt-circle-left"></span> Volver</button>
                         <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
-                        <button type="submit" class="btn btn-primary btn-store-appointment" style="display:none">Registrar <span class="fa fa-check-square"></span></button>
+                        <button type="submit" class="btn btn-primary btn-store-appointment" disabled style="display:none">Registrar <span class="fa fa-check-square"></span></button>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
-
-    <form id="form-schedules" action="{{ url('admin/schedules/specialist') }}" method="post">
-      @csrf              
-      <input type="hidden" name="specialist_id">
-      <input type="hidden" name="date">
-      {{-- <button type="submit">ok</button> --}}
     </form>
 
     <!-- Logout Modal-->
@@ -369,46 +404,11 @@
               })
             });
 
-            // Halitar/Deshabilitar campo fecha según tipo de cita (ahor/programada)
-            $('.tab-link').click(function(){
-              let type = $(this).attr('href');
-              $('.input-date').removeAttr('disabled');
-              $('.input-date').removeAttr('required');
-              if(type == '#future'){
-                $('#input-date-1').attr('disabled', 'disabled');
-                $('#input-date-2').attr('required', 'required');
-                $('#input-date-2').val('');
-                $('#form-appointments input[name="start"]').val('');
-                $('#schedules-list').empty();
-                $('.btn-payment').attr('disabled', 'disabled');
-              }else{
-                $('#input-date-2').attr('disabled', 'disabled');
-                $('#input-date-1').attr('required', 'required');
-                let date = new Date();
-                let hours = String(date.getHours()).padStart(2, "0");
-                let minutes = String(date.getMinutes()).padStart(2, "0");
-                $('#form-appointments input[name="start"]').val(`${hours}:${minutes}`);
-                $('.btn-payment').removeAttr('disabled');
-              }
-            });
-
             var spinner_loader = `  <div class="d-flex justify-content-center">
                                       <div class="spinner-border text-primary" role="status">
                                         <span class="sr-only">Loading...</span>
                                       </div>
                                     </div>`;
-
-            // Obtener lista de horarios según fecha
-            $('#input-date-2').change(function(){
-              $('#schedules-list').empty().html(spinner_loader);
-              let date = $(this).val();
-              $('#form-schedules input[name="date"]').val(date)
-              setTimeout(()=>{
-                $.post($('#form-schedules').attr('action'), $('#form-schedules').serialize(), function(res){
-                  $('#schedules-list').html(res);
-                });
-              }, 200);
-            });
 
             // Desplegar lista de especialistas
             $('.card-speciality').click(function(){
@@ -462,6 +462,18 @@
               }else{
                 $('.btn-store-appointment').attr('disabled', 'disabled');
               }
+            });
+
+            // Seleccionar método de pago
+            $('.tr-payment').click(function(e){
+              e.preventDefault();
+              let id = $(this).data('id');
+              $(`.tr-payment`).css('background-color', 'transparent');
+              $(`#tr-payment-${id}`).css('background-color', '#B4DCFF');
+              $('.btn-store-appointment').removeAttr('disabled');
+              $('#form-appointments input[name="payment_account_id"]').val(id);
+              $('#message-1').fadeOut('fast');
+              $('#message-2').fadeIn();
             });
         });
     </script>

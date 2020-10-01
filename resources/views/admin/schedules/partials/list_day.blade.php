@@ -1,56 +1,54 @@
-<div class="col-md-12">
-    <label>Horarios disponibles<br><small>Seleccione el horario en el que desea se atendido.</small></label>
-</div>
-<div class="row mt-2 mb-3">
-    <div class="col-md-12" id="accordion">
-        @forelse($horarios as $horario)
+<div class="card">
+    <div class="card-header">
+        <label>Horarios disponibles<br><small>Seleccione el horario en el que desea se que inicie su cita médica.</small></label>
+    </div>
+    <div class="card-body">
+        @php
+            setlocale(LC_ALL, 'es_Es');
+            $fecha_actual = date('Y-m-d');
+            $fecha_cita = Carbon::create($fecha_actual);
+            while (date('N', strtotime($fecha_cita)) != $horario->day) {
+                $fecha_cita = $fecha_cita->addDays(1);
+            }
+
+            $inicio_horario = $fecha_cita->format('Y-m-d ').$horario->start;
+            $duracion_cita = setting('citas.duracion') ?? 30;
+            $cont = 0;
+        @endphp
+        @if ($fecha_cita->format('Y-m-d ').$horario->start >= date('Y-m-d H:i:s'))
+            @while(date('H:i:s', strtotime($inicio_horario)) < $horario->end)
+                @php
+                    $citas = \App\Appointment::where('date', date('Y-m-d', strtotime($inicio_horario)))->where('start', date('H:i:s', strtotime($inicio_horario)))->first();
+                @endphp
+                <div class="form-check-inline">
+                    <label class="form-check-label @if($citas) text-danger @endif">
+                        <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
+                    </label>
+                </div>
+                @php
+                    $inicio_horario = date('Y-m-d H:i:s', strtotime("+$duracion_cita minutes", strtotime($inicio_horario)));
+                @endphp
+            @endwhile
             @php
-                $duracion_cita = setting('citas.duracion') ?? 15;
-                $inicio_horario = $fecha.' '.$horario->start;
+                $cont++;
             @endphp
-            
-            <div class="card">
-                <div class="card-header bg-success" id="heading-{{ $horario->id }}" data-toggle="collapse" data-target="#collapse-{{ $horario->id }}" aria-expanded="true" aria-controls="collapse-{{ $horario->id }}" style="cursor:pointer">
-                    <h6 class="mb-0 text-white">
-                        De {{ date('H:i', strtotime($horario->start)).' a '.date('H:i', strtotime($horario->end)) }}
-                    </h6>
-                </div>
-                <div id="collapse-{{ $horario->id }}" class="collapse" aria-labelledby="heading-{{ $horario->id }}" data-parent="#accordion">
-                    <div class="card-body">
-                        @while(date('H:i:s', strtotime($inicio_horario)) < $horario->end)
-                            @php
-                                $citas = \App\Appointment::where('date', $fecha)->where('start', date('H:i:s', strtotime($inicio_horario)))->first();
-                            @endphp
-                            <div class="form-check-inline">
-                                <label class="form-check-label @if($citas) text-danger @endif">
-                                    <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" value="{{ date('H:i', strtotime($inicio_horario)) }}">A las {{ date('H:i', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
-                                </label>
-                            </div>
-                            @php
-                                $inicio_horario = date('Y-m-d H:i:s', strtotime("+$duracion_cita minutes", strtotime($inicio_horario)));
-                            @endphp
-                        @endwhile
-                    </div>
-                </div>
+        @endif
+        @if ($cont == 0)
+            <div class="col-md-12 mt-3 text-center">
+                <span class="badge badge-danger">Horario no disponible</span>
             </div>
-        @empty
-        <div class="col-md-12 text-center mb-3">
-            <span class="badge badge-danger">El especialista no realiza atención el día seleccionado</span>
-        </div>
-        @endforelse
+        @endif
+        <h5 class="text-center text-success mt-3">{{ ucwords(strftime('%A, %e de %B de %Y', strtotime($fecha_cita))) }}</h5>
     </div>
 </div>
 
 <script>
     $(document).ready(function(){
         $('.form-check-input').click(function(){
-            let value = $(this).val();
-            $('#form-appointments input[name="start"]').val(value);
-        });
-
-        $('.form-check-input').click(function(e){
-            let value = $(this).val();
-            $('#form-appointments input[name="start"]').val(value);
+            let date = $(this).data('date');
+            let hour = $(this).data('hour');
+            $('#form-appointments input[name="date"]').val(date);
+            $('#form-appointments input[name="start"]').val(hour);
             $('.btn-payment').removeAttr('disabled');
         });
     });

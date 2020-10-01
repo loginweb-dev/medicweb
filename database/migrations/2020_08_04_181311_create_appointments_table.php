@@ -25,6 +25,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->unsignedBigInteger('specialist_id');
             $table->foreign('specialist_id')->references('id')->on('specialists');
+            $table->foreignId('speciality_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

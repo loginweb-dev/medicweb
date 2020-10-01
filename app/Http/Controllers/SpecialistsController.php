@@ -47,7 +47,7 @@ class SpecialistsController extends Controller
     }
 
     public function specialities($id){
-        $especialistas = Specialist::with(['user', 'specialities', 'appointments.rating'])
+        $especialistas = Specialist::with(['user', 'specialities', 'appointments.rating', 'schedules'])
                             ->whereHas('specialities', function($query)use ($id){
                                 $query->where('speciality_id', $id);
                             })

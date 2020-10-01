@@ -42,6 +42,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('specialists/list/{search}', 'SpecialistsController@list');
     Route::get('specialists/get/{search}', 'SpecialistsController@get');
     Route::get('specialists/specialities/{id}', 'SpecialistsController@specialities');
+    Route::get('specialist/schedules/{id}', 'SchedulesController@schedules_details');
 
 
     // Customers
@@ -62,9 +63,6 @@ Route::group(['prefix' => 'admin'], function () {
 
     // Analisys Customer
     Route::resource('analysiscustomer', 'AnalyisisCustomersController');
-
-    // Schedules
-    Route::post('schedules/specialist', 'SchedulesController@specialist');
 
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
