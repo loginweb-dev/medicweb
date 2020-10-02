@@ -47,7 +47,7 @@ class PageController extends Controller
                 if($value['type'] == 'image')
                 {
                   
-                    $mijson = str_replace($value['value'], $value['value'], $mijson);
+                    // $mijson = str_replace($value['value'], $value['value'], $mijson);
                 }else{
                     if($value['type'] == 'space')
                     {
@@ -61,8 +61,10 @@ class PageController extends Controller
                 }
                 if($request->hasFile($value['name']))
                 {
-                    $dirimage = Storage::disk('public')->put('pages/'.date('F').date('Y'), $request->file($value['name']));
-                    $mijson = str_replace($value['value'], $dirimage, $mijson);
+                    $dirimage = Storage::disk('public')->put('blocks/'.date('F').date('Y'), $request->file($value['name']));
+                    $mijson_aux = json_decode($mijson, true);
+                    $mijson_aux[$value['name']]['value'] = $dirimage;
+                    $mijson = json_encode($mijson_aux);
                 }
                
             }

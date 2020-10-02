@@ -43,9 +43,12 @@
                             <label class="label label-{{ $type }}">{{ $item->status }}</label>
                             @if ($item->status == 'Finalizada')
                                 @php
-                                    $inicio = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[0]->created_at)));
-                                    $fin = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[count($item->tracking)-1]->created_at)));
-                                    $duracion = str_pad($inicio->diffInMinutes($fin), 2, "0", STR_PAD_LEFT).':'.str_pad(($inicio->diffInSeconds($fin)%60), 2, "0", STR_PAD_LEFT);
+                                    $duracion = 'No definida';
+                                    if($item->tracking){
+                                        $inicio = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[0]->created_at)));
+                                        $fin = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[count($item->tracking)-1]->created_at)));
+                                        $duracion = str_pad($inicio->diffInMinutes($fin), 2, "0", STR_PAD_LEFT).':'.str_pad(($inicio->diffInSeconds($fin)%60), 2, "0", STR_PAD_LEFT);
+                                    }
                                 @endphp
                                 <div style="margin-top: 5px">
                                     <label class="label label-danger">Duración {{ $duracion }} min.</label>
