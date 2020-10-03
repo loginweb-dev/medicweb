@@ -818,7 +818,7 @@ class PageSeeder extends Seeder
                         'type' => 'image',
                         'name' => 'image',
                         'label' => 'Imagen (250x250)',
-                        'value' => null,
+                        'value' => 'image.png',
                         'width' => 6
                     ],
                     'parrafo' => [
@@ -843,7 +843,7 @@ class PageSeeder extends Seeder
                         'type' => 'image',
                         'name' => 'image1',
                         'label' => 'Imagen (250x250)',
-                        'value' => null,
+                        'value' => 'image1.png',
                         'width' => 6
                     ],
                     'parrafo1' => [
@@ -868,7 +868,7 @@ class PageSeeder extends Seeder
                         'type' => 'image',
                         'name' => 'image2',
                         'label' => 'Imagen (250x250)',
-                        'value' => null,
+                        'value' => 'image2.png',
                         'width' => 6
                     ],
                     'parrafo2' => [

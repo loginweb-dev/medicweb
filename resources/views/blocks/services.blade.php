@@ -28,7 +28,7 @@
           <div class="col-lg-4 flex-center ml-lg-auto col-md-5 mb-5 wow fadeIn" data-wow-delay="0.3s">
 
               <!--Image-->
-          <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid z-depth-1">
+          <img src="{{ $data->image1->value != 'image1.png' ? Voyager::Image($data->image1->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/services.jpg' }}" class="img-fluid z-depth-1">
 
           </div>
           <!--/Second column-->
