@@ -37923,8 +37923,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: "ASDASD1212",
   cluster: "mt1",
   wsHost: window.location.hostname,
-  wsPort: 6003,
-  wssPort: 6003,
+  wsPort: 6001,
+  wssPort: 6001,
   forceTLS: false,
   // true para https
   disableStats: true // enabledTransports: ['ws', 'wss'], // Comentar para trabajo en desarrollo
@@ -38020,8 +38020,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\medicweb\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\medicweb\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/medicweb/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/medicweb/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

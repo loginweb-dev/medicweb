@@ -111,11 +111,12 @@
                                   <div id="collapseOne-1" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordion-specilaist">
                                     <div class="card-body">
                                       <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-3 text-center mb-3">
                                           <img id="img-specialist" width="100%">
+                                          <div class="mt-2" id="title-specialist"></div>
                                           <div id="badge-available"></div>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-9">
                                           <div class="row" id="div-schedules-specilaist"></div>
                                         </div>
                                       </div>
@@ -168,6 +169,34 @@
                               <div id="schedules-list"></div>
                             </div>
 
+                            <div class="col-md-12 mt-3" id="div-select-speciality">
+                              <div class="card">
+                                <div class="card-body">
+                                  <label for="select-speciality">Elija la especialidad</label>
+                                  <select name="speciality_id" class="form-control" id="select-speciality"></select>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div class="col-md-12 mt-3">
+                              <div class="card border-left-info shadow h-100 py-2" style="display: none" id="message-payment-amount">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="h6 mb-0 font-weight-bold text-info">
+                                        <p>La tarifa del especialista en este horario es:</p>
+                                      </div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <h4 class="text-info label-price-appointment"></h4>
+                                      <input type="hidden" class="input-price" name="price">
+                                      <input type="hidden" class="input-price" name="price_add">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                             @csrf
                             <input type="hidden" name="ajax" value="1">
                             <input type="hidden" name="specialist_id">
@@ -191,9 +220,25 @@
                                     </h6>
                                   </div>
                                   <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
-                                    <div class="card-body text-center">
+                                    <div class="card-body">
                                       <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-12 mb-3">
+                                          <div class="card border-left-success shadow h-100 py-2">
+                                            <div class="card-body">
+                                              <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                  <div class="h5 mb-0 font-weight-bold text-success">
+                                                    <p>Costo del servicio:</p>
+                                                  </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                  <h4 class="text-success label-price-appointment"></h4>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-7 text-center">
                                           <table class="table table-hover">
                                             <tbody>
                                               @php
@@ -222,7 +267,7 @@
                                               <div class="card-body">
                                                 {{-- <h5 class="card-title">Info card title</h5> --}}
                                                 <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
-                                                <p id="message-2" style="display: none" class="card-justify">Debe realizar una transacción bancaria mediante la web o su dispositivo móvil a cualquiera de las cuentas disponibles. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
+                                                <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
                                               </div>
                                             </div>
                                           </div>
@@ -476,5 +521,15 @@
               $('#message-2').fadeIn();
             });
         });
+
+        function calcularTotal(){
+          let total = 0;
+          let monto = 0;
+          $('.input-price').each(function(){
+            monto = $(this).val() ? $(this).val() : '0';
+            total += parseFloat(monto);
+          });
+          $('.label-price-appointment').html(`${total.toFixed(2)} Bs.`);
+        }
     </script>
 @endsection

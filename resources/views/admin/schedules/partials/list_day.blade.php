@@ -22,7 +22,7 @@
                 @endphp
                 <div class="form-check-inline">
                     <label class="form-check-label @if($citas) text-danger @endif">
-                        <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
+                        <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $horario->price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
                     </label>
                 </div>
                 @php
@@ -47,9 +47,13 @@
         $('.form-check-input').click(function(){
             let date = $(this).data('date');
             let hour = $(this).data('hour');
+            let price_add = $(this).data('price_add');
             $('#form-appointments input[name="date"]').val(date);
             $('#form-appointments input[name="start"]').val(hour);
             $('.btn-payment').removeAttr('disabled');
+            $('#message-payment-amount').css('display', 'block');
+            $('#form-appointments input[name="price_add"]').val(price_add);
+            setTimeout(() => calcularTotal(), 0);
         });
     });
 </script>

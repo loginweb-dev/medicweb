@@ -95,11 +95,15 @@
             let specilalist = $(this).data('specilalist');
             if(specilalist.id){
                 $('#form-appointments input[name="specialist_id"]').val(specilalist.id);
+                if(specilalist.specialities.length){
+                    $('#form-appointments input[name="price"]').val(specilalist.specialities[0].price);
+                    $('#form-appointments input[name="price_add"]').val('{{ $horario_actual->price_add }}');
+                }
                 $('#modal-appointments').modal('show');
                 let date = new Date();
                 let year = date.getFullYear();
                 let month = String(date.getMonth()+1).padStart(2, "0");
-                let day = date.getDate();
+                let day = String(date.getDate()).padStart(2, "0");;
                 let hours = String(date.getHours()).padStart(2, "0");
                 let minutes = String(date.getMinutes()).padStart(2, "0");
                 $('#input-date-1').val(`${year}-${month}-${day}`);
@@ -129,15 +133,40 @@
                 }
 
                 $('.alert-message').css('display', 'none');
+                $('#title-specialist').html(`<h6 class="">${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}</h6>`);
+                
+                // Montrar las instrucciones según el estado del mñedico
                 if(specilalist.status == 0){
                     $('#message-error-available').css('display', 'block');
                     $('#badge-available').html(`<span class="badge badge-danger">No disponible</span>`);
                     $('.btn-payment').attr('disabled', 'disabled');
                 }else if(specilalist.status == 1){
                     $('#message-success-available').css('display', 'block');
+                    $('#message-payment-amount').css('display', 'block');
                     $('#badge-available').html(`<span class="badge badge-success">Disponible Ahora</span>`);
+                    calcularTotal();
+                }
+
+                // Cargar la lista de especialidades del médico
+                $('#select-speciality').empty();
+                specilalist.specialities.map(item => {
+                    $('#select-speciality').append(`<option value="${item.id}" data-price="${item.price}">${item.name}</option>`);
+                });
+
+                // En caso de solo tener una espcialidad ocultar la selcción de especialidades
+                if(specilalist.specialities.length <= 1){
+                    $('#div-select-speciality').css('display', 'none');
+                }else{
+                    $('#div-select-speciality').css('display', 'block');
                 }
             }
+        });
+
+        // Obtener precio de la especialidad al cambiar la opción
+        $('#select-speciality').change(function(){
+            let price = $('#select-speciality option:selected').data('price');
+            $('#form-appointments input[name="price"]').val(price);
+            calcularTotal();
         });
     });
 
@@ -150,8 +179,10 @@
     // Obtener lista de turnos disponibles
     function getAvalilable(id){
         $('#schedules-list').empty().html(spinner_loader);
+        $('.alert-message').css('display', 'none');
+        $('#message-payment-amount').css('display', 'none');
+        $("#modal-appointments").animate({scrollTop: $('#schedules-list').offset().top}, 500);
         $.get("{{ url('admin/specialist/schedules/') }}/"+id ,function(res){
-            $('.alert-message').css('display', 'none');
             $('#schedules-list').html(res);
             $('.btn-payment').attr('disabled', 'disabled');
         });

@@ -43,6 +43,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('specialists/get/{search}', 'SpecialistsController@get');
     Route::get('specialists/specialities/{id}', 'SpecialistsController@specialities');
     Route::get('specialist/schedules/{id}', 'SchedulesController@schedules_details');
+    Route::get('specialists/update/status/{id}/{value}', 'SpecialistsController@edit_status');
 
 
     // Customers
@@ -82,3 +83,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('meet/{id}', 'MeetingsController@join');
 Route::post('meet/divert_call', 'MeetingsController@divert_call');
 Route::post('meet/rating/store', 'MeetingsController@rating_store');
+
+
+// Logout costumized
+Route::post('admin/logout', 'Controller@logout')->name('voyager.logout');

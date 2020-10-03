@@ -10,12 +10,19 @@
         <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
             <i class="voyager-plus"></i> <span>Crear</span>
         </a>
+        @if ($specialist )
+            <input type="checkbox" data-id="{{ $specialist->id }}" @if($specialist->status) checked @endif id="checkbox-status" data-toggle="toggle" data-on="Activo" data-off="Inactivo">
+        @endif
     </div>
 @stop
 
 @section('content')
     <div class="page-content browse container-fluid">
         @include('voyager::alerts')
+        <div class="alert alert-danger alert-available" @if(!$specialist || ($specialist && $specialist->status)) style="display:none" @endif>
+            <strong>Atención:</strong>
+            <p>No puedes acceder a tus citas médicas debido a que estas inactivo.</p>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-bordered">
@@ -101,6 +108,27 @@
                 $('#search-input input[name="search"]').val('')
                 $(this).addClass('hidden');
                 getList('{{ url("admin/appointments/list") }}', '#list-table');
+            });
+
+            // Actualizar status
+            $('#checkbox-status').change(function(){
+                let id = $(this).data('id');
+                let status = $(this).prop('checked') ? 1 : 0;
+                let url = '{{ url("admin/specialists/update/status") }}';
+                $.get(`${url}/${id}/${status}`, function(res){
+                    if(res.data){
+                        toastr.success('Bien hecho!', 'Estado actualizado.');
+                        if(res.data.status == 1){
+                            $('.alert-available').fadeOut();
+                            $('.action-available').fadeIn();
+                        }else{
+                            $('.alert-available').fadeIn();
+                            $('.action-available').fadeOut();
+                        }
+                    }else{
+                        toastr.error('Error!', res.error);
+                    }
+                });
             });
 
 

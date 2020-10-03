@@ -8,7 +8,7 @@
                     <th>Fecha de la cita</th>
                     <th>Estado</th>
                     <th>Descripción</th>
-                    <th class="text-right">Acciones</th>
+                    <th class="text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@
                             @endif
                         </td>
                         <td>{{ $item->observations }}</td>
-                        <td class="no-sort no-click bread-actions text-right">
+                        <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
                             @if ($item->status == 'Validar')
                                 <button type="button" title="Validar" class="btn btn-sm btn-warning btn-verify-payment edit" data-id="{{ $item->id }}">
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validad</span>
@@ -124,7 +124,7 @@
 
     {{-- modal historial --}}
     <div class="modal modal-info fade" tabindex="-1" id="modal-historial" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title"><i class="voyager-person"></i> Historial clínico</h4>
@@ -234,6 +234,10 @@
         // Ver histolrial
         $('.btn-customer').click(function(){
             let id = $(this).data('id');
+
+            $('#historial-list').empty().html(` <div class="col-md-12 text-center">
+                                                    <img src="{{ url('images/loader.gif') }}" alt="">
+                                                </div>`);
             $.get('{{ url("admin/appointments/observations/browse") }}/'+id, function(res){
                 $('#historial-list').html(res);
             });  
