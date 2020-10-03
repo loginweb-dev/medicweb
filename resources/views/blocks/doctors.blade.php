@@ -49,7 +49,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="{{ Voyager::Image($data->image1->value) }}">
+                      <img src="{{ $data->image1->value != 'image1.png' ? Voyager::Image($data->image1->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/jhon.jpg' }}" class="img-fluid">
                       </div>
                   </div>
                   <!--/First column-->
@@ -83,7 +83,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="{{ Voyager::Image($data->image2->value) }}" class="img-fluid">
+                      <img src="{{ $data->image2->value != 'image2.png' ? Voyager::Image($data->image2->value) : 'https://mystorage.loginweb.dev/storage/Projects/medicweb/anna.jpg' }}" class="img-fluid">
                       </div>
                   </div>
                   <!--/First column-->
@@ -117,7 +117,7 @@
 
                       <!--Featured image-->
                       <div class="view overlay z-depth-1 z-depth-2">
-                      <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid">
+                      <img src="{{ $data->image3->value != 'image3.png' ? Voyager::Image($data->image3->value) : 'https://mystorage.loginweb.dev/storage/Projects/medicweb/maria.jpg' }}" class="img-fluid">
                       </div>
                   </div>
                   <!--/First column-->

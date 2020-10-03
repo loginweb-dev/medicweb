@@ -20,14 +20,14 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image->value ? Voyager::Image($data->image->value) : 'https://mdbootstrap.com/img/Photos/Avatars/img%20%2820%29.jpg' }}" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image->value != 'image.png' ? Voyager::Image($data->image->value) : 'https://mdbootstrap.com/img/Photos/Avatars/img%20%2820%29.jpg' }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
                   <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}.
                   </p>
 
                   <h4>{{$data->nombre->value}}</h4>
-
+                  <h3><span class="badge badge-warning">Traumatologia</span></h3><br>
                   <!--Review-->
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
@@ -45,14 +45,14 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image1->value ? Voyager::Image($data->image1->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%2817%29.jpg'}}" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image1->value != 'image1.png' ? Voyager::Image($data->image1->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%2817%29.jpg'}}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
                   <p><i class="fas fa-quote-left"></i>{!! $data->parrafo1->value !!}
                   </p>
 
                   <h4>{{$data->nombre1->value}}</h4>
-
+                  <h3><span class="badge badge-success">Odontolgia</span></h3><br>
                   <!--Review-->
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
@@ -70,14 +70,14 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image2->value ? Voyager::Image($data->image2->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg'}}" class="rounded-circle img-fluid">
+                      <img src="{{ $data->image2->value != 'image2.png' ? Voyager::Image($data->image2->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg'}}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
                   <p><i class="fas fa-quote-left"></i> {!! $data->parrafo2->value !!}
                   </p>
 
                   <h4>{{$data->nombre2->value}}</h4>
-
+                  <h3><span class="badge badge-primary">Medicina General</span></h3><br>
                   <!--Review-->
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>

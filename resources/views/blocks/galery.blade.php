@@ -19,7 +19,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="{{ Voyager::Image($data->image1->value) }}" class="img-fluid" alt="">
+                        <img src="{{ $data->image1->value !='image1.png' ? Voyager::Image($data->image1->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/galery1.jpg' }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title1->value}}</h4>
@@ -43,7 +43,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="{{ Voyager::Image($data->image2->value) }}" class="img-fluid" alt="">
+                        <img src="{{ $data->image2->value !='image1.png' ? Voyager::Image($data->image2->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/galery2.jpg' }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title2->value}}</h4>
@@ -67,7 +67,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="{{ Voyager::Image($data->image3->value) }}" class="img-fluid" alt="">
+                        <img src="{{ $data->image3->value !='image1.png' ? Voyager::Image($data->image3->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/galery3.jpg' }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title3->value}}</h4>
@@ -91,7 +91,7 @@
                       <!--Image-->
                       <div class="view overlay">
 
-                      <img src="{{ Voyager::Image($data->image4->value) }}" class="img-fluid" alt="">
+                      <img src="{{ $data->image4->value !='image1.png' ? Voyager::Image($data->image4->value) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/galery4.jpg' }}" class="img-fluid" alt="">
 
                       <div class="mask flex-center rgba-blue-strong">
                           <h4 class="white-text font-weight-bold">{{$data->title4->value}}</h4>

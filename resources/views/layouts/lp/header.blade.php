@@ -59,9 +59,10 @@
 
         <!--Intro Section-->
         <section id="home" class="view"
-            style="background-image: url('{{ voyager::Image($collection['image1']['value']) }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+      
+            style="background-image: url('{{  $collection['image1']['value'] != 'myimage.png' ?  voyager::Image($collection['image1']['value']) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/38.png' }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
             <div class="android">
-                <img class="tamaño"  src="{{ voyager::Image($collection['icono']['value']) }}" alt="Responsive image">
+                <img class="tamaño"  src="{{ $collection['icono']['value'] != 'myimage1.png' ? voyager::Image($collection['icono']['value']) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/icono.png' }}" alt="Responsive image">
             </div>
            
             <div class="mask">
