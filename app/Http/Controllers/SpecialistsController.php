@@ -53,7 +53,8 @@ class SpecialistsController extends Controller
                             })
                             ->where('deleted_at', NULL)->get();
         $especialidad = Speciality::find($id)->name;
-        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad'));
+        $horario_actual = Schedule::where('day', date('N'))->where('start', '<', date('H:i:s'))->where('end', '>', date('H:i:s'))->first();
+        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual'));
     }
 
     /**
@@ -213,6 +214,17 @@ class SpecialistsController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route($route)->with(['message' => 'Ocurrio un error al realizar el registro.', 'alert-type' => 'error']);
+        }
+    }
+
+    public function edit_status($id, $status){
+        try {
+            $especialista = Specialist::find($id);
+            $especialista->status = $status;
+            $especialista->save();
+            return response()->json(['data' => $especialista]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error inesperado']);
         }
     }
 

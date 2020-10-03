@@ -42,7 +42,10 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        return view('admin.appointments.browse');
+        $specialist = Specialist::whereHas('user', function($q){
+            $q->where('id', Auth::user()->id);
+        })->first();
+        return view('admin.appointments.browse', compact('specialist'));
     }
 
     public function list($search){
@@ -61,7 +64,10 @@ class AppointmentsController extends Controller
                         ->where('deleted_at', NULL)
                         ->whereRaw($query_search)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
-        return view('admin.appointments.partials.list', compact('citas'));
+        $specialist = Specialist::whereHas('user', function($q){
+            $q->where('id', Auth::user()->id);
+        })->first();
+        return view('admin.appointments.partials.list', compact('citas', 'specialist'));
     }
 
     /**
@@ -111,6 +117,9 @@ class AppointmentsController extends Controller
             $cita = Appointment::create([
                 'specialist_id' => $request->specialist_id,
                 'customer_id' => $request->customer_id,
+                'speciality_id' => $request->speciality_id,
+                'amount' => $request->price,
+                'amount_add' => $request->price_add,
                 'date' => $request->date,
                 'start' => $request->start,
                 'end' => $end->format('H:i:s'),
