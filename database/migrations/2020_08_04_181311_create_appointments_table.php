@@ -26,7 +26,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('specialist_id');
             $table->foreign('specialist_id')->references('id')->on('specialists');
             $table->foreignId('speciality_id')->constrained();
-            $table->decimal('amount', 10, 2)->default(0);
+            $table->decimal('amount', 10, 2)->default(0)->nullable();
             $table->decimal('amount_add', 10, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();

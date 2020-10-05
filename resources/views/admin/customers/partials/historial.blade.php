@@ -1,58 +1,88 @@
+@php
+    $cont = 0;
+    setlocale(LC_ALL,"es_ES");
+    $class_collapse = 'show';
+@endphp
 <div class="row">
     <div class="col-md-12">
-        <ul class="timeline">
-            @php
-                $cont = 0;
-                setlocale(LC_ALL,"es_ES");
-            @endphp
+        <div id="accordion">
             @forelse ($observaciones as $item)
-            <li>
-                <a href="#">{{ $item->observations }}</a>
-                <a href="#" class="float-right">{{ strftime("%d de %B, %Y",  strtotime($item->created_at)) }}</a>
-                @if (count($item->details) > 1)
-                    @forelse ($item->details as $detail)
-                        @if ($cont == 0)
-                            <p>{{ $detail->description }} <button type="button" class="btn btn-link btn-learn-more" id="btn-learn-more-{{ $item->id }}" data-id="{{ $item->id }}">Ver más</button></p>
-                        @else
-                            <p class="text-hidden text-{{ $item->id }}">{{ $observacion->description }}</p>
-                        @endif
-                        @php
-                            $cont++;
-                        @endphp
-                    @empty
-                    <p class="text-center">No hay historial</p>
-                    @endforelse
-                @else
-                    @if (count($item->details) > 0)
-                        <p>{{ $item->details[0]->description }}</p>
-                    @else
-                        <p class="text-center">No hay historial</p>
-                    @endif
-                @endif
-            </li>
+                <div class="card">
+                    <div class="card-header" id="heading-{{ $item->id }}" data-toggle="collapse" data-target="#collapse-{{ $item->id }}" aria-expanded="true" aria-controls="collapse-{{ $item->id }}" style="cursor: pointer">
+                        <h5 class="panel-title">{{ $item->observations }} <br> <small>{{ strftime("%d de %B, %Y",  strtotime($item->created_at)) }}</small></h5>
+                    </div>
+                    <div id="collapse-{{ $item->id }}" class="collapse" aria-labelledby="heading-{{ $item->id }}" data-parent="#accordion">
+                        <div class="card-body">
+                            <ul class="timeline mb-3">
+                                @if (count($item->details) > 1)
+                                    @forelse ($item->details as $detail)
+                                        <li>
+                                            @if ($cont == 0)
+                                                <p>{{ $detail->description }} <button type="button" class="btn btn-link btn-learn-more" id="btn-learn-more-{{ $item->id }}" data-id="{{ $item->id }}">Ver más</button></p>
+                                            @else
+                                                <p class="text-hidden text-{{ $item->id }}">{{ $detail->description }}</p>
+                                            @endif
+                                            @php
+                                                $cont++;
+                                            @endphp
+                                        </li>
+                                    @empty
+                                    <p class="text-center">No hay historial</p>
+                                    @endforelse
+                                @else
+                                    <li>
+                                        @if (count($item->details) > 0)
+                                            <p>{{ $item->details[0]->description }}</p>
+                                        @else
+                                            <p class="text-center">No hay historial</p>
+                                        @endif
+                                    </li>
+                                @endif
+                            </ul>
+                            <div class="row" style="margin-top:60px">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Prescipciones</td>
+                                            <td>Ordenes de laboratorio</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @foreach ($recetas as $receta)
+                                                    @foreach ($receta->details as $detail)
+                                                        <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
+                                                    @endforeach
+                                                    <hr>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    @foreach ($ordenes as $orden)
+                                                        @foreach ($orden->details as $detail)
+                                                            <li>{{ $detail->analysis->name }}</li>
+                                                        @endforeach
+                                                        <hr>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @php
+                    $class_collapse = '';
+                @endphp
             @empty
                 <h3 class="text-center">No hay historial</h3>
             @endforelse
-        </ul>
+        </div>
     </div>
 </div>
-
-{{-- <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-            Collapsible Group 1</a>
-            </h4>
-        </div>
-        <div id="collapse1" class="panel-collapse collapse in">
-            <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.</div>
-        </div>
-    </div>
-</div> --}}
   
 
 <style>

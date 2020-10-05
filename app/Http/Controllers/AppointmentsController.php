@@ -16,6 +16,8 @@ use App\User;
 use App\Speciality;
 use App\AppointmentTracking;
 use App\AppointmentsObservation;
+use App\AnalysisCustomer;
+use App\Prescription;
 
 // Events
 use App\Events\StartMeetEvent;
@@ -290,7 +292,13 @@ class AppointmentsController extends Controller
                             })
                             ->where('deleted_at', NULL)
                             ->get();
-        return view('admin.customers.partials.historial', compact('observaciones'));
+        $recetas = Prescription::with(['details'])
+                                ->where('appointment_id', $id)
+                                ->get();
+        $ordenes = AnalysisCustomer::with(['details.analysis'])
+                                ->where('appointment_id', $id)
+                                ->get();
+        return view('admin.customers.partials.historial', compact('observaciones', 'recetas', 'ordenes'));
     }
 
     /**
