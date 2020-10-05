@@ -313,15 +313,6 @@
                             });
                             // $('.modal').modal('hide');
                             $('.form-modal').trigger("reset");
-                            // if(res.action){
-                            //     switch (res.action) {
-                            //         case 'observations':
-                            //             getObservations();
-                            //             break;
-                            //         default:
-                            //             break;
-                            //     }
-                            // }
                             getObservations();
                         }else{
                             Toast.fire({
