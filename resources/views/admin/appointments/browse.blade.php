@@ -71,7 +71,12 @@
 @stop
 
 @section('css')
-    
+    <style>
+        .card-header{
+            background-color: #dedede;
+            border: 2px solid #ccc
+        }
+    </style>
 @stop
 
 @section('javascript')

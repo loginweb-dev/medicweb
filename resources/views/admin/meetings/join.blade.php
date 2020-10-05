@@ -68,11 +68,11 @@
             <!-- Modal -->
             {{-- modal historial --}}
             <form class="form-modal" action="{{ url('admin/appointments/observations/create') }}" method="post">
-                <div class="modal modal-info fade" tabindex="-1" id="modal-historial" role="dialog">
-                    <div class="modal-dialog modal-lg">
+                <div class="modal fade" tabindex="-1" id="modal-historial" role="dialog">
+                    <div class="modal-dialog modal-lg bg-info">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title"><i class="voyager-person"></i> Historial clínico</h4>
+                            <div class="modal-header bg-info">
+                                <h4 class="modal-title text-white"><i class="voyager-person"></i> Historial clínico</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="modal-body">
@@ -89,7 +89,6 @@
                                         <div class="tab-pane fade show active" id="list-historial" role="tabpanel" aria-labelledby="list-historial-tab">
                                             <div class="form-group col-md-12 mt-3">
                                                 <div id="historial-list"></div>
-                                                {{-- @include('admin.customers.partials.historial') --}}
                                             </div>
                                             <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Cerrar</button>
                                             <br>
@@ -189,33 +188,33 @@
                 }
             };
 
-            const api = new JitsiMeetExternalAPI(domain, options);
+            // const api = new JitsiMeetExternalAPI(domain, options);
 
-            // Video conferencia clinte/médico inicada
-            api.addEventListener('participantJoined', res => {
-                $('.btn-call').text('Llamar');
-                $('.loading-call').css('display', 'none');
-                $('#modalCall').modal('hide');
-                @if (Auth::user()->role_id == 2)
-                    let id = "{{ $meet->id }}";
-                    let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/En_curso`);
-                @else
-                    trackingMeet();
-                @endif
-            })
+            // // Video conferencia clinte/médico inicada
+            // api.addEventListener('participantJoined', res => {
+            //     $('.btn-call').text('Llamar');
+            //     $('.loading-call').css('display', 'none');
+            //     $('#modalCall').modal('hide');
+            //     @if (Auth::user()->role_id == 2)
+            //         let id = "{{ $meet->id }}";
+            //         let url = "{{ url('admin/appointments/status') }}";
+            //         $.get(`${url}/${id}/En_curso`);
+            //     @else
+            //         trackingMeet();
+            //     @endif
+            // })
 
-            // Finalizar la video conferencia
-            api.addEventListener('videoConferenceLeft', res => {
-                @if (Auth::user()->role_id == 2)
-                    window.location = '{{ url("/home?id=".$meet->id) }}';
-                @else
-                    let id = "{{ $meet->id }}";
-                    let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/Finalizada`);
-                    window.close();
-                @endif
-            });
+            // // Finalizar la video conferencia
+            // api.addEventListener('videoConferenceLeft', res => {
+            //     @if (Auth::user()->role_id == 2)
+            //         window.location = '{{ url("/home?id=".$meet->id) }}';
+            //     @else
+            //         let id = "{{ $meet->id }}";
+            //         let url = "{{ url('admin/appointments/status') }}";
+            //         $.get(`${url}/${id}/Finalizada`);
+            //         window.close();
+            //     @endif
+            // });
 
             $(document).ready(function(){
 
@@ -312,17 +311,9 @@
                                 icon: 'success',
                                 title: res.success
                             });
-                            $('.modal').modal('hide');
+                            // $('.modal').modal('hide');
                             $('.form-modal').trigger("reset");
-                            if(res.action){
-                                switch (res.action) {
-                                    case 'observations':
-                                        getObservations()
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
+                            getObservations();
                         }else{
                             Toast.fire({
                                 icon: 'error',

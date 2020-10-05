@@ -16,35 +16,40 @@ class SpecialitiesSeeder extends Seeder
             'name' => 'Medicina gral.',
             'description' => 'NN',
             'icon' => 'fas fa-user-md',
-            'color' => 'primary'
+            'color' => 'primary',
+            'price' => '70'
         ]);
 
         Speciality::create([
             'name' => 'Pediatra',
             'description' => 'NN',
             'icon' => 'fas fa-baby',
-            'color' => 'success'
+            'color' => 'success',
+            'price' => '70'
         ]);
 
         Speciality::create([
             'name' => 'Enfermera(o)',
             'description' => 'NN',
             'icon' => 'fas fa-hand-holding-medical',
-            'color' => 'danger'
+            'color' => 'danger',
+            'price' => '70'
         ]);
 
         Speciality::create([
             'name' => 'Odontólogo',
             'description' => 'NN',
             'icon' => 'fas fa-tooth',
-            'color' => 'info'
+            'color' => 'info',
+            'price' => '70'
         ]);
 
         Speciality::create([
             'name' => 'Cardiólogo',
             'description' => 'NN',
             'icon' => 'fas fa-heartbeat',
-            'color' => 'danger'
+            'color' => 'danger',
+            'price' => '70'
         ]);
     }
 }

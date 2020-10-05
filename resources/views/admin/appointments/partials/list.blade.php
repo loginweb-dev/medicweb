@@ -69,12 +69,14 @@
                                     <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
                                 </button>
                             @endif
+                            @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso')
                             <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
                                 <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
                             </a>
                             <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="3" id="delete-3">
                                 <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
                             </a>
+                            @endif
                         </td>
                     </tr>
                 @empty
