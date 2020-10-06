@@ -15,7 +15,7 @@
               <h4 class="mb-5 dark-grey-text">{{$data->parrafo1->value}}</h4>
               <!--Content-->
               <p class="grey-text" align="justify">
-              {{$data->description_data1->value}}
+              {!! $data->description_data1->value !!}
               </p>
               <br>
               <!--Button-->

@@ -3,7 +3,7 @@
 return [
     'name' => 'LiveMedic v1.0',
     'manifest' => [
-        'name' => env('APP_NAME', 'LiveMedic v1.0'),
+        'name' => env('APP_NAME', 'LiveMedic 2021'),
         'short_name' => 'LiveMedic',
         'start_url' => '/',
         'background_color' => '#ffffff',

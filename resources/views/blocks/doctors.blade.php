@@ -6,7 +6,7 @@
           <!--Section heading-->
           <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{$data->title->value}}</h1>
           <!--Section description-->
-          <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">{{$data->description_data->value}}.</p>
+          <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">{!! $data->description_data->value !!}</p>
 
           <!--First row-->
           <div class="row wow fadeIn" data-wow-delay="0.4s">
@@ -61,7 +61,7 @@
                       <h4 class="mb-3">{{$data->name_lang1->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">{{$data->description1->value}}.</p>
+                      <p class="grey-text" align="justify">{!! $data->description1->value !!}</p>
 
                   </div>
                   <!--/Second column-->
@@ -95,7 +95,7 @@
                       <h4 class="mb-3">{{$data->name_lang2->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">{{$data->description2->value}}.</p>
+                      <p class="grey-text" align="justify">{!! $data->description2->value !!}.</p>
 
                   </div>
                   <!--/Second column-->
@@ -129,7 +129,7 @@
                       <h4 class="mb-3">{{$data->name_lang3->value}}</h4>
 
                       <!--Description-->
-                      <p class="grey-text" align="justify">{{$data->description3->value}}.</p>
+                      <p class="grey-text" align="justify">{!! $data->description3->value !!}.</p>
 
                   </div>
                   <!--/Second column-->

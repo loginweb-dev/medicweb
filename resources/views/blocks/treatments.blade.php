@@ -6,7 +6,7 @@
         <h1 class="text-center mb-5 mt-5 pt-5 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{$data->title->value}}</h1>
         <!--Section sescription-->
         <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">
-        {{$data->description_data->value}}</p>
+        {!! $data->description_data->value !!}</p>
 
         <!--First row-->
         <div class="row features-big my-4 text-center">
@@ -16,7 +16,7 @@
             <i class="fas fa-heart blue-text mt-3 fa-3x my-4"></i>
             <h5 class="font-weight-bold mb-4">{{$data->title1->value}}</h5>
                             <p class=" grey-text
-                font-small mx-3">{{$data->description_data2->value}}</p fa-3x mb-4>
+                font-small mx-3">{!! $data->description_data1->value !!}</p fa-3x mb-4>
             </div>
         </div>
         <!--/First column-->
@@ -25,8 +25,8 @@
         <div class="col-md-4 mb-4 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
             <i class="far fa-eye blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4">{{$data->title3->value}}</h5>
-            <p class="grey-text font-small mx-3">{{$data->description_data3->value}}</p>
+            <h5 class="font-weight-bold mb-4">{{$data->title2->value}}</h5>
+            <p class="grey-text font-small mx-3">{!! $data->description_data2->value !!}</p>
             </div>
         </div>
         <!--/Second column-->
@@ -35,9 +35,9 @@
         <div class="col-md-4 mb-1 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
             <i class="fas fa-briefcase-medical blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4"">{{$data->title3->value}}</h5>
+            <h5 class="font-weight-bold mb-4">{{$data->title3->value}}</h5>
                             <p class=" grey-text
-                font-small mx-3">{{$data->description_data3->value}}</p>
+                font-small mx-3">{!! $data->description_data3->value !!}</p>
             </div>
         </div>
         <!--/Third column-->

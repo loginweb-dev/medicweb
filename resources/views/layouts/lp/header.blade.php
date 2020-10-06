@@ -77,9 +77,9 @@
                                     {!! $collection['description_data']['value'] !!}
                                 </p>
                                 <br>
-                                <a href="{{ $collection['button_link1']['value'] }}" target="_blank" class="btn btn-unique btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft"
+                                <a href="{{ $collection['button_link1']['value'] }}" class="btn btn-unique btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft"
                                     data-wow-delay="0.3s">{{ $collection['button_text1']['value'] }}</a>
-                                <a href="{{ $collection['button_link2']['value'] }}" target="_blank" class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft"
+                                <a href="{{ $collection['button_link2']['value'] }}" class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft"
                                     data-wow-delay="0.3s">{{ $collection['button_text2']['value'] }}
                                 </a>
                             </div>

@@ -7,7 +7,9 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="theme-color" content="#3E4551">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="description" content="Plataforma web de Telemedicina">
+    <meta name="keywords" content="medicina, telemedicina, internet">
+    <meta name="author" content="LoginWeb@2020">
     <title>{{ setting('site.title') }}</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
