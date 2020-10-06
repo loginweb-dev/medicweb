@@ -79,14 +79,13 @@ class SpecialistsController extends Controller
      */
     public function store(Request $request)
     {
-       // return $request;
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'specialists.create' : 'specialists.index';
 
         $request->validate([
             'name' => 'required|max:191',
             'last_name' => 'required|max:191',
-            'phones' => 'required|max:191',
+            // 'phones' => 'required|max:191',
             'location' => 'required|max:191',
             'adress' => 'required',
             'email' => 'required|unique:users|max:50',

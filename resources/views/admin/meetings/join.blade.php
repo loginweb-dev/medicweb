@@ -188,33 +188,33 @@
                 }
             };
 
-            // const api = new JitsiMeetExternalAPI(domain, options);
+            const api = new JitsiMeetExternalAPI(domain, options);
 
-            // // Video conferencia clinte/médico inicada
-            // api.addEventListener('participantJoined', res => {
-            //     $('.btn-call').text('Llamar');
-            //     $('.loading-call').css('display', 'none');
-            //     $('#modalCall').modal('hide');
-            //     @if (Auth::user()->role_id == 2)
-            //         let id = "{{ $meet->id }}";
-            //         let url = "{{ url('admin/appointments/status') }}";
-            //         $.get(`${url}/${id}/En_curso`);
-            //     @else
-            //         trackingMeet();
-            //     @endif
-            // })
+            // Video conferencia clinte/médico inicada
+            api.addEventListener('participantJoined', res => {
+                $('.btn-call').text('Llamar');
+                $('.loading-call').css('display', 'none');
+                $('#modalCall').modal('hide');
+                @if (Auth::user()->role_id == 2)
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/En_curso`);
+                @else
+                    trackingMeet();
+                @endif
+            })
 
-            // // Finalizar la video conferencia
-            // api.addEventListener('videoConferenceLeft', res => {
-            //     @if (Auth::user()->role_id == 2)
-            //         window.location = '{{ url("/home?id=".$meet->id) }}';
-            //     @else
-            //         let id = "{{ $meet->id }}";
-            //         let url = "{{ url('admin/appointments/status') }}";
-            //         $.get(`${url}/${id}/Finalizada`);
-            //         window.close();
-            //     @endif
-            // });
+            // Finalizar la video conferencia
+            api.addEventListener('videoConferenceLeft', res => {
+                @if (Auth::user()->role_id == 2)
+                    window.location = '{{ url("/home?id=".$meet->id) }}';
+                @else
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/Finalizada`);
+                    window.close();
+                @endif
+            });
 
             $(document).ready(function(){
 

@@ -246,7 +246,7 @@
                                               @endphp
                                               @forelse ($cuentas as $item)
                                               <tr class="tr-payment" id="tr-payment-{{ $item->id }}" data-id="{{ $item->id }}" style="cursor: pointer">
-                                                <td width="120px"><img src="{{ !$item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
+                                                <td width="120px"><img src="{{ $item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
                                                 <td>
                                                   <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
                                                   <small>{{ $item->name }}</small><br>
