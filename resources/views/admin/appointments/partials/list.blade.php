@@ -7,6 +7,7 @@
                     <th>Paciente</th>
                     <th>Fecha de la cita</th>
                     <th>Estado</th>
+                    <th>Costo</th>
                     <th>Descripción</th>
                     <th class="text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>Acciones</th>
                 </tr>
@@ -55,10 +56,11 @@
                                 </div>
                             @endif
                         </td>
+                        <td>{{ $item->amount + $item->amount_add }} Bs.</td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
                             @if ($item->status == 'Validar')
-                                <button type="button" title="Validar" class="btn btn-sm btn-warning btn-verify-payment edit" data-id="{{ $item->id }}">
+                                <button type="button" title="Validar" class="btn btn-sm btn-success btn-verify-payment edit" data-id="{{ $item->id }}">
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validad</span>
                                 </button>
                             @else

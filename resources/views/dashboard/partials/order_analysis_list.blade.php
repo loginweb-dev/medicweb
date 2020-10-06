@@ -24,7 +24,10 @@
                                 {{ date('d-m-Y H:i', strtotime($item->created_at)) }}
                                 <br> <small>{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</small>
                             </td>
-                            <td></td>
+                            <td>
+                                <a title="Ver" class="btn btn-warning btn-sm" href="#" target="_blank"><span class="hidden-xs hidden-sm">Ver</span> <i class="fa fa-eye"></i></a>
+                                <a title="Descagar en PDF" class="btn btn-danger btn-sm" href="#" target="_blank"> <span class="hidden-xs hidden-sm">PDF</span> <i class="fa fa-download"></i></a>
+                            </td>
                         </tr>
                     @empty
                     <tr>

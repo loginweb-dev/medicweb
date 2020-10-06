@@ -36,7 +36,7 @@
                                         $type = 'success';
                                         break;
                                     case 'finalizada':
-                                        $type = 'default';
+                                        $type = 'warning';
                                         break;
                                     default:
                                         $type = 'dark';
