@@ -3,7 +3,7 @@
       <!--Section: Testimonials v.2-->
       <section id="testimonials" class="mb-5 pb-4">
           <!--Section heading-->
-          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{ $item->title }}:</h1>
+          <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{ $data->title12->value }}:</h1>
 
           <div class="wrapper-carousel-fix">
 

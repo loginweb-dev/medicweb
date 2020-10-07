@@ -801,12 +801,23 @@ class PageSeeder extends Seeder
             ]);
         Block::create([
             'name'        => 'testimonials',
-            'title'       => 'Testimonio de Clientes',
+            'title'       => 'Reseña de Medicos',
             'type'        => 'dinamyc-data',
-            'description' => 'Testimonios de Clientes',
+            'description' => 'Reseña de Medicos',
             'page_id'     => $page->id,
             'position'    => $count++,
             'details'     => json_encode([
+                    'title12' => [
+                        'type' => 'text',
+                        'name' => 'title12',
+                        'label' => 'Titulo',
+                        'value' => 'Reseña de Medicos',
+                        'width' => 12
+                    ],
+                    'space23'=> [
+                        'type'=> 'space23',
+                        'name' => 'space'
+                    ],
                     'nombre' => [
                         'type' => 'text',
                         'name' => 'nombre',
