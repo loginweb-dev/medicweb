@@ -1,8 +1,7 @@
   <div class="container">
-
+  
       <!--Section: Testimonials v.2-->
       <section id="testimonials" class="mb-5 pb-4">
-
           <!--Section heading-->
           <h1 class="text-center mb-5 mt-5 pt-4 font-weight-bold dark-grey-text wow fadeIn" data-wow-delay="0.2s">{{ $item->title }}:</h1>
 
@@ -14,20 +13,29 @@
 
               <!--Slides-->
               <div class="carousel-inner" role="listbox">
+                @php
+                    $specialists = \App\Specialist::with(['specialities'])->get();
+                    $style = 'active';
+                @endphp
+
+              @foreach ($specialists as $item)
               <!--First slide-->
-              <div class="carousel-item active">
+              <div class="carousel-item {{ $style }}">
 
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image->value != 'image.png' ? Voyager::Image($data->image->value) : 'https://mdbootstrap.com/img/Photos/Avatars/img%20%2820%29.jpg' }}" class="rounded-circle img-fluid">
+                      <img src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
                   <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}.
                   </p>
 
-                  <h4>{{$data->nombre->value}}</h4>
-                  <h3><span class="badge badge-warning">Traumatologia</span></h3><br>
+                  <h4>{{$item->name}}</h4>
+                    @foreach ($item->specialities as $especialidad)
+                        {{-- <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label> --}}
+                        <h3><span class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</span></h3><br>
+                    @endforeach
                   <!--Review-->
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
@@ -38,9 +46,12 @@
 
               </div>
               <!--/First slide-->
-
+              @php
+                  $style = '';
+              @endphp
+              @endforeach
               <!--Second slide-->
-              <div class="carousel-item">
+              {{-- <div class="carousel-item">
 
                   <div class="testimonial text-center">
                   <!--Avatar-->
@@ -61,11 +72,11 @@
                   <i class="fas fa-star-half-alt"> </i>
                   </div>
 
-              </div>
+              </div> --}}
               <!--/Second slide-->
 
               <!--Third slide-->
-              <div class="carousel-item">
+              {{-- <div class="carousel-item">
 
                   <div class="testimonial text-center">
                   <!--Avatar-->
@@ -86,7 +97,7 @@
                   <i class="fas fa-star"> </i>
                   </div>
 
-              </div>
+              </div> --}}
               <!--/Third slide-->
               </div>
               <!--/Slides-->

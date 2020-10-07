@@ -20,6 +20,8 @@
     <link href="{{ asset('vendor/mdb/css/mdb.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/mdb/css/style.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('vendor/whatsapp/floating-wpp.css') }}">
+
     <style type="text/css">
         html,
         body,
@@ -75,30 +77,6 @@
         // Animation init
         new WOW().init();
 
-        // whatsapp ----------------------------------------------------------------------------------
-        $('#myWP').floatingWhatsApp({
-            phone: '{{ setting('
-            whatsapp.phone ') }}',
-            popupMessage: '{{ setting('
-            whatsapp.popupMessage ') }}',
-            message: '{{ setting('
-            whatsapp.message ') }}',
-            showPopup: true,
-            showOnIE: true,
-            headerTitle: '{{ setting('
-            whatsapp.headerTitle ') }}',
-            headerColor: '{{ setting('
-            whatsapp.color ') }}',
-            backgroundColor: '{{ setting('
-            whatsapp.color ') }}',
-            // buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage')) }}" />',
-            position: '{{ setting('
-            whatsapp.position ') }}',
-            // autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
-            size: '{{ setting('
-            whatsapp.size ') }}'
-        });
-
         // buttun up ----------------------------------------------------------------------
         $("body").toTopButton({
             // path to icons
@@ -123,6 +101,7 @@
     @endphp
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
     <script>
         // Pedir autorización para mostrar notificaciones
         Notification.requestPermission();
@@ -155,6 +134,22 @@
                         console.log('error')
                     }
                 });
+            });
+
+            // whatsapp ------------------------------------
+            $('#myWP').floatingWhatsApp({
+            phone: '{{ setting('whatsapp.phone') }}',
+            popupMessage: '{{ setting('whatsapp.popupMessage') }}',
+            message: '{{ setting('whatsapp.message') }}',
+            showPopup: true,
+            showOnIE: true,
+            headerTitle: '{{ setting('whatsapp.headerTitle') }}',
+            headerColor: '{{ setting('whatsapp.color') }}',
+            backgroundColor: '{{ setting('whatsapp.color') }}',
+            buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage' )) }}" />',
+            position: '{{ setting('whatsapp.position') }}',
+            autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
+            size: '{{ setting('whatsapp.size') }}'
             });
         });
 
