@@ -4,9 +4,9 @@
 @forelse ($especialistas as $item)
 <div class="col-md-3 mb-5">
     <div class="card">
-        <img class="card-img-top" src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" alt="Card image cap">
+        <img class="card-img-top" src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" alt="Card image cap">
         <div class="card-body" style="padding-bottom: 10px">
-            <h5 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</h5>
+            <h5 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }} <br> <small>{{ $item->location }}</small> </h5>
             <p class="card-text mt-0 mb-0">
                 @foreach ($item->specialities as $especialidad)
                     <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label>
