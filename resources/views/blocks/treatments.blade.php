@@ -13,10 +13,11 @@
         <!--First column-->
         <div class="col-md-4 mb-4 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
-            <i class="fas fa-heart blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4">{{$data->title1->value}}</h5>
-                            <p class=" grey-text
-                font-small mx-3">{!! $data->description_data1->value !!}</p fa-3x mb-4>
+                <i class="fas fa-heart blue-text mt-3 fa-3x my-4"></i>
+                <h5 class="font-weight-bold mb-4">{{$data->title1->value}}</h5>
+                <div class="col-md-12">
+                    <p class=" grey-text font-small">{!! $data->description_data1->value !!}</p>
+                </div>
             </div>
         </div>
         <!--/First column-->
@@ -24,9 +25,11 @@
         <!--Second column-->
         <div class="col-md-4 mb-4 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
-            <i class="far fa-eye blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4">{{$data->title2->value}}</h5>
-            <p class="grey-text font-small mx-3">{!! $data->description_data2->value !!}</p>
+                <i class="fas fa-eye blue-text mt-3 fa-3x my-4"></i>
+                <h5 class="font-weight-bold mb-4">{{$data->title2->value}}</h5>
+                <div class="col-md-12">
+                    <p class=" grey-text font-small">{!! $data->description_data2->value !!}</p>
+                </div>
             </div>
         </div>
         <!--/Second column-->
@@ -34,10 +37,11 @@
         <!--Third column-->
         <div class="col-md-4 mb-1 wow fadeIn" data-wow-delay="0.4s">
             <div class="card hoverable">
-            <i class="fas fa-briefcase-medical blue-text mt-3 fa-3x my-4"></i>
-            <h5 class="font-weight-bold mb-4">{{$data->title3->value}}</h5>
-                            <p class=" grey-text
-                font-small mx-3">{!! $data->description_data3->value !!}</p>
+                <i class="fas fa-briefcase-medical blue-text mt-3 fa-3x my-4"></i>
+                <h5 class="font-weight-bold mb-4">{{$data->title3->value}}</h5>
+                <div class="col-md-12">
+                    <p class=" grey-text font-small mx-3">{!! $data->description_data3->value !!}</p>
+                </div>
             </div>
         </div>
         <!--/Third column-->

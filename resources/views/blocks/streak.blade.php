@@ -10,32 +10,25 @@
           <div class="row text-white text-center wow fadeIn" data-wow-delay="0.2s">
 
               <!--First column-->
-              <div class="col-md-3 mt-2">
+              <div class="col-md-4 mt-2">
               <h1 class="white-text font-weight-bold">{{$data->label1->value}}</h1>
               <p>{{$data->parrafo1->value}}</p>
               </div>
               <!--/First column-->
 
               <!--Second column-->
-              <div class="col-md-3 mt-2">
+              <div class="col-md-4 mt-2">
               <h1 class="white-text font-weight-bold">{{$data->label2->value}}</h1>
               <p>{{$data->parrafo2->value}}</p>
               </div>
               <!--/Second column-->
 
               <!--Third column-->
-              <div class="col-md-3 mt-2">
+              <div class="col-md-4 mt-2">
               <h1 class="white-text font-weight-bold">{{$data->label3->value}}</h1>
               <p>{{$data->parrafo3->value}}</p>
               </div>
               <!--/Third column-->
-
-              <!--Fourth column-->
-              <div class="col-md-3 mt-2 mb-5 pb-3">
-              <h1 class="white-text font-weight-bold">{{$data->label4->value}}</h1>
-              <p>{{$data->parrafo4->value}}</p>
-              </div>
-              <!--/Fourth column-->
 
           </div>
           <!--/First row-->

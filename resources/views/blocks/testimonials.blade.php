@@ -14,7 +14,7 @@
               <!--Slides-->
               <div class="carousel-inner" role="listbox">
                 @php
-                    $specialists = \App\Specialist::with(['specialities'])->get();
+                    $specialists = \App\Specialist::with(['specialities'])->inRandomOrder()->get();
                     $style = 'active';
                 @endphp
 
@@ -28,20 +28,20 @@
                       <img src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
-                  <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}.
+                  {{-- <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}. --}}
                   </p>
 
-                  <h4>{{$item->name}}</h4>
+                  <h4>{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</h4>
                     @foreach ($item->specialities as $especialidad)
                         {{-- <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label> --}}
                         <h3><span class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</span></h3><br>
                     @endforeach
                   <!--Review-->
+                  {{-- <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
                   <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
+                  <i class="fas fa-star"> </i> --}}
                   </div>
 
               </div>
@@ -50,55 +50,6 @@
                   $style = '';
               @endphp
               @endforeach
-              <!--Second slide-->
-              {{-- <div class="carousel-item">
-
-                  <div class="testimonial text-center">
-                  <!--Avatar-->
-                  <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image1->value != 'image1.png' ? Voyager::Image($data->image1->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%2817%29.jpg'}}" class="rounded-circle img-fluid">
-                  </div>
-                  <!--Content-->
-                  <p><i class="fas fa-quote-left"></i>{!! $data->parrafo1->value !!}
-                  </p>
-
-                  <h4>{{$data->nombre1->value}}</h4>
-                  <h3><span class="badge badge-success">Odontolgia</span></h3><br>
-                  <!--Review-->
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star-half-alt"> </i>
-                  </div>
-
-              </div> --}}
-              <!--/Second slide-->
-
-              <!--Third slide-->
-              {{-- <div class="carousel-item">
-
-                  <div class="testimonial text-center">
-                  <!--Avatar-->
-                  <div class="avatar mx-auto mb-4">
-                      <img src="{{ $data->image2->value != 'image2.png' ? Voyager::Image($data->image2->value) :'https://mdbootstrap.com/img/Photos/Avatars/img%20%289%29.jpg'}}" class="rounded-circle img-fluid">
-                  </div>
-                  <!--Content-->
-                  <p><i class="fas fa-quote-left"></i> {!! $data->parrafo2->value !!}
-                  </p>
-
-                  <h4>{{$data->nombre2->value}}</h4>
-                  <h3><span class="badge badge-primary">Medicina General</span></h3><br>
-                  <!--Review-->
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  <i class="fas fa-star"> </i>
-                  </div>
-
-              </div> --}}
-              <!--/Third slide-->
               </div>
               <!--/Slides-->
 

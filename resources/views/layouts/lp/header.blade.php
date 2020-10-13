@@ -37,7 +37,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/home">
-                                        Perfil
+                                        Médicos
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
@@ -79,9 +79,9 @@
                                 <br>
                                 <a href="{{ $collection['button_link1']['value'] }}" class="btn btn-unique btn-rounded font-weight-bold ml-lg-0 wow fadeInLeft"
                                     data-wow-delay="0.3s">{{ $collection['button_text1']['value'] }}</a>
-                                <a href="{{ $collection['button_link2']['value'] }}" class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft"
+                                {{-- <a href="{{ $collection['button_link2']['value'] }}" class="btn btn-outline-white btn-rounded font-weight-bold wow fadeInLeft"
                                     data-wow-delay="0.3s">{{ $collection['button_text2']['value'] }}
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
