@@ -51,7 +51,7 @@ class SpecialistsController extends Controller
                             ->whereHas('specialities', function($query)use ($id){
                                 $query->where('speciality_id', $id);
                             })
-                            ->where('deleted_at', NULL)->get();
+                            ->where('deleted_at', NULL)->inRandomOrder()->get();
         $especialidad = Speciality::find($id)->name;
         $horario_actual = Schedule::where('day', date('N'))->where('start', '<', date('H:i:s'))->where('end', '>', date('H:i:s'))->first();
         return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual'));

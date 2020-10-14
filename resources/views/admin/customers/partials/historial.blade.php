@@ -27,50 +27,50 @@
                                             @endphp
                                         </li>
                                     @empty
-                                    <p class="text-center">No hay historial</p>
+                                    <p class="text-center">No hay observaciones</p>
                                     @endforelse
                                 @else
-                                    <li>
-                                        @if (count($item->details) > 0)
-                                            <p>{{ $item->details[0]->description }}</p>
-                                        @else
-                                            <p class="text-center">No hay historial</p>
-                                        @endif
-                                    </li>
+                                    @if (count($item->details) > 0)
+                                        <p>{{ $item->details[0]->description }}</p>
+                                    @else
+                                        <p class="text-center">No hay observaciones</p>
+                                    @endif
                                 @endif
                             </ul>
-                            <div class="row" style="margin-top:60px">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <td>Prescipciones</td>
-                                            <td>Ordenes de laboratorio</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @foreach ($recetas as $receta)
-                                                    @foreach ($receta->details as $detail)
-                                                        <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
-                                                    @endforeach
-                                                    <hr>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    @foreach ($ordenes as $orden)
-                                                        @foreach ($orden->details as $detail)
-                                                            <li>{{ $detail->analysis->name }}</li>
+                            @if (count($item->prescription) && count($item->analysis))
+                                <div class="row" style="margin-top:60px">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Prescipciones</td>
+                                                <td>Ordenes de laboratorio</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @foreach ($item->prescription as $receta)
+                                                        @foreach ($receta->details as $detail)
+                                                            <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
                                                         @endforeach
                                                         <hr>
                                                     @endforeach
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach ($item->analysis as $orden)
+                                                            @foreach ($orden->details as $detail)
+                                                                <li>{{ $detail->analysis->name }}</li>
+                                                            @endforeach
+                                                            <hr>
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

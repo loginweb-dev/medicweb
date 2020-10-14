@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/sendsms', function () {
+    
 // });
 
 Route::get('/', 'FrontEndController@default')->name('page_default');
@@ -23,8 +23,9 @@ Route::get('/', 'FrontEndController@default')->name('page_default');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
 Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
-Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details')->name('home.prescriptions.details');
+Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details_pdf')->name('home.prescriptions.details.pdf');
 Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.order_analysis');
+Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
 Route::get('/profile', 'HomeController@profile')->name('profile');
 
 Auth::routes();

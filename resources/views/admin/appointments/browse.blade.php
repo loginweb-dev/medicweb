@@ -7,9 +7,9 @@
         <h1 class="page-title">
             <i class="voyager-browser"></i> Citas
         </h1>
-        <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
+        {{-- <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
             <i class="voyager-plus"></i> <span>Crear</span>
-        </a>
+        </a> --}}
         @if ($specialist )
             <input type="checkbox" data-id="{{ $specialist->id }}" @if($specialist->status) checked @endif id="checkbox-status" data-toggle="toggle" data-on="Activo" data-off="Inactivo">
         @endif
@@ -73,7 +73,7 @@
 @section('css')
     <style>
         .card-header{
-            background-color: #dedede;
+            background-color: #f8f8f8;
             border: 2px solid #ccc
         }
     </style>

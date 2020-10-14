@@ -10,4 +10,8 @@ class Analysi extends Model
     use SoftDeletes;
 
     protected $fillable = ['name', 'description', 'order'];
+
+    public function type(){
+        return $this->belongsTo('App\AnalysisType');
+    }
 }

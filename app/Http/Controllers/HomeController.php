@@ -63,7 +63,7 @@ class HomeController extends Controller
                 })
                 ->with(['specialist.user', 'customer', 'tracking'])
                 ->where('deleted_at', NULL)
-                ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
+                ->get();
         return view('dashboard.partials.appointments_list', compact('citas'));
     }
 
@@ -75,14 +75,14 @@ class HomeController extends Controller
         return view('dashboard.partials.prescriptions_list', compact('recetas'));
     }
 
-    public function prescriptions_details($id, $type = null){
+    public function prescriptions_details_pdf($id, $type = null){
         $receta = Prescription::with(['specialist.specialities', 'details', 'customer'])
                     ->where('deleted_at', NULL)->where('id', $id)
                     ->orderBy('created_at', 'DESC')->first();
-            $vista = view('dashboard.pdf.prescriptions_details', compact('receta'));
-            $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadHTML($vista)->setPaper('letter');
-            $pdf->loadHTML($vista);
+        $vista = view('dashboard.pdf.prescriptions_details', compact('receta'));
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($vista)->setPaper('letter');
+        $pdf->loadHTML($vista);
         if ($type) {
             return $pdf->download('Receta médica');
         }else{
@@ -96,5 +96,21 @@ class HomeController extends Controller
                     ->where('deleted_at', NULL)->where('customer_id', $customer->id)
                     ->orderBy('created_at', 'DESC')->get();
         return view('dashboard.partials.order_analysis_list', compact('analisis'));
+    }
+
+    public function order_analysis_details_pdf($id, $type = null){
+        $orden_analisis = AnalysisCustomer::with(['specialist.user', 'details', 'customer'])
+                        ->where('deleted_at', NULL)->where('id', $id)
+                        ->orderBy('created_at', 'DESC')->first();
+        $vista = view('dashboard.pdf.order_analysis_details', compact('orden_analisis'));
+        // return $vista;
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($vista)->setPaper('letter');
+        $pdf->loadHTML($vista);
+        if ($type) {
+            return $pdf->download('analisis médica');
+        }else{
+            return $pdf->stream();
+        }
     }
 }

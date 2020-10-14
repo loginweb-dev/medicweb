@@ -36,7 +36,7 @@
                 text-shadow: 2px 2px #000;
             }
         </style>
-        <title>Consulta médica</title>
+        <title>Consulta médica | {{ setting('site.title') }}</title>
     </head>
     <body>
         @if (Auth::user()->role_id != 2)
@@ -67,82 +67,36 @@
         
             <!-- Modal -->
             {{-- modal historial --}}
-            <form class="form-modal" action="{{ url('admin/appointments/observations/create') }}" method="post">
-                <div class="modal fade" tabindex="-1" id="modal-historial" role="dialog">
-                    <div class="modal-dialog modal-lg bg-info">
-                        <div class="modal-content">
-                            <div class="modal-header bg-info">
-                                <h4 class="modal-title text-white"><i class="voyager-person"></i> Historial clínico</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="modal-body">
-
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="list-historial-tab" data-toggle="tab" href="#list-historial" role="tab" aria-controls="list-historial" aria-selected="true">Detalles</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="new-historial-tab" data-toggle="tab" href="#new-historial" role="tab" aria-controls="new-historial" aria-selected="false">Nuevo</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="list-historial" role="tabpanel" aria-labelledby="list-historial-tab">
-                                            <div class="form-group col-md-12 mt-3">
-                                                <div id="historial-list"></div>
-                                            </div>
-                                            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">Cerrar</button>
-                                            <br>
-                                        </div>
-                                        <div class="tab-pane fade" id="new-historial" role="tabpanel" aria-labelledby="new-historial-tab">
-                                            <div class="row">
-                                                @csrf
-                                                <input type="hidden" name="appointment_id" value="{{ $meet->id }}">
-                                                <div class="form-group col-md-12 mt-3">
-                                                    <textarea name="description" class="form-control" rows="10" placeholder="Observaciones de la cita médica..." required></textarea>
-                                                </div>
-                                                <div class="form-group col-md-12 mt-3">
-                                                    <button type="submit" class="btn btn-primary pull-right">Guardar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            
+            @include('admin.meetings.partials.history', ['meet_id' => $meet->id])
 
             @include('admin.meetings.partials.prescriptions_create', ['customer_id' => $meet->customer_id, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'medicines' => $medicines])
 
             @include('admin.meetings.partials.analysis_order_create', ['customer_id' => $meet->customer_id, 'customer_name' => $meet->customer->name.' '.$meet->customer->last_name, 'specialist_id' => $meet->specialist_id, 'appointment_id' => $meet->id, 'analisis' => $analisis])
 
-            <div class="modal fade" id="modalCall" tabindex="-1" role="dialog" aria-labelledby="modalCallLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalCallLabel">Llamar al paciente</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h6 class="text-muted">Deseas iniciar la consulta virtual?</h6>
-                        <div class="text-center mt-3 loading-call">
-                            <div class="spinner-border text-success" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-cancel-call" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary btn-call">Lamar</button>
-                    </div>
-                </div>
-                </div>
-            </div>
+            @include('admin.meetings.partials.call')
         @endif
         <div id="meet"></div>
+
+        <div id="message-especialist" class="container" style="margin-top: 100px; display: none">
+            <div class="jumbotron">
+                <h1 class="display-4">Llamada finalizada</h1>
+                <p class="lead">Gracias por utilizar {{ setting('site.title') }}.</p>
+                <hr class="my-4">
+                <p>Para registrar la finalización de la video conferencia precio el boton <b>Ir al panel</b>.</p>
+                <button class="btn btn-primary btn-lg btn-ends-call" role="button">Ir al panel <i class="fa fa-dashboard"></i></button>
+            </div>
+        </div>
+
+        <div id="message-customer" class="container" style="margin-top: 100px; display: none">
+            <div class="jumbotron">
+                <h1 class="display-4">Llamada finalizada</h1>
+                <p class="lead">Gracias por utilizar {{ setting('site.title') }}.</p>
+                <hr class="my-4">
+                <p>Para volver al panel de inicio preciona el boton de abajo.</p>
+                <a class="btn btn-primary btn-lg" href="{{ url("/home?id=".$meet->id) }}" role="button">Volver al inicio <i class="fa fa-home"></i></a>
+            </div>
+        </div>
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -206,13 +160,12 @@
 
             // Finalizar la video conferencia
             api.addEventListener('videoConferenceLeft', res => {
+                $('#meet').css('display', 'none');
                 @if (Auth::user()->role_id == 2)
                     window.location = '{{ url("/home?id=".$meet->id) }}';
+                    $('#message-customer').css('display', 'block');
                 @else
-                    let id = "{{ $meet->id }}";
-                    let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${id}/Finalizada`);
-                    window.close();
+                    $('#message-especialist').css('display', 'block');
                 @endif
             });
 
@@ -314,6 +267,7 @@
                             // $('.modal').modal('hide');
                             $('.form-modal').trigger("reset");
                             getObservations();
+                            $('#table-medicine tbody').empty();
                         }else{
                             Toast.fire({
                                 icon: 'error',
@@ -331,6 +285,15 @@
                         }
                     @endif
                 }, 20000);
+
+                // Terminar llamada
+                $('.btn-ends-call').click(function(){
+                    let id = "{{ $meet->id }}";
+                    let url = "{{ url('admin/appointments/status') }}";
+                    $.get(`${url}/${id}/Finalizada`, function(res){
+                        window.close();
+                    });
+                });
             });
 
             // ***WebSockets***
