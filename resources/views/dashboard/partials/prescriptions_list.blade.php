@@ -33,8 +33,8 @@
                                 </ul>
                             </td>
                             <td>
-                                <a title="Ver" class="btn btn-warning btn-sm" href="{{ route('home.prescriptions.details', ['id' => $item->id]) }}" target="_blank"><span class="hidden-xs hidden-sm">Ver</span> <i class="fa fa-eye"></i></a>
-                                <a title="Descagar en PDF" class="btn btn-danger btn-sm" href="{{ route('home.prescriptions.details', ['id' => $item->id, 'type' => 'download']) }}" target="_blank"> <span class="hidden-xs hidden-sm">PDF</span> <i class="fa fa-download"></i></a>
+                                <a title="Ver" class="btn btn-warning btn-sm" href="{{ route('home.prescriptions.details.pdf', ['id' => $item->id]) }}" target="_blank"><span class="hidden-xs hidden-sm">Ver</span> <i class="fa fa-eye"></i></a>
+                                <a title="Descagar en PDF" class="btn btn-danger btn-sm" href="{{ route('home.prescriptions.details.pdf', ['id' => $item->id, 'type' => 'download']) }}" target="_blank"> <span class="hidden-xs hidden-sm">PDF</span> <i class="fa fa-download"></i></a>
                             </td>
                         </tr>
                     @empty

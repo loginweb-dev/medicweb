@@ -38,6 +38,9 @@
                                     case 'finalizada':
                                         $type = 'warning';
                                         break;
+                                    case 'validar':
+                                        $type = 'danger';
+                                        break;
                                     default:
                                         $type = 'dark';
                                         break;
@@ -47,12 +50,15 @@
                                 <label class="badge badge-{{ $type }}">{{ $item->status }}</label>
                                 @if ($item->status == 'Finalizada')
                                     @php
+                                    $duracion = '0';
+                                    if(count($item->tracking)){
                                         $inicio = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[0]->created_at)));
                                         $fin = Carbon::createFromDate(date('Y-m-d H:i:s', strtotime($item->tracking[count($item->tracking)-1]->created_at)));
                                         $duracion = str_pad($inicio->diffInMinutes($fin), 2, "0", STR_PAD_LEFT).':'.str_pad(($inicio->diffInSeconds($fin)%60), 2, "0", STR_PAD_LEFT);
+                                    }
                                     @endphp
                                     <div style="margin-top: 5px">
-                                        <label class="label label-danger">Duración {{ $duracion }} min.</label>
+                                        <small>Duración {{ $duracion }} min.</small>
                                     </div>
                                 @endif
                             </td>
@@ -94,7 +100,8 @@
                     sortAscending:  ": orden ascendente",
                     sortDescending: ": orden descendente"
                 }
-            }
+            },
+            "order": [[ 2, "desc" ]] 
         });
     });
 </script>

@@ -4,7 +4,7 @@
 @forelse ($especialistas as $item)
 <div class="col-md-3 mb-5">
     <div class="card">
-        <img class="card-img-top" src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" alt="Card image cap">
+        <img class="card-img-top" src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" alt="{{ $item->name }} {{ $item->last_name }}">
         <div class="card-body" style="padding-bottom: 10px">
             <h5 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }} <br> <small>{{ $item->location }}</small> </h5>
             <p class="card-text mt-0 mb-0">

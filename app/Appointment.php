@@ -27,4 +27,12 @@ class Appointment extends Model
     public function details(){
         return $this->hasMany('App\AppointmentsObservation');
     }
+
+    public function analysis(){
+        return $this->hasMany('App\AnalysisCustomer', 'appointment_id');
+    }
+
+    public function prescription(){
+        return $this->hasMany('App\Prescription', 'appointment_id');
+    }
 }

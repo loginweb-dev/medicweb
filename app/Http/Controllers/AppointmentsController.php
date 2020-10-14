@@ -18,6 +18,7 @@ use App\AppointmentTracking;
 use App\AppointmentsObservation;
 use App\AnalysisCustomer;
 use App\Prescription;
+use App\PaymentAccount;
 
 // Events
 use App\Events\StartMeetEvent;
@@ -140,6 +141,22 @@ class AppointmentsController extends Controller
                     event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
                 }elseif($status == 'Validar'){
                     event(new VerifyPaymentEvent($cita));
+
+                    // Enviar notificación sms
+                    try {
+                        if(setting('server-streaming.notificacion_sms')){
+                            $cuenta = PaymentAccount::findOrFail($request->payment_account_id);
+                
+                            $basic  = new \Nexmo\Client\Credentials\Basic(env('NEXMO_API_KEY', NULL), env('NEXMO_API_SECRET', NULL));
+                            $client = new \Nexmo\Client($basic);
+                    
+                            $message = $client->message()->send([
+                                'to' => "591".setting('server-streaming.celular_notificacion'),
+                                'from' => 'LiveMedic',
+                                'text' => 'Transferencia de Bs. '.($request->price + $request->price_add).' a '.$cuenta->title.' '.$cuenta->number
+                            ]);
+                        }
+                    } catch (\Throwable $th) {}
                 }
             } catch (\Throwable $th) {}
 
@@ -286,19 +303,14 @@ class AppointmentsController extends Controller
      */
     public function browse_observations($id)
     {
-        $observaciones = Appointment::with(['details', 'specialist'])
-                            ->whereHas('specialist', function($query) use ($id) {
+        $observaciones = Appointment::with(['details', 'specialist', 'analysis.details', 'prescription.details'])
+                            ->whereHas('customer', function($query) use ($id) {
                                 $query->where('id', $id);
                             })
                             ->where('deleted_at', NULL)
+                            ->orderBy('id', 'DESC')
                             ->get();
-        $recetas = Prescription::with(['details'])
-                                ->where('appointment_id', $id)
-                                ->get();
-        $ordenes = AnalysisCustomer::with(['details.analysis'])
-                                ->where('appointment_id', $id)
-                                ->get();
-        return view('admin.customers.partials.historial', compact('observaciones', 'recetas', 'ordenes'));
+        return view('admin.customers.partials.historial', compact('observaciones'));
     }
 
     /**

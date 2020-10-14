@@ -434,7 +434,7 @@
                 if(res.success){
                   Swal.fire(
                     res.success,
-                    'El especialista se pondrá en contacto contigo, aguarda un momento.',
+                    'Se procederá a validar tu pago y un especialista se pondrá en contacto contigo, aguarda un momento.',
                     'success'
                   );
                   $('#form-appointments').trigger('reset');
