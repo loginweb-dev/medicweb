@@ -111,6 +111,7 @@ class SpecialistsController extends Controller
                 'last_name' => $request->last_name,
                 'phones' => $request->phones,
                 'adress' => $request->adress,
+                'description' => $request->description,
                 'location' => $request->location,
                 'prefix' => $request->prefix,
                 'status' => 1,
@@ -183,6 +184,7 @@ class SpecialistsController extends Controller
             $especialista->last_name = $request->last_name;
             $especialista->phones = $request->phones;
             $especialista->adress = $request->adress;
+            $especialista->description = $request->description;
             $especialista->location = $request->location;
             $especialista->prefix = $request->prefix;
             $especialista->update();

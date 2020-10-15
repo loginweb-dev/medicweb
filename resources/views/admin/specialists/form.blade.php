@@ -128,6 +128,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="panel panel-bordered">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>Reseña del profesional</label>
+                                <textarea name="description" class="form-control" rows="3">{{ old('description') ? : $specialist->description }}</textarea>
+                                @error('adress')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12" style="margin-top: -10px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
@@ -159,7 +174,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Días</th>
+                                        <th width="200px">Días</th>
                                         <th class="text-center">Horarios</th>
                                     </tr>
                                 </thead>
@@ -167,26 +182,24 @@
                                     @php
                                         $dias = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
                                     @endphp
-                                    @foreach ($horarios->groupBy('day') as $item)
-                                    <tr>
-                                        <td><b>{{ $dias[$item[0]->day] }}</b></td>
-                                        <td id="tr-horario-{{ $item[0]->day }}">
-                                            @foreach ($item as $horario)
+                                    @for ($i = 1; $i < count($dias); $i++)
+                                        <tr>
+                                            <td><b>{{ $dias[$i] }}</b></td>
+                                            <td id="tr-horario-{{ $i }}" class="text-center">
                                                 @isset($horario_especialista)
                                                     @foreach ($horario_especialista as $h_e)
-                                                        @if ($h_e->id == $horario->id)
-                                                            <div class="btn-group" id="div-schedule-{{ $horario->id }}">
-                                                                <button type="button" class="btn btn-success btn-sm schedule-button" >De {{ date('H:i', strtotime($horario->start)) }} a {{ date('H:i', strtotime($horario->end)) }}</button>
-                                                                <button type="button" class="btn btn-danger btn-sm schedule-button" onclick="remove({{ $horario->id }})" data-toggle="tooltip" title="Eliminar" ><span class="voyager-trash"></span></button>
-                                                                <input type="hidden" name="schedules[]"  value="{{ $horario->id }}">
+                                                        @if ($h_e->day == $i)
+                                                            <div class="btn-group" id="div-schedule-{{ $h_e->id }}">
+                                                                <button type="button" class="btn btn-success btn-sm schedule-button" >De {{ date('H:i', strtotime($h_e->start)) }} a {{ date('H:i', strtotime($h_e->end)) }}</button>
+                                                                <button type="button" class="btn btn-danger btn-sm schedule-button" onclick="remove({{ $h_e->id }})" data-toggle="tooltip" title="Eliminar" ><span class="voyager-trash"></span></button>
+                                                                <input type="hidden" name="schedules[]"  value="{{ $h_e->id }}">
                                                             </div>
                                                         @endif
                                                     @endforeach
                                                 @endisset
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                            </td>
+                                        </tr>
+                                    @endfor
                                 </tbody>
                             </table>
                         </div>
