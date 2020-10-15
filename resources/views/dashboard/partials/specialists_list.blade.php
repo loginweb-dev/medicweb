@@ -182,7 +182,7 @@
         $('.alert-message').css('display', 'none');
         $('#message-payment-amount').css('display', 'none');
         $("#modal-appointments").animate({scrollTop: $('#schedules-list').offset().top}, 500);
-        $.get("{{ url('admin/specialist/schedules/') }}/"+id ,function(res){
+        $.get("{{ url('admin/specialists/schedules/') }}/"+id ,function(res){
             $('#schedules-list').html(res);
             $('.btn-payment').attr('disabled', 'disabled');
         });

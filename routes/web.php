@@ -43,7 +43,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('specialists/list/{search}', 'SpecialistsController@list');
     Route::get('specialists/get/{search}', 'SpecialistsController@get');
     Route::get('specialists/specialities/{id}', 'SpecialistsController@specialities');
-    Route::get('specialist/schedules/{id}', 'SchedulesController@schedules_details');
+    Route::get('specialists/schedules/{id}', 'SchedulesController@schedules_details');
+    Route::post('specialists/schedules/store', 'SchedulesController@schedules_store')->name('specialists.schedules.store');
     Route::get('specialists/update/status/{id}/{value}', 'SpecialistsController@edit_status');
 
 

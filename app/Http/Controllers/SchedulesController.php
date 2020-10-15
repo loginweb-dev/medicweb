@@ -90,4 +90,23 @@ class SchedulesController extends Controller
         
         return view('admin.schedules.partials.list_day', compact('horario'));
     }
+
+    public function schedules_store(Request $request){
+        try {
+            $schedule = Schedule::firstOrNew([
+                'day' => $request->day,
+                'start' => $request->start,
+                'end' => $request->end,
+            ]);
+            if (!$schedule->exists) {
+                $schedule->fill([
+                    'status' => 1
+                ])->save();
+            }
+    
+            return response()->json(['schedule' => $schedule]);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
 }
