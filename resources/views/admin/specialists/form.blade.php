@@ -131,15 +131,38 @@
                 <div class="col-md-12" style="margin-top: -10px">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                            <h4>Asignar horarios <br>  <small>Los horarios tienen una duración de 2 horas</small></h4>
-                            {{-- <div class="form-group">
-                              <select name="horarios[]" id="horarios" class="form-control select2" multiple>
-                                @foreach(\App\Horario::orderBy('titulo')->pluck('titulo','id') as $id => $horario)
-									<option {{collect(old('',$specialist->horarios->pluck('id')))->contains($id) ? 'selected' : ''}} value="{{ $id }}">{{ $horario }} </option>
-								@endforeach
-                              </select>
-                            </div> --}}
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top: 20px">
+                                    <div class="col-md-6">
+                                        <h3>Asignar horarios</h3>
+                                    </div>
+                                    <div class=" col-md-6 input-group pull-right">
+                                        <select name="" class="form-control" id="select-day">
+                                            <option value="1-7">Todos</option>
+                                            <option value="1-5">Lunes - Viernes</option>
+                                            <option value="1-1">Lunes</option>
+                                            <option value="2-2">Martes</option>
+                                            <option value="3-3">Miercoles</option>
+                                            <option value="4-4">Jueves</option>
+                                            <option value="5-5">Viernes</option>
+                                            <option value="6-6">Sábado</option>
+                                            <option value="7-7">Domingo</option>
+                                        </select>
+                                        <span class="input-group-addon">De</span>
+                                        <input id="input-inicio" type="time" class="form-control" placeholder="Inicio">
+                                        <span class="input-group-addon">a</span>
+                                        <input id="input-fin" type="time" class="form-control" placeholder="Fin">
+                                        <span class="input-group-addon text-primary" style="text-decoration: none"><a href="#" class="btn-add"><b>Agregar</b> <span class="voyager-plus"></span></a></span>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Días</th>
+                                        <th class="text-center">Horarios</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     @php
                                         $dias = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
@@ -147,22 +170,21 @@
                                     @foreach ($horarios->groupBy('day') as $item)
                                     <tr>
                                         <td><b>{{ $dias[$item[0]->day] }}</b></td>
-                                        @foreach ($item as $horario)
-                                        <td>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="schedules[]" value="{{ $horario->id }}" id="exampleCheck-{{ $horario->id }}"
-                                                    @isset($horario_especialista)
-                                                        @foreach ($horario_especialista as $h_e)
-                                                            @if ($h_e->id == $horario->id)
-                                                                checked
-                                                            @endif
-                                                        @endforeach
-                                                    @endisset
-                                                >
-                                                <label class="form-check-label" for="exampleCheck-{{ $horario->id }}">{{ date('H', strtotime($horario->start)).' - '.date('H  A', strtotime($horario->end)) }}</label>
-                                            </div>
+                                        <td id="tr-horario-{{ $item[0]->day }}">
+                                            @foreach ($item as $horario)
+                                                @isset($horario_especialista)
+                                                    @foreach ($horario_especialista as $h_e)
+                                                        @if ($h_e->id == $horario->id)
+                                                            <div class="btn-group" id="div-schedule-{{ $horario->id }}">
+                                                                <button type="button" class="btn btn-success btn-sm schedule-button" >De {{ date('H:i', strtotime($horario->start)) }} a {{ date('H:i', strtotime($horario->end)) }}</button>
+                                                                <button type="button" class="btn btn-danger btn-sm schedule-button" onclick="remove({{ $horario->id }})" data-toggle="tooltip" title="Eliminar" ><span class="voyager-trash"></span></button>
+                                                                <input type="hidden" name="schedules[]"  value="{{ $horario->id }}">
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                @endisset
+                                            @endforeach
                                         </td>
-                                        @endforeach
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -186,12 +208,26 @@
             </form>
         </div>
     </div>
+
+    <form id="form-schedules-create" action="{{ route('specialists.schedules.store') }}" method="post">
+        @csrf
+        <input type="hidden" name="day">
+        <input type="hidden" name="start">
+        <input type="hidden" name="end">
+    </form>
 @stop
 
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{url('js/plugins/input-multiple/bootstrap-tagsinput.css')}}">
     <link rel="stylesheet" href="{{url('js/plugins/input-multiple/app.css')}}">
+    <style>
+        .schedule-button{
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px
+        }
+    </style>
 @stop
 
 @section('javascript')
@@ -201,6 +237,7 @@
     <script src="{{ url('js/plugins/select2-editable.js') }}"></script>
     <script>
         $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
             $('#input-tags').tagsinput({});
 
             $('.btn-submit').click(function(){
@@ -212,6 +249,52 @@
             @endif
 
             initSelect2Editable(`#select-location`);
+
+            $('.btn-add').click(function(e){
+                e.preventDefault();
+                let days = $(`#select-day option:selected`).val().split('-');
+                let inicio = $(`#input-inicio`).val();
+                let fin = $(`#input-fin`).val();
+                let find;
+                if(inicio && fin){
+                    for (let id = parseInt(days[0]); id <= parseInt(days[1]); id++) {
+                        $('#form-schedules-create input[name="day"]').val(id);
+                        $('#form-schedules-create input[name="start"]').val(inicio);
+                        $('#form-schedules-create input[name="end"]').val(fin);
+                        $('#form-schedules-create').trigger('reset');
+                        $(`#input-inicio`).val('');
+                        $(`#input-fin`).val('');
+                        $.post($('#form-schedules-create').attr('action'), $('#form-schedules-create').serialize(), function(res){
+                            find = false;
+                            $('#form-store input[name="schedules[]"]').each(function(){
+                                if($(this).val() == res.schedule.id){
+                                    find = true;
+                                }
+                            });
+                            if(res){
+                                if(!find){
+                                    $(`#tr-horario-${id}`).append(` <div class="btn-group" id="div-schedule-${res.schedule.id}">
+                                                                        <button type="button" class="btn btn-success btn-sm schedule-button">De ${inicio} a ${fin}</button>
+                                                                        <button type="button" class="btn btn-danger btn-sm schedule-button" onclick="remove(${res.schedule.id})" data-toggle="tooltip" title="Eliminar"><span class="voyager-trash"></span></button>
+                                                                        <input type="hidden" name="schedules[]"  value="${res.schedule.id}">
+                                                                    </div>`);
+                                }else{
+                                    toastr.remove();
+                                    toastr.warning('El horario ya e encuentra agregado', 'Advertencia!');
+                                }
+                            }else{
+                                toastr.error('Intente nuevamnete.', 'Error');
+                            }
+                        });
+                    }
+                }else{
+                    toastr.warning('Debes completar el inicio y el fin.', 'Advertencia');
+                }
+            });
         });
+
+        function remove(id){
+            $(`#div-schedule-${id}`).remove();
+        }
     </script>
 @stop

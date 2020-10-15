@@ -11,21 +11,21 @@
 
               <!--First column-->
               <div class="col-md-4 mt-2">
-              <h1 class="white-text font-weight-bold">{{$data->label1->value}}</h1>
+              <h1 class="white-text font-weight-bold">{{ \App\Customer::count() }}</h1>
               <p>{{$data->parrafo1->value}}</p>
               </div>
               <!--/First column-->
 
               <!--Second column-->
               <div class="col-md-4 mt-2">
-              <h1 class="white-text font-weight-bold">{{$data->label2->value}}</h1>
+              <h1 class="white-text font-weight-bold">{{ \App\Appointment::count() }}</h1>
               <p>{{$data->parrafo2->value}}</p>
               </div>
               <!--/Second column-->
 
               <!--Third column-->
               <div class="col-md-4 mt-2">
-              <h1 class="white-text font-weight-bold">{{$data->label3->value}}</h1>
+              <h1 class="white-text font-weight-bold">{{ \App\Specialist::count() }}</h1>
               <p>{{$data->parrafo3->value}}</p>
               </div>
               <!--/Third column-->
