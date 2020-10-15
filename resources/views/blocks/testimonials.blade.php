@@ -28,13 +28,19 @@
                       <img src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
-                  {{-- <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}. --}}
+                  @if ($item->description)
+                    <h5>
+                        {{-- <i class="fas fa-quote-left"></i> --}}
+                        {{ $item->description }}
+                        {{-- <i class="fas fa-quote-right"></i> --}}
+                    </h5>
+                  @endif
                   </p>
-
+                  <br>
                   <h4>{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }}</h4>
                     @foreach ($item->specialities as $especialidad)
                         {{-- <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label> --}}
-                        <h3><span class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</span></h3><br>
+                        <h5><span class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</span></h5><br>
                     @endforeach
                   <!--Review-->
                   {{-- <i class="fas fa-star"> </i>
