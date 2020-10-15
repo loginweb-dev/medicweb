@@ -25,7 +25,7 @@
                   <div class="testimonial text-center">
                   <!--Avatar-->
                   <div class="avatar mx-auto mb-4">
-                      <img src="{{ asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) }}" class="rounded-circle img-fluid">
+                      <img src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" class="rounded-circle img-fluid">
                   </div>
                   <!--Content-->
                   {{-- <p><i class="fas fa-quote-left"></i>{!! $data->parrafo->value !!}. --}}

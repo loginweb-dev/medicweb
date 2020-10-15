@@ -3,7 +3,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
       <div class="sidebar-brand-icon">
-        <i class="fa fa-user-md"></i>
+        <img src="{{ asset('storage/'.setting('site.logo')) }}" alt="{{ setting('site.title') }}" width="30px">
       </div>
       <div class="sidebar-brand-text mx-3">{{ setting('site.title') }} <sup>{{ env('APP_VERSION', 'v1.0') }}</sup></div>
     </a>

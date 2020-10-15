@@ -39,6 +39,8 @@
     'action' => 'homepage',
     'custom_validation' => 'myCustomValidation',
     ]) !!}
+
+    <link rel="shortcut icon" href="{{ asset('storage/'.setting('site.logo')) }}" type="image/x-icon">
 </head>
 
 <body class="medical-lp">
