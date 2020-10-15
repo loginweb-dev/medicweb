@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" sizes="512x512" href="/images/icons/icon-512x512.png">
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -17,7 +18,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ url('dashboard/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+  <link rel="shortcut icon" href="{{ asset('storage/'.setting('site.logo')) }}" type="image/x-icon">
 </head>
 
 <body id="page-top">

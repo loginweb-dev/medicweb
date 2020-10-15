@@ -37,7 +37,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/home">
-                                        Médicos
+                                        {{ Auth::user()->role_id == '2' ? 'Médicos' : 'Administración' }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
@@ -61,9 +61,9 @@
         <section id="home" class="view"
       
             style="background-image: url('{{  $collection['image1']['value'] != 'myimage.png' ?  voyager::Image($collection['image1']['value']) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/38.png' }}'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
-            <div class="android">
+            {{-- <div class="android">
                 <img class="tamaño"  src="{{ $collection['icono']['value'] != 'myimage1.png' ? voyager::Image($collection['icono']['value']) :'https://mystorage.loginweb.dev/storage/Projects/medicweb/icono.png' }}" alt="Responsive image">
-            </div>
+            </div> --}}
            
             <div class="mask">
                 <div class="container h-100 d-flex justify-content-center align-items-center">
