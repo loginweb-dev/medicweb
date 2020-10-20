@@ -46,6 +46,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('specialists/schedules/{id}', 'SchedulesController@schedules_details');
     Route::post('specialists/schedules/store', 'SchedulesController@schedules_store')->name('specialists.schedules.store');
     Route::get('specialists/update/status/{id}/{value}', 'SpecialistsController@edit_status');
+    Route::get('specialists/payment/{id}', 'SpecialistsController@payment')->name('specialists.payment');
+    Route::post('specialists/payment/{id}/store', 'SpecialistsController@payment_store')->name('specialists.payment.store');
 
 
     // Customers
@@ -67,6 +69,9 @@ Route::group(['prefix' => 'admin'], function () {
     // Analisys Customer
     Route::resource('analysiscustomer', 'AnalyisisCustomersController');
 
+    // Reportes
+    
+
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
@@ -79,6 +84,12 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/block/move_up/{block_id}', 'BlockController@move_up')->name('block_move_up'); 
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
+
+    // Clear cache
+    Route::get('clear-cache', function() {
+        Artisan::call('optimize:clear');
+        return redirect('admin/profile')->with(['message' => 'Cache eliminada.', 'alert-type' => 'success']);
+    });
 });
 
 // Meets

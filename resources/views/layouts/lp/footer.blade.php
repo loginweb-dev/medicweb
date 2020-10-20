@@ -61,7 +61,7 @@
                 <h6 class="text-uppercase font-weight-bold"><strong>links</strong></h6>
                 <hr class="blue mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 {{-- {{ menu('LandingPage', 'menus.LandingPage') }} --}}
-                <p><a href="{{ url('docs') }}">Documentación</a></p>
+                {{-- <p><a href="{{ url('docs') }}">Documentación</a></p> --}}
                 <p><a href="{{ url('page/policies') }}">Políticas de privacidad</a></p>
                 <p><a href="{{ url('page/terms') }}">Terminos y condiciones</a></p>
                 </div>

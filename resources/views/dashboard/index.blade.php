@@ -391,11 +391,11 @@
                 templateSelection: (opt) => opt.full_name
             })
             .change(function(){
-              let id = $(this).val();
-              if(id){
-                $('#form-appointments input[name="specialist_id"]').val(id);
-                $('#modal-appointments').modal('show');
-              }
+              // let id = $(this).val();
+              // if(id){
+              //   $('#form-appointments input[name="specialist_id"]').val(id);
+              //   $('#modal-appointments').modal('show');
+              // }
             });
 
             @if($meet_id)
@@ -439,6 +439,7 @@
                   );
                   $('#form-appointments').trigger('reset');
                   $('#schedules-list').empty();
+                  loadPage('appointments')
                 }else{
                   Swal.fire(
                     res.error,

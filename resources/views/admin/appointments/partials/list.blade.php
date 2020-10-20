@@ -3,19 +3,23 @@
         <table id="dataTable" class="table table-hover">
             <thead>
                 <tr>
-                    <th>Especialista</th>
-                    <th>Paciente</th>
-                    <th>Fecha de la cita</th>
-                    <th>Estado</th>
-                    <th>Costo</th>
-                    <th>Descripción</th>
+                    @if (Auth::user()->role_id != 5)
+                    <th class="text-center">Especialista</th>
+                    @endif
+                    <th class="text-center">Paciente</th>
+                    <th class="text-center">Fecha de la cita</th>
+                    <th class="text-center">Estado</th>
+                    <th class="text-center">Costo</th>
+                    <th class="text-center">Descripción</th>
                     <th class="text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($citas as $item)
                     <tr>
+                        @if (Auth::user()->role_id != 5)
                         <td>{{ $item->specialist->prefix }} {{ $item->specialist->name }} {{ $item->specialist->last_name }}</td>
+                        @endif
                         <td><a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->customer->id }}" title="Ver historial">{{ $item->customer->name }} {{ $item->customer->last_name }}</a></td>
                         <td>
                             {{ date('d-m-Y H:i', strtotime($item->date.' '.$item->start)) }} <br>
@@ -52,11 +56,11 @@
                                     }
                                 @endphp
                                 <div style="margin-top: 5px">
-                                    <label class="label label-danger">Duración {{ $duracion }} min.</label>
+                                    <small>Duración {{ $duracion }} min.</small>
                                 </div>
                             @endif
                         </td>
-                        <td>{{ $item->amount + $item->amount_add }} Bs.</td>
+                        <td class="label-amount" data-amount="{{ !$item->paid && $item->status == 'Finalizada' ? $item->amount + $item->amount_add : 0 }}" >{{ $item->amount + $item->amount_add }} Bs.</td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
                             @if ($item->status == 'Validar')
@@ -64,20 +68,25 @@
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validad</span>
                                 </button>
                             @else
-                                <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
-                                    <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
-                                </a>
-                                <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
-                                    <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
-                                </button>
+                                @if (!$item->paid)
+                                    <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
+                                        <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
+                                    </a>
+                                    <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
+                                        <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
+                                    </button>
+                                @else
+                                    <label class="label label-success">Pagada</label>
+                                @endif
                             @endif
-                            @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso')
-                            <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
-                                <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
-                            </a>
-                            <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="3" id="delete-3">
-                                <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
-                            </a>
+
+                            @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso' && Auth::user()->role_id != 5)
+                                <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
+                                    <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
+                                </a>
+                                <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="3" id="delete-3">
+                                    <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
+                                </a>
                             @endif
                         </td>
                     </tr>
@@ -89,10 +98,17 @@
             </tbody>
         </table>
     </div>
-    <div class="pull-left">
-    <div role="status" class="show-res" aria-live="polite">Mostrando  a  de 0 entradas</div>
-    </div>
-    <div class="pull-right">    
+    <div class="col-md-12">
+        <div class="col-md-6" style="overflow-x:auto">
+            @if(count($citas)>0)
+                <p class="text-muted">Mostrando del {{$citas->firstItem()}} al {{$citas->lastItem()}} de {{$citas->total()}} registros.</p>
+            @endif
+        </div>
+        <div class="col-md-6" style="overflow-x:auto">
+            <nav class="text-right">
+                {{ $citas->links() }}
+            </nav>
+        </div>
     </div>
 
     {{-- modal postpone --}}
@@ -195,6 +211,7 @@
             })
         });
 
+        // Validar pago
         $('.btn-verify-payment').click(function(){
             Swal.fire({
                 title: 'Estás seguro?',
@@ -245,6 +262,18 @@
             $.get('{{ url("admin/appointments/observations/browse") }}/'+id, function(res){
                 $('#historial-list').html(res);
             });  
+        });
+
+        getAmount();
+
+        $('.page-link').click(function(e){
+            e.preventDefault();
+            let link = $(this).attr('href');
+            if(link){
+                page = link.split('=')[1];
+                inputSearchNew = escape($('#search-input input[name="search"]').val()).split("/").join("");
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearchNew, page);
+            }
         });
 
     });

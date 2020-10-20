@@ -26,7 +26,7 @@
             <span class="badge badge-danger mb-2">No disponible</span>
             @endif
             <button class="btn btn-success btn-sm btn-block btn-new-appointment" data-specilalist='@json($item)'>Nueva cita <span class="fas fa-laptop-medical"></span></button>
-            <button class="btn btn-info btn-sm btn-block" data-id="{{ $item->id }}">Ver detalles <span class="fas fa-calendar"></span></button>
+            {{-- <button class="btn btn-info btn-sm btn-block" data-id="{{ $item->id }}">Ver detalles <span class="fas fa-calendar"></span></button> --}}
         </div>
     </div>
 </div>
@@ -97,7 +97,7 @@
                 $('#form-appointments input[name="specialist_id"]').val(specilalist.id);
                 if(specilalist.specialities.length){
                     $('#form-appointments input[name="price"]').val(specilalist.specialities[0].price);
-                    $('#form-appointments input[name="price_add"]').val('{{ $horario_actual->price_add }}');
+                    $('#form-appointments input[name="price_add"]').val('{{ $horario_actual ? $horario_actual->price_add : 0 }}');
                 }
                 $('#modal-appointments').modal('show');
                 let date = new Date();

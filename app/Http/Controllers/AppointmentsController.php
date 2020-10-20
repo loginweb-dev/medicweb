@@ -57,16 +57,20 @@ class AppointmentsController extends Controller
                     Appointment::whereHas('specialist.user', function($query) {
                             $query->where('id', Auth::user()->id);
                         })
+                        ->whereHas('customer', function($query) use ($query_search) {
+                            $query->whereRaw($query_search);
+                        })
                         ->with(['specialist.user', 'customer', 'tracking'])
                         ->where('deleted_at', NULL)
-                        ->whereRaw($query_search)
                         ->where('status', '<>', 'Validar')
-                        ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get() :
+                        ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10) :
 
                     Appointment::with(['specialist', 'customer', 'tracking'])
+                        ->whereHas('customer', function($query) use ($query_search) {
+                            $query->whereRaw($query_search);
+                        })
                         ->where('deleted_at', NULL)
-                        ->whereRaw($query_search)
-                        ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
+                        ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10);
         $specialist = Specialist::whereHas('user', function($q){
             $q->where('id', Auth::user()->id);
         })->first();
