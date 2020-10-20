@@ -179,54 +179,6 @@ class MenuItemsTableSeeder extends Seeder
             ),
             10 => 
             array (
-                'id' => 11,
-                'menu_id' => 2,
-                'title' => 'Documentacion',
-                'url' => '/docs',
-                'target' => '_self',
-                'icon_class' => NULL,
-                'color' => NULL,
-                'parent_id' => NULL,
-                'order' => 1,
-                'created_at' => '2020-09-17 16:36:01',
-                'updated_at' => '2020-09-17 16:36:01',
-                'route' => NULL,
-                'parameters' => NULL,
-            ),
-            11 => 
-            array (
-                'id' => 12,
-                'menu_id' => 2,
-                'title' => 'Politicas y Privacidad',
-                'url' => '/page/policies',
-                'target' => '_self',
-                'icon_class' => NULL,
-                'color' => NULL,
-                'parent_id' => NULL,
-                'order' => 2,
-                'created_at' => '2020-09-17 16:36:01',
-                'updated_at' => '2020-09-17 16:36:01',
-                'route' => NULL,
-                'parameters' => NULL,
-            ),
-            12 => 
-            array (
-                'id' => 13,
-                'menu_id' => 2,
-                'title' => 'Terminos y Condiciones',
-                'url' => '/page/terms',
-                'target' => '_self',
-                'icon_class' => NULL,
-                'color' => NULL,
-                'parent_id' => NULL,
-                'order' => 2,
-                'created_at' => '2020-09-17 16:36:01',
-                'updated_at' => '2020-09-17 16:36:01',
-                'route' => NULL,
-                'parameters' => NULL,
-            ),
-            13 => 
-            array (
                 'id' => 14,
                 'menu_id' => 3,
                 'title' => 'facebbok',
@@ -241,7 +193,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => NULL,
             ),
-            14 => 
+            11 => 
             array (
                 'id' => 15,
                 'menu_id' => 3,
@@ -257,7 +209,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => NULL,
             ),
-            15 => 
+            12 => 
             array (
                 'id' => 16,
                 'menu_id' => 3,
@@ -273,7 +225,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => NULL,
             ),
-            16 => 
+            13 => 
             array (
                 'id' => 17,
                 'menu_id' => 3,
@@ -289,7 +241,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => NULL,
             ),
-            17 => 
+            14 => 
             array (
                 'id' => 18,
                 'menu_id' => 1,
@@ -305,7 +257,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.analysis-types.index',
                 'parameters' => NULL,
             ),
-            18 => 
+            15 => 
             array (
                 'id' => 19,
                 'menu_id' => 1,
@@ -321,7 +273,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.analysis.index',
                 'parameters' => NULL,
             ),
-            19 => 
+            16 => 
             array (
                 'id' => 20,
                 'menu_id' => 1,
@@ -337,7 +289,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => '',
             ),
-            20 => 
+            17 => 
             array (
                 'id' => 21,
                 'menu_id' => 1,
@@ -353,7 +305,7 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.schedules.index',
                 'parameters' => NULL,
             ),
-            21 => 
+            18 => 
             array (
                 'id' => 22,
                 'menu_id' => 1,

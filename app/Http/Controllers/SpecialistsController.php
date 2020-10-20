@@ -15,6 +15,8 @@ use App\SpecialitySpecialist;
 use App\User;
 use App\Speciality;
 use App\Schedule;
+use App\Appointment;
+use App\AppointmentsPayment;
 
 class SpecialistsController extends Controller
 {
@@ -30,7 +32,7 @@ class SpecialistsController extends Controller
 
     public function list($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
-        $especialistas = Specialist::with(['user', 'schedules'])->where('deleted_at', NULL)->whereRaw($query_search)->get();
+        $especialistas = Specialist::with(['user', 'schedules', 'appointments'])->where('deleted_at', NULL)->whereRaw($query_search)->paginate(20);
         return view('admin.specialists.partials.list', compact('especialistas'));
     }
 
@@ -226,6 +228,52 @@ class SpecialistsController extends Controller
             return response()->json(['data' => $especialista]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error inesperado']);
+        }
+    }
+
+    public function payment($id){
+        $citas = Appointment::whereHas('specialist', function($query) use ($id) {
+                        $query->where('id', $id);
+                    })
+                    ->with(['customer', 'tracking'])
+                    ->where('deleted_at', NULL)
+                    ->where('status', 'Finalizada')->where('paid', NULL)
+                    ->where('specialist_id', $id)
+                    ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->get();
+        return view('admin.specialists.payment', compact('id', 'citas'));
+    }
+
+    public function payment_store($id, Request $request){
+        DB::beginTransaction();
+        try {
+            $time_frame = '';
+            $count_appointment = count($request->appointment_id);
+            if($count_appointment){
+                $inicio = Appointment::find($request->appointment_id[$count_appointment-1])->date;
+                $fin = Appointment::find($request->appointment_id[0])->date;
+                $time_frame = "De ".date('d-m-Y', strtotime($inicio))." a ".date('d-m-Y', strtotime($inicio));
+            }
+
+            AppointmentsPayment::create([
+                'specialist_id' => $id,
+                'user_id' => auth()->user()->id,
+                'amount' => $request->amount,
+                'count_appointment' => $count_appointment,
+                'time_frame' => $time_frame,
+                'observations' => $request->observations
+            ]);
+
+            foreach ($request->appointment_id as $id) {
+                $cita = Appointment::find($id);
+                $cita->paid = 1;
+                $cita->update();
+            }
+                
+            DB::commit();
+            return redirect()->route('specialists.index')->with(['message' => 'Pago registrado exitosamente exitosamente.', 'alert-type' => 'success']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('specialists.index')->with(['message' => 'Ocurriço un error al registrar el pago.', 'alert-type' => 'error']);
         }
     }
 

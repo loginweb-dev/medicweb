@@ -4,15 +4,24 @@
 
 @section('page_header')
     <div class="container-fluid">
-        <h1 class="page-title">
-            <i class="voyager-browser"></i> Citas
-        </h1>
-        {{-- <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
-            <i class="voyager-plus"></i> <span>Crear</span>
-        </a> --}}
-        @if ($specialist )
-            <input type="checkbox" data-id="{{ $specialist->id }}" @if($specialist->status) checked @endif id="checkbox-status" data-toggle="toggle" data-on="Activo" data-off="Inactivo">
-        @endif
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="page-title">
+                    <i class="voyager-browser"></i> Citas
+                </h1>
+                {{-- <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
+                    <i class="voyager-plus"></i> <span>Crear</span>
+                </a> --}}
+                @if ($specialist )
+                    <input type="checkbox" data-id="{{ $specialist->id }}" @if($specialist->status) checked @endif id="checkbox-status" data-toggle="toggle" data-on="Activo" data-off="Inactivo">
+                @endif
+            </div>
+            <div class="col-md-6">
+                @if (Auth::user()->role_id == 5)
+                <h2 class="text-right text-muted" id="label-monto-acumulado" style="cursor: pointer"></h2>
+                @endif
+            </div>
+        </div>
     </div>
 @stop
 
@@ -136,6 +145,14 @@
                 });
             });
 
+            $('#label-monto-acumulado').click(function(){
+                Swal.fire(
+                    'Información',
+                    'El monto mostrado en la parte superior derecha se calcula a partir del número de citas realizadas multiplicado por el porcentaje de ganancia.',
+                    'info'
+                )
+            });
+
 
             // ***WebSockets***
             // Escuchando inicio de cita médica
@@ -176,5 +193,19 @@
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
         });
+
+        function getAmount(){
+            let porcentaje = "{{ setting('citas.porcentaje_ganancia') }}" ? ((100 - parseFloat("{{ setting('citas.porcentaje_ganancia') }}")) / 100) : 0 ;
+            let monto = 0;
+            let cont = 0;
+            $('.label-amount').each(function(){
+                monto += $(this).data('amount');
+                if($(this).data('amount') > 0){
+                    cont++;
+                }
+            });
+            let labelCitas = cont == 1 ? 'cita' : 'citas';
+            $('#label-monto-acumulado').html(`${(monto*(porcentaje)).toFixed(2)} Bs. <br><small>${cont} ${labelCitas} sin cobrar</small>`);
+        }
     </script>
 @stop

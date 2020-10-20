@@ -42,7 +42,7 @@ class HomeController extends Controller
         if(Auth::user()->role_id == 2){
             return view('dashboard.index', compact('especialidades', 'meet_id'));
         }else{
-            return redirect('admin');
+            return redirect('admin/profile');
         }
     }
 
