@@ -51,259 +51,266 @@
             
         </div>
 
+        {{-- Especialistas --}}
         <div class="row div-dismiss" id="div-list-specialists" style="display: none"></div>
+
+        {{-- Detalles de especialistas --}}
+        <div class="row div-dismiss" id="div-details-specialists" style="display: none">
+          <div class="col-md-12 mb-3">
+            <h5 id="title-details-specialist"><a href="#" onclick="breadCrunb('#div-list-specialities')">Especialidades</a> / <a href="#" onclick="breadCrunb('#div-list-specialists')">Especialidades</a>  / hols</h5>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <form id="form-appointments" action="{{ route('appointments.store') }}" method="post">
+                @php
+                    $customer = \App\Customer::where('user_id', Auth::user()->id)->first();
+                    $customer_id = 0;
+                    if($customer){
+                      $customer_id = $customer->id;
+                    }
+                @endphp         
+                <div class="row">
+                  <div class="col-md-12">
+                    <div id="div-appointment-details">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="row mt-3" style="display: none">
+                              <div class="form-group col-md-6">
+                                  <label>Fecha de cita</label>
+                                  <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
+                                  @error('date')
+                                      <span class="text-danger" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                  @enderror
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label>Hora de inicio</label>
+                                  <input type="time" readonly name="start" class="form-control" required>
+                                  @error('start')
+                                    <span class="text-danger" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                    </span>
+                                  @enderror
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        {{-- Detalles del especialista --}}
+                        <div class="col-md-12 mt-3">
+                          <div id="accordion-specilaist">
+                            <div class="card">
+                              <div class="card-header" id="headingOne-1" data-toggle="collapse" data-target="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1">Información</div>
+                              <div id="collapseOne-1" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordion-specilaist">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-3 text-center mb-3">
+                                      <img id="img-specialist" width="100%">
+                                      <div class="mt-2" id="title-specialist"></div>
+                                      <div id="badge-available"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                      <div class="row" id="div-schedules-specilaist"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {{-- ========================= --}}
+
+                        {{-- Mensaje de no disponible --}}
+                        <div class="col-md-12 mt-3">
+                            <div class="card border-left-danger shadow h-100 py-2 alert-message" style="display: none" id="message-error-available">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
+                                    <div class="h6 mb-0 font-weight-bold text-danger">
+                                      <p>El especialista no está disponible en este momento, debe programar una cita seleccionando algún horario de la lista superior.</p>
+                                    </div>
+                                  </div>
+                                  <div class="col-auto">
+                                    <i class="fas fa-ban fa-2x text-danger"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        {{-- Mensaje de disponible --}}
+                        <div class="col-md-12 mt-3">
+                          <div class="card border-left-success shadow h-100 py-2 alert-message" style="display: none" id="message-success-available">
+                            <div class="card-body">
+                              <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Disponible</div>
+                                  <div class="h6 mb-0 font-weight-bold text-success">
+                                    <p>El especialista está disponible en este momento, ingrese el motivo de su cosulta y realize el pago para ser atendido en un momento.</p>
+                                  </div>
+                                </div>
+                                <div class="col-auto">
+                                  <i class="fas fa-video fa-2x text-success"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div id="schedules-list"></div>
+                        </div>
+
+                        <div class="col-md-12 mt-3" id="div-select-speciality">
+                          <div class="card">
+                            <div class="card-body">
+                              <label for="select-speciality">Elija la especialidad</label>
+                              <select name="speciality_id" class="form-control" id="select-speciality"></select>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-12 mt-3">
+                          <div class="card border-left-info shadow h-100 py-2" style="display: none" id="message-payment-amount">
+                            <div class="card-body">
+                              <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                  <div class="h6 mb-0 font-weight-bold text-info">
+                                    <p>La tarifa del especialista en este horario es:</p>
+                                  </div>
+                                </div>
+                                <div class="col-auto">
+                                  <h4 class="text-info label-price-appointment"></h4>
+                                  <input type="hidden" class="input-price" name="price">
+                                  <input type="hidden" class="input-price" name="price_add">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        @csrf
+                        <input type="hidden" name="ajax" value="1">
+                        <input type="hidden" name="specialist_id">
+                        <input type="hidden" name="customer_id" value="{{ $customer_id }}">
+                        <input type="hidden" name="payment_type" value="1">
+                        <input type="hidden" name="payment_account_id">
+                        <div class="form-group col-md-12 mt-3">
+                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
+                            <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="div-payment-details" style="display: none">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div id="accordion">
+                            <div class="card">
+                              <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
+                                <h6 class="mb-0 text-white">
+                                  Transferencia bancaria
+                                </h6>
+                              </div>
+                              <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                      <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                              <div class="h5 mb-0 font-weight-bold text-success">
+                                                <p>Costo del servicio:</p>
+                                              </div>
+                                            </div>
+                                            <div class="col-auto">
+                                              <h4 class="text-success label-price-appointment"></h4>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-7 text-center">
+                                      <table class="table table-hover">
+                                        <tbody>
+                                          @php
+                                            $cuentas = \App\PaymentAccount::all();
+                                          @endphp
+                                          @forelse ($cuentas as $item)
+                                          <tr class="tr-payment" id="tr-payment-{{ $item->id }}" data-id="{{ $item->id }}" style="cursor: pointer">
+                                            <td width="120px"><img src="{{ $item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
+                                            <td>
+                                              <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
+                                              <small>{{ $item->name }}</small><br>
+                                              <small>{{ $item->ci }}</small><br>
+                                              <small>{{ $item->type }} - {{ $item->currency }}</small>
+                                            </td>
+                                          </tr>
+                                          @empty
+                                              
+                                          @endforelse
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                      <div id="div-payment-details">
+                                        <div class="card text-white bg-info">
+                                          <div class="card-header bg-info">Instrucciones</div>
+                                          <div class="card-body">
+                                            {{-- <h5 class="card-title">Info card title</h5> --}}
+                                            <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
+                                            <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="card">
+                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
+                                <h6 class="mb-0 text-white">
+                                  Pago con tarjeta de crédito/débito
+                                </h6>
+                              </div>
+                              <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
+                                <div class="card-body">
+                                  <h4 class="text-muted text-center">En desarrollo</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>         
+                <div class="row" style="margin-top: 20px">
+                  <div class="col-md-12 text-right" id="div-btn-payment">
+                    {{-- <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button> --}}
+                    <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
+                  </div>
+                  <div class="col-md-12 text-right" id="div-btn-store" style="display: none">
+                    <button class="btn btn-secondary btn-back-payment" type="button"><span class="fas fa-arrow-alt-circle-left"></span> Volver</button>
+                    <button type="submit" disabled class="btn btn-primary btn-store-appointment">Registrar <span class="fa fa-check-square"></span></button>
+                  </div>
+                </div>
+                <div class="col-md-12 text-center mt-5">
+                  <button type="button" class="btn btn-lg btn-primary" onclick="breadCrunb('#div-list-specialists')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div class="col-md-12 text-center" id="div-loading" style="display: none;top: 25%;">
       <img src="{{ url('images/loader.gif') }}" width="150px" />
     </div>
-
-    {{-- Modal de nueva cita --}}
-    <form id="form-appointments" action="{{ route('appointments.store') }}" method="post">
-        <div class="modal fade" id="modal-appointments" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-laptop-medical"></i> Crear nueva cita</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    </div>
-                    @php
-                        $customer = \App\Customer::where('user_id', Auth::user()->id)->first();
-                        $customer_id = 0;
-                        if($customer){
-                          $customer_id = $customer->id;
-                        }
-                    @endphp
-                    <div class="modal-body">
-                        <div id="div-appointment-details">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <div class="row mt-3" style="display: none">
-                                  <div class="form-group col-md-6">
-                                      <label>Fecha de cita</label>
-                                      <input type="date" id="input-date-1" readonly name="date" class="form-control input-date" required>
-                                      @error('date')
-                                          <span class="text-danger" role="alert">
-                                              <strong>{{ $message }}</strong>
-                                          </span>
-                                      @enderror
-                                  </div>
-                                  <div class="form-group col-md-6">
-                                      <label>Hora de inicio</label>
-                                      <input type="time" readonly name="start" class="form-control" required>
-                                      @error('start')
-                                        <span class="text-danger" role="alert">
-                                          <strong>{{ $message }}</strong>
-                                        </span>
-                                      @enderror
-                                  </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            {{-- Detalles del especialista --}}
-                            <div class="col-md-12 mt-3">
-                              <div id="accordion-specilaist">
-                                <div class="card">
-                                  <div class="card-header" id="headingOne-1" data-toggle="collapse" data-target="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1">Información</div>
-                                  <div id="collapseOne-1" class="collapse show" aria-labelledby="headingOne-1" data-parent="#accordion-specilaist">
-                                    <div class="card-body">
-                                      <div class="row">
-                                        <div class="col-md-3 text-center mb-3">
-                                          <img id="img-specialist" width="100%">
-                                          <div class="mt-2" id="title-specialist"></div>
-                                          <div id="badge-available"></div>
-                                        </div>
-                                        <div class="col-md-9">
-                                          <div class="row" id="div-schedules-specilaist"></div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            {{-- ========================= --}}
-
-                            {{-- Mensaje de no disponible --}}
-                            <div class="col-md-12 mt-3">
-                                <div class="card border-left-danger shadow h-100 py-2 alert-message" style="display: none" id="message-error-available">
-                                  <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                      <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
-                                        <div class="h6 mb-0 font-weight-bold text-danger">
-                                          <p>El especialista no está disponible en este momento, debe programar una cita seleccionando algún horario de la lista superior.</p>
-                                        </div>
-                                      </div>
-                                      <div class="col-auto">
-                                        <i class="fas fa-ban fa-2x text-danger"></i>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-
-                            {{-- Mensaje de disponible --}}
-                            <div class="col-md-12 mt-3">
-                              <div class="card border-left-success shadow h-100 py-2 alert-message" style="display: none" id="message-success-available">
-                                <div class="card-body">
-                                  <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                      <div class="text-xs font-weight-bold text-uppercase mb-1">Disponible</div>
-                                      <div class="h6 mb-0 font-weight-bold text-success">
-                                        <p>El especialista está disponible en este momento, ingrese el motivo de su cosulta y realize el pago para ser atendido en un momento.</p>
-                                      </div>
-                                    </div>
-                                    <div class="col-auto">
-                                      <i class="fas fa-video fa-2x text-success"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-md-12">
-                              <div id="schedules-list"></div>
-                            </div>
-
-                            <div class="col-md-12 mt-3" id="div-select-speciality">
-                              <div class="card">
-                                <div class="card-body">
-                                  <label for="select-speciality">Elija la especialidad</label>
-                                  <select name="speciality_id" class="form-control" id="select-speciality"></select>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div class="col-md-12 mt-3">
-                              <div class="card border-left-info shadow h-100 py-2" style="display: none" id="message-payment-amount">
-                                <div class="card-body">
-                                  <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                      <div class="h6 mb-0 font-weight-bold text-info">
-                                        <p>La tarifa del especialista en este horario es:</p>
-                                      </div>
-                                    </div>
-                                    <div class="col-auto">
-                                      <h4 class="text-info label-price-appointment"></h4>
-                                      <input type="hidden" class="input-price" name="price">
-                                      <input type="hidden" class="input-price" name="price_add">
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            @csrf
-                            <input type="hidden" name="ajax" value="1">
-                            <input type="hidden" name="specialist_id">
-                            <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                            <input type="hidden" name="payment_type" value="1">
-                            <input type="hidden" name="payment_account_id">
-                            <div class="form-group col-md-12 mt-3">
-                                <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
-                                <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div id="div-payment-details" style="display: none">
-                          <div class="row">
-                            <div class="col-md-12">
-                              <div id="accordion">
-                                <div class="card">
-                                  <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
-                                    <h6 class="mb-0 text-white">
-                                      Transferencia bancaria
-                                    </h6>
-                                  </div>
-                                  <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
-                                    <div class="card-body">
-                                      <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                          <div class="card border-left-success shadow h-100 py-2">
-                                            <div class="card-body">
-                                              <div class="row no-gutters align-items-center">
-                                                <div class="col mr-2">
-                                                  <div class="h5 mb-0 font-weight-bold text-success">
-                                                    <p>Costo del servicio:</p>
-                                                  </div>
-                                                </div>
-                                                <div class="col-auto">
-                                                  <h4 class="text-success label-price-appointment"></h4>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-7 text-center">
-                                          <table class="table table-hover">
-                                            <tbody>
-                                              @php
-                                                $cuentas = \App\PaymentAccount::all();
-                                              @endphp
-                                              @forelse ($cuentas as $item)
-                                              <tr class="tr-payment" id="tr-payment-{{ $item->id }}" data-id="{{ $item->id }}" style="cursor: pointer">
-                                                <td width="120px"><img src="{{ $item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
-                                                <td>
-                                                  <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
-                                                  <small>{{ $item->name }}</small><br>
-                                                  <small>{{ $item->ci }}</small><br>
-                                                  <small>{{ $item->type }} - {{ $item->currency }}</small>
-                                                </td>
-                                              </tr>
-                                              @empty
-                                                  
-                                              @endforelse
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                        <div class="col-md-5 text-center">
-                                          <div id="div-payment-details">
-                                            <div class="card text-white bg-info">
-                                              <div class="card-header bg-info">Instrucciones</div>
-                                              <div class="card-body">
-                                                {{-- <h5 class="card-title">Info card title</h5> --}}
-                                                <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
-                                                <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div class="card">
-                                  <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
-                                    <h6 class="mb-0 text-white">
-                                      Pago con tarjeta de crédito/débito
-                                    </h6>
-                                  </div>
-                                  <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
-                                    <div class="card-body">
-                                      <h4 class="text-muted text-center">En desarrollo</h4>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button>
-                        <button class="btn btn-secondary btn-back-payment" type="button" style="display:none"><span class="fas fa-arrow-alt-circle-left"></span> Volver</button>
-                        <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
-                        <button type="submit" class="btn btn-primary btn-store-appointment" disabled style="display:none">Registrar <span class="fa fa-check-square"></span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 
     <!-- Logout Modal-->
     <form id="form-rating" action="{{ url('meet/rating/store') }}"method="post">
@@ -429,7 +436,9 @@
             // Registrar cita
             $('#form-appointments').on('submit', function(e){
               e.preventDefault();
-              $('#modal-appointments').modal('hide');
+              
+              $('.btn-store-appointment').prop('disabled', true);
+              $('.btn-store-appointment').html(`Registrando...`);
               $.post($(this).attr('action'), $(this).serialize(), function(res){
                 if(res.success){
                   Swal.fire(
@@ -447,6 +456,7 @@
                     'error'
                   )
                 }
+                $('.btn-store-appointment').removeAttr('disabled');
               })
             });
 
@@ -471,10 +481,8 @@
             // Mostrar formulario de pasarela de pago
             $('.btn-payment').click(function(){
               if($('#form-appointments textarea[name="observations"]').val()){
-                $(this).css('display', 'none');
-                $('.btn-cancel').css('display', 'none');
-                $('.btn-store-appointment').css('display', 'block');
-                $('.btn-back-payment').css('display', 'block');
+                $('#div-btn-store').css('display', 'block');
+                $('#div-btn-payment').css('display', 'none');
                 $('#div-appointment-details').fadeOut('fast');
                 $('#div-payment-details').fadeIn();
                 $('#form-appointments input[name="payment_type"]').val(1);
@@ -491,10 +499,8 @@
 
             // Mostrar formulario de detalles de cita
             $('.btn-back-payment').click(function(){
-              $(this).css('display', 'none');
-              $('.btn-store-appointment').css('display', 'none');
-              $('.btn-payment').css('display', 'block');
-              $('.btn-cancel').css('display', 'block');
+              $('#div-btn-store').css('display', 'none');
+              $('#div-btn-payment').css('display', 'block');
               $('#div-payment-details').fadeOut('fast');
               $('#div-appointment-details').fadeIn();
             });
@@ -522,6 +528,12 @@
               $('#message-2').fadeIn();
             });
         });
+
+        // Presionar en la miga de pan
+        function breadCrunb(value){
+          $('.div-dismiss').fadeOut('fast');
+          $(value).fadeIn('fast');
+        }
 
         function calcularTotal(){
           let total = 0;
