@@ -1,5 +1,5 @@
 <div class="col-md-12 mb-3">
-    <h5><a href="#" class="btn-breadcrunb" data-show="#div-list-specialities">Especialidades</a> / {{ $especialidad }}</h5>
+    <h5><a href="#" onclick="breadCrunb('#div-list-specialities')">Especialidades</a> / {{ $especialidad }}</h5>
 </div>
 @forelse ($especialistas as $item)
 <div class="col-md-3 mb-5">
@@ -45,7 +45,7 @@
 @endforelse
 
 <div class="col-md-12 text-center mt-5">
-    <button type="button" class="btn btn-lg btn-primary btn-breadcrunb" data-show="#div-list-specialities"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
+    <button type="button" class="btn btn-lg btn-primary" onclick="breadCrunb('#div-list-specialities')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
 </div>
 
 <style>
@@ -57,14 +57,6 @@
 
 <script>
     $(document).ready(function(){
-        // Presionar en la miga de pan
-        $('.btn-breadcrunb').click(function(){
-            let value = $(this).data('show');
-            $('.div-dismiss').fadeOut('fast', () => {
-                $(value).fadeIn();
-            });
-        });
-
         // Inicializar Ratings
         @foreach($especialistas as $item)
         @php
@@ -91,6 +83,15 @@
             $('#div-schedules-specilaist').empty();
             $('#schedules-list').empty();
             $('.btn-payment').removeAttr('disabled');
+
+            $('#div-list-specialists').fadeOut('fast');
+            $('#div-details-specialists').fadeIn('fast');
+
+            // Inicializar vista
+            $('#div-appointment-details').fadeIn('fast');
+            $('#div-payment-details').fadeOut('fast');
+            $('#div-btn-store').css('display', 'none');
+            $('#div-btn-payment').css('display', 'block');
             
             let specilalist = $(this).data('specilalist');
             if(specilalist.id){
@@ -134,6 +135,8 @@
 
                 $('.alert-message').css('display', 'none');
                 $('#title-specialist').html(`<h6 class="">${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}</h6>`);
+
+                $('#title-details-specialist').html(`<a href="#" onclick="breadCrunb('#div-list-specialists')">Especialista</a> / ${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}`);
                 
                 // Montrar las instrucciones según el estado del mñedico
                 if(specilalist.status == 0){

@@ -23,7 +23,7 @@
                             @php
                                 $citas = \App\Appointment::where('date', date('Y-m-d', strtotime($inicio_horario)))->where('start', date('H:i:s', strtotime($inicio_horario)))->first();
                             @endphp
-                            <a href="#" class="list-group-item">
+                            <a href="#list-group-schedules" class="list-group-item">
                                 <div class="form-check-inline">
                                     <label class="form-check-label @if($citas) text-danger @endif" style="cursor: pointer; font-weight: bold">
                                         <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $horario->price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
@@ -72,5 +72,9 @@
                 var reloj = new Reloj(hour.split(':')[0], hour.split(':')[1]);  
             }, 0);
         });
+
+        // $('.list-group-item').click(function(e){
+        //     e.preventDefault();
+        // });
     });
 </script>
