@@ -36,7 +36,7 @@
             <td width="35%">
                 <div style="width: 150px; text-align:center">
                     @php
-                        $logo = setting('site.logo') ?? url('images/icons/icon-512x512.png');
+                        $logo = setting('site.logo') ? url('storage/'.setting('site.logo')) : url('images/icons/icon-512x512.png');
                     @endphp
                     <img src="{{ $logo }}" alt="logo" width="50px"><br>
                     <b>{{ setting('site.title') }}</b><br>

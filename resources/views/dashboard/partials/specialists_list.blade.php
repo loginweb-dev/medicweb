@@ -85,7 +85,9 @@
             $('.btn-payment').removeAttr('disabled');
 
             $('#div-list-specialists').fadeOut('fast');
-            $('#div-details-specialists').fadeIn('fast');
+            $('#div-details-specialists').fadeIn('fast', () => {
+                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 500);
+            });
 
             // Inicializar vista
             $('#div-appointment-details').fadeIn('fast');
@@ -100,7 +102,7 @@
                     $('#form-appointments input[name="price"]').val(specilalist.specialities[0].price);
                     $('#form-appointments input[name="price_add"]').val('{{ $horario_actual ? $horario_actual->price_add : 0 }}');
                 }
-                $('#modal-appointments').modal('show');
+                
                 let date = new Date();
                 let year = date.getFullYear();
                 let month = String(date.getMonth()+1).padStart(2, "0");
@@ -184,7 +186,7 @@
         $('#schedules-list').empty().html(spinner_loader);
         $('.alert-message').css('display', 'none');
         $('#message-payment-amount').css('display', 'none');
-        $("#modal-appointments").animate({scrollTop: $('#schedules-list').offset().top}, 500);
+        $([document.documentElement, document.body]).animate({scrollTop: $('#schedules-list').offset().top}, 500);
         $.get("{{ url('admin/specialists/schedules/') }}/"+id ,function(res){
             $('#schedules-list').html(res);
             $('.btn-payment').attr('disabled', 'disabled');

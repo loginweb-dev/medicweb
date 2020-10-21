@@ -475,6 +475,7 @@
                 $.get('{{ url("admin/specialists/specialities") }}/'+id, (res) => {
                   $('#div-list-specialists').html(res);
                 });
+                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 500);
               });
             });
 
