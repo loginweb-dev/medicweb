@@ -150,9 +150,6 @@ class AppointmentsController extends Controller
                     try {
                         if(setting('server-streaming.notificacion_sms')){
                             $cuenta = PaymentAccount::findOrFail($request->payment_account_id);
-                
-                            $basic  = new \Nexmo\Client\Credentials\Basic(env('NEXMO_API_KEY', NULL), env('NEXMO_API_SECRET', NULL));
-                            $client = new \Nexmo\Client($basic);
                     
                             $message = $client->message()->send([
                                 'to' => "591".setting('server-streaming.celular_notificacion'),
