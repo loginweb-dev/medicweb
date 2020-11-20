@@ -21,7 +21,6 @@
         "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
-        "nexmo/client": "^2.4",
         "orangehill/iseed": "^2.6",
         "pusher/pusher-php-server": "~3.0",
         "silviolleite/laravelpwa": "^2.0",
