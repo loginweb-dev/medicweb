@@ -208,12 +208,27 @@
                         <div class="col-md-12">
                           <div id="accordion">
                             <div class="card">
+                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
+                                <h6 class="mb-0 text-white">
+                                  Pago con tarjeta de crédito/débito
+                                </h6>
+                              </div>
+                              <div id="collapseTarjeta" class="collapse show" aria-labelledby="headingTarjeta" data-parent="#accordion">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12 mb-3"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="card">
                               <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
                                 <h6 class="mb-0 text-white">
                                   Transferencia bancaria
                                 </h6>
                               </div>
-                              <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
+                              <div id="collapseTransferencia" class="collapse" aria-labelledby="headingTransferencia" data-parent="#accordion">
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col-md-12 mb-3">
@@ -267,19 +282,6 @@
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="card">
-                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
-                                <h6 class="mb-0 text-white">
-                                  Pago con tarjeta de crédito/débito
-                                </h6>
-                              </div>
-                              <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
-                                <div class="card-body">
-                                  <h4 class="text-muted text-center">En desarrollo</h4>
                                 </div>
                               </div>
                             </div>

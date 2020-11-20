@@ -124,9 +124,11 @@
             @endforeach
         </tbody>
     </table>
-    <div style="margin-top: 200px; text-align:center; width:100%">
-        <small>-------------------------------------</small><br>
-        <b>Firma</b>
+    <div style="position: fixed; bottom: 150px; left: 600px">
+        @php
+            $qr = base64_encode(QrCode::size(120)->generate(url('/comprobar/analisis/'.$orden_analisis->id)));
+        @endphp
+        <img src="data:image/png;base64, {!! $qr !!}">
     </div>
 </body>
 </html>

@@ -48,8 +48,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Direción</label>
-                                <textarea name="adress" class="form-control" rows="3">{{$customer->adress}}</textarea>
-                                @error('adress')
+                                <textarea name="address" class="form-control" rows="3">{{$customer->address}}</textarea>
+                                @error('address')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

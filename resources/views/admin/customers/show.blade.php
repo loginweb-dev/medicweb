@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label>Direccion</label>
                         <pre style="text-align: left; white-space: pre-line;">
-                         {{$customer->adress}}
+                         {{$customer->address}}
                         </pre>
                     </div>
                 </div>

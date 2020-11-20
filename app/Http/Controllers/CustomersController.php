@@ -58,7 +58,7 @@ class CustomersController extends Controller
             'name' => 'required|max:191',
             'last_name' => 'required|max:191',
             'phones' => 'required|max:191',
-            'adress' => 'required',
+            'address' => 'required',
             'email' => 'required|unique:users|max:50',
             'password' => 'required|max:50',
         ]);
@@ -77,7 +77,7 @@ class CustomersController extends Controller
                 'name' => $request->name,
                 'last_name' => $request->last_name,
                 'phones' => $request->phones,
-                'adress' => $request->adress,
+                'address' => $request->address,
                 'location' => $request->location,
                 'user_id' => $user->id
             ]);
@@ -140,7 +140,7 @@ class CustomersController extends Controller
             $customer->name = $request->name;
             $customer->last_name = $request->last_name;
             $customer->phones = $request->phones;
-            $customer->adress = $request->adress;
+            $customer->address = $request->address;
             $customer->update();
             
             if($request->change_password){

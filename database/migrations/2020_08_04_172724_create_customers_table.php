@@ -18,7 +18,7 @@ class CreateCustomersTable extends Migration
             $table->string('name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phones')->nullable();
-            $table->text('adress')->nullable();
+            $table->text('address')->nullable();
             $table->string('location')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
