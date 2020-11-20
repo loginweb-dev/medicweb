@@ -23,7 +23,7 @@
                                 <a href="tel:{{ $phone }}">{{ $phone }}</a>
                             @endforeach
                             <br>
-                            {{ $customer->adress }}
+                            {{ $customer->address }}
                         </td>
                         <td></td>
                         <td class="no-sort no-click bread-actions text-right">

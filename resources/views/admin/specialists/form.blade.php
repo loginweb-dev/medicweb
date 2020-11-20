@@ -64,8 +64,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Direción</label>
-                                <textarea name="adress" class="form-control" rows="3">{{ old('adress') ? :$specialist->adress }}</textarea>
-                                @error('adress')
+                                <textarea name="address" class="form-control" rows="3">{{ old('address') ? :$specialist->address }}</textarea>
+                                @error('address')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -134,7 +134,7 @@
                             <div class="form-group">
                                 <label>Reseña del profesional</label>
                                 <textarea name="description" class="form-control" rows="3">{{ old('description') ? : $specialist->description }}</textarea>
-                                @error('adress')
+                                @error('address')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

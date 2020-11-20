@@ -80,11 +80,12 @@ class HomeController extends Controller
                     ->where('deleted_at', NULL)->where('id', $id)
                     ->orderBy('created_at', 'DESC')->first();
         $vista = view('dashboard.pdf.prescriptions_details', compact('receta'));
+        // return $vista;
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadHTML($vista)->setPaper('letter');
         $pdf->loadHTML($vista);
         if ($type) {
-            return $pdf->download('Receta médica');
+            return $pdf->download('Receta '.date('d-m-Y', strtotime($receta->created_at)));
         }else{
             return $pdf->stream();
         }
@@ -108,7 +109,7 @@ class HomeController extends Controller
         $pdf->loadHTML($vista)->setPaper('letter');
         $pdf->loadHTML($vista);
         if ($type) {
-            return $pdf->download('analisis médica');
+            return $pdf->download('Orden de analisis '.date('d-m-Y', strtotime($orden_analisis->created_at)));
         }else{
             return $pdf->stream();
         }

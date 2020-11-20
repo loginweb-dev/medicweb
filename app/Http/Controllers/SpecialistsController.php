@@ -89,7 +89,7 @@ class SpecialistsController extends Controller
             'last_name' => 'required|max:191',
             // 'phones' => 'required|max:191',
             'location' => 'required|max:191',
-            'adress' => 'required',
+            'address' => 'required',
             'email' => 'required|unique:users|max:50',
             'password' => 'required|max:50',
         ]);
@@ -112,7 +112,7 @@ class SpecialistsController extends Controller
                 'name' => $request->name,
                 'last_name' => $request->last_name,
                 'phones' => $request->phones,
-                'adress' => $request->adress,
+                'address' => $request->address,
                 'description' => $request->description,
                 'location' => $request->location,
                 'prefix' => $request->prefix,
@@ -173,7 +173,7 @@ class SpecialistsController extends Controller
             'last_name' => 'required|max:191',
             'phones' => 'required|max:191',
             'location' => 'required|max:191',
-            'adress' => 'required',
+            'address' => 'required',
             'email' => 'required|max:50'
         ]);
 
@@ -185,7 +185,7 @@ class SpecialistsController extends Controller
             $especialista->name = $request->name;
             $especialista->last_name = $request->last_name;
             $especialista->phones = $request->phones;
-            $especialista->adress = $request->adress;
+            $especialista->address = $request->address;
             $especialista->description = $request->description;
             $especialista->location = $request->location;
             $especialista->prefix = $request->prefix;

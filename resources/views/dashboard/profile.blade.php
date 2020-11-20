@@ -78,8 +78,8 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-group col-md-12">
-                                                    <label for="input-adress">Dirección</label>
-                                                    <textarea name="adress" class="form-control form-control-user" id="input-adress" aria-describedby="input-adress" placeholder="Av. David Shriqui Nª123">{{ $cliente->adress }}</textarea>
+                                                    <label for="input-address">Dirección</label>
+                                                    <textarea name="address" class="form-control form-control-user" id="input-address" aria-describedby="input-address" placeholder="Av. David Shriqui Nª123">{{ $cliente->address }}</textarea>
                                                 </div>
                                             </div>
                                             <br>

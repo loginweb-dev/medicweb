@@ -18,7 +18,7 @@ class CreateSpecialistsTable extends Migration
             $table->string('name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phones')->nullable();
-            $table->text('adress')->nullable();
+            $table->text('address')->nullable();
             $table->text('description')->nullable();
             $table->string('location')->nullable();
             $table->string('prefix',20)->nullable();

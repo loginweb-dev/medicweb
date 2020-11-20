@@ -34,7 +34,7 @@
                                 <a href="tel:{{ $phone }}">{{ $phone }}</a>
                             @endforeach
                             <br>
-                            {{ $specialist->adress }} <br>
+                            {{ $specialist->address }} <br>
                             {{ $specialist->location }}
                         </td>
                         <td>{{$specialist->user->name}}<br>{{$specialist->user->email}}</td>
