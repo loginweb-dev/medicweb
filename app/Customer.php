@@ -8,7 +8,7 @@ class Customer extends Model
 {
     public $fillable = ['name', 'last_name', 'phones', 'address', 'location', 'user_id'];
 
-    protected $with= ['user:id,name,email,avatar'];
+    protected $with= ['user:id,name,email,avatar,firebase_token'];
     
     protected $appends = ['text'];
 
