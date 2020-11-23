@@ -69,6 +69,7 @@ class ApiController extends Controller
                 'email' => $data->email,
                 'password' => Hash::make($data->password),
                 'avatar' => $data->avatar,
+                'firebase_token' => $data->firebase_token
             ]);
 
             $customer = Customer::create([

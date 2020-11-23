@@ -43,7 +43,7 @@ class MeetingsController extends Controller
                 })
                 ->where('status', '<>', 'Finalizada')->first();
         }else{
-            $meet = Appointment::where('id', $id)->with(['specialist', 'customer'])->where('deleted_at', NULL)->first();
+            $meet = Appointment::where('id', $id)->with(['specialist.user', 'customer'])->where('deleted_at', NULL)->first();
         }
         
         $medicines = PrescriptionDetail::where('deleted_at', NULL)->groupBy('medicine_name')->get();
@@ -52,6 +52,7 @@ class MeetingsController extends Controller
                             $query->where('deleted_at', NULL)->orderBy('order', 'ASC');
                         })
                         ->where('deleted_at', NULL)->orderBy('order', 'ASC')->get();
+        // return $meet;
         if($meet){
             return view('admin.meetings.join', compact('meet', 'medicines', 'analisis'));
         }else{

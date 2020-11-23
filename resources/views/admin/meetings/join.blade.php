@@ -113,6 +113,8 @@
         {{-- SweetAler2 --}}
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+        <script src="{{ asset('js/loginweb.js') }}"></script>
+
         <script src="{{ asset('js/app.js') }}"></script>
         <script>
             // Pedir autorización para mostrar notificaciones
@@ -120,8 +122,9 @@
             
             // const domain = 'meet.jit.si';
             const domain = "{{ setting('server-streaming.url_server') }}";
+            const roomName = 'Consulta-{{ $meet->code }}';
             const options = {
-                roomName: 'Consulta-{{ $meet->code }}',
+                roomName: roomName,
                 height: screen.height-100,
                 parentNode: document.querySelector('#meet'),
                 devices: {
@@ -202,6 +205,17 @@
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";
                     $.get(`${url}/${id}/Conectando`, function(res){});
+
+                    // Notificación movil
+                    let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
+                    let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
+                    let meet = @json($meet);
+                    let uri = "{{ url('storage') }}";
+                    let notification = {
+                        title: "Call comming",
+                        message: `https://${domain}/${roomName},${meet.specialist.full_name},${uri}/${meet.specialist.user.avatar}`,
+                    }
+                    sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification);
                 });
 
                 // Cancelar llamada
