@@ -436,7 +436,7 @@
             });
 
             // Registrar cita
-            $('#form-appointments').on('submit', function(e){
+            $('#form-appointmentss').on('submit', function(e){
               e.preventDefault();
               
               $('.btn-store-appointment').prop('disabled', true);

@@ -31,8 +31,8 @@ function storeFormData(formData, url, callBack){
     });
 }
 
-function sendNotificationApp(url, FCMToken, tokenDevice, notification){
-    var data = {
+function sendNotificationApp(url, FCMToken, tokenDevice, notification, data){
+    var notificationContent = {
         to: tokenDevice,
         content_available: true,
         notification: {
@@ -40,14 +40,14 @@ function sendNotificationApp(url, FCMToken, tokenDevice, notification){
             body: notification.message,
             sound: "default",
             fcmMessageType: "notifType",
-            priority: "high",
-            show_in_foreground: true
-        }
+            priority: "high"
+        },
+        data
     };
 
     fetch(url, {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(notificationContent),
     headers:{
         'Content-Type': 'application/json',
         'Authorization': `key=${FCMToken}`

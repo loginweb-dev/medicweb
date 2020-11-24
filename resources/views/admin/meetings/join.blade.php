@@ -120,8 +120,7 @@
             // Pedir autorización para mostrar notificaciones
             Notification.requestPermission();
             
-            // const domain = 'meet.jit.si';
-            const domain = "{{ setting('server-streaming.url_server') }}";
+            const domainServer = "{{ setting('server-streaming.url_server') }}";
             const roomName = 'Consulta-{{ $meet->code }}';
             const options = {
                 roomName: roomName,
@@ -145,7 +144,7 @@
                 }
             };
 
-            const api = new JitsiMeetExternalAPI(domain, options);
+            const api = new JitsiMeetExternalAPI(domainServer, options);
 
             // Video conferencia clinte/médico inicada
             api.addEventListener('participantJoined', res => {
@@ -212,10 +211,17 @@
                     let meet = @json($meet);
                     let uri = "{{ url('storage') }}";
                     let notification = {
-                        title: "Call comming",
-                        message: `https://${domain}/${roomName},${meet.specialist.full_name},${uri}/${meet.specialist.user.avatar}`,
+                        title: "Videollamada entrante",
+                        message: meet.specialist.full_name,
                     }
-                    sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification);
+                    let data = {
+                        url: `https://${domainServer}/${roomName}`,
+                        specialistName: meet.specialist.full_name,
+                        // specialistAvatar: 'https://livemedic.net/storage/users/October2020/p7Q6Gh4iQ8qLhd7obquZ-cropped.jpg'
+                        specialistAvatar: `${uri}/${meet.specialist.user.avatar}`
+                    }
+                    console.log(meet)
+                    sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
                 });
 
                 // Cancelar llamada
