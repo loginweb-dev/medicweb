@@ -97,6 +97,7 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'appointments.create' : 'appointments.index';
 
@@ -114,10 +115,16 @@ class AppointmentsController extends Controller
             // Calcular hora de finalización de la cita
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
+
+            $paid = null;
+
+            // payment_type = 1 transferencia
+            // payment_type = 2 pago mediante tarjeta
             if($request->payment_type == 1){
                 $status = 'Validar';
             }else{
                 $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
+                $paid = 1;
             }
 
             // Crear cita
@@ -131,7 +138,8 @@ class AppointmentsController extends Controller
                 'start' => $request->start,
                 'end' => $end->format('H:i:s'),
                 'status' => $status,
-                'observations' => $request->observations
+                'observations' => $request->observations,
+                'paid' => $paid
             ]);
 
             $cita = Appointment::find($cita->id);

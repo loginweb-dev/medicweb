@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+// Controllers
+use App\Http\Controllers\AppointmentsController as Appointments;
+
 // Model
 use App\User;
 use App\Customer;
 use App\Speciality;
+use App\PaymentAccount;
 
 class ApiController extends Controller
 {
@@ -59,6 +63,17 @@ class ApiController extends Controller
     public function index(){
         $specialities = Speciality::with(['specialists.user', 'specialists.appointments.rating'])->where('deleted_at', null)->get();
         return response()->json(['specialities' => $specialities]);
+    }
+
+    public function appointment_store(Request $request){
+        $res = (new Appointments)->store($request);
+        return $res;
+    }
+
+    // Metodos functionales
+    public function payment_accounts_index(){
+        $payment_accounts = PaymentAccount::all();
+        return response()->json(['paymentAccounts' => $payment_accounts]);
     }
 
     public function newCustomer($data){

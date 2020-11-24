@@ -68,7 +68,7 @@
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validad</span>
                                 </button>
                             @else
-                                @if (!$item->paid)
+                                @if ($item->paid)
                                     <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
                                         <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
                                     </a>
@@ -228,11 +228,11 @@
                     $.get(`${url}/${$(this).data('id')}`, function(res){
                         if(!res.error){
                             Swal.fire(
-                                'Bien hecho!', re.success, 'success'
+                                'Bien hecho!', res.success, 'success'
                             )
                         }else{
                             Swal.fire(
-                                'Error!', re.error, 'error'
+                                'Error!', res.error, 'error'
                             )
                         }
                     });
