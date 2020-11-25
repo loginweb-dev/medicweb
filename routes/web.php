@@ -28,6 +28,9 @@ Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.
 Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
 Route::get('/profile', 'HomeController@profile')->name('profile');
 
+// Payment
+Route::post('home/checkout','HomeController@checkout');
+
 Auth::routes();
 
 Route::get('login/{social}', 'SocialiteController@redirectToProvider')->name('socialLogin');
@@ -71,7 +74,6 @@ Route::group(['prefix' => 'admin'], function () {
 
     // Reportes
     
-
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');

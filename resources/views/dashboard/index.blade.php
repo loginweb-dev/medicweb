@@ -195,10 +195,10 @@
                         <input type="hidden" name="ajax" value="1">
                         <input type="hidden" name="specialist_id">
                         <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                        <input type="hidden" name="payment_type" value="1">
+                        <input type="hidden" name="payment_type" value="2">
                         <input type="hidden" name="payment_account_id">
                         <div class="form-group col-md-12 mt-3">
-                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
+                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required>hh</textarea>
                             <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
                         </div>
                       </div>
@@ -216,7 +216,61 @@
                               <div id="collapseTarjeta" class="collapse show" aria-labelledby="headingTarjeta" data-parent="#accordion">
                                 <div class="card-body">
                                   <div class="row">
-                                    <div class="col-md-12 mb-3"></div>
+                                    <div class="col-md-12 mb-3">
+                                      <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                              <div class="h5 mb-0 font-weight-bold text-success">
+                                                <p>Costo del servicio:</p>
+                                              </div>
+                                            </div>
+                                            <div class="col-auto">
+                                              <h4 class="text-success label-price-appointment"></h4>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    @php
+                                      $stripe_key = 'pk_test_ytzvi8dfXTzPkZ26tQ2Qyuj700BwiGRmXf';
+                                    @endphp
+                                    <div class="col-md-7 text-center">
+                                      <div class="row">
+                                        <div class="col-md-12">                    
+                                          <div class="form-group">
+                                              <div class="card-header">
+                                                  <label for="card-element">Información de tu tarjeta</label>
+                                              </div>
+                                              <div class="card-body">
+                                                  <div id="card-element">
+                                                  <!-- A Stripe Element will be inserted here. -->
+                                                  </div>
+                                                  <!-- Used to display form errors. -->
+                                                  <div id="card-errors" role="alert" style="margin-top: 50px"></div>
+                                                  <input type="hidden" name="plan" value="" />
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                      <div id="div-payment-details">
+                                        <div class="card text-white bg-info">
+                                          <div class="card-header bg-info">Instrucciones</div>
+                                          <div class="card-body">
+                                            {{-- <h5 class="card-title">Info card title</h5> --}}
+                                            <p class="card-justify">Debes habilitar tus compras por internet e ingresar los datos de tu tarjeta</p>
+                                            <small>NOTA: en caso de pedir CP (Código postal) ingresa 00000</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12 text-right" style="margin-top: 30px">
+                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Registrar <span class="fa fa-check-square"></span></button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -282,6 +336,11 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <div class="row">
+                                    <div class="col-md-12 text-right" style="margin-top: 30px">
+                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Registrar <span class="fa fa-check-square"></span></button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -296,13 +355,9 @@
                     {{-- <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button> --}}
                     <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
                   </div>
-                  <div class="col-md-12 text-right" id="div-btn-store" style="display: none">
-                    <button class="btn btn-secondary btn-back-payment" type="button"><span class="fas fa-arrow-alt-circle-left"></span> Volver</button>
-                    <button type="submit" disabled class="btn btn-primary btn-store-appointment">Registrar <span class="fa fa-check-square"></span></button>
-                  </div>
                 </div>
                 <div class="col-md-12 text-center mt-5">
-                  <button type="button" class="btn btn-lg btn-primary" onclick="breadCrunb('#div-list-specialists')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
+                  <button type="button" class="btn btn-primary" onclick="breadCrunb('#div-list-specialists')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
               </div>
               </form>
             </div>
@@ -436,7 +491,7 @@
             });
 
             // Registrar cita
-            $('#form-appointmentss').on('submit', function(e){
+            $('#form-appointments').on('submit', function(e){
               e.preventDefault();
               
               $('.btn-store-appointment').prop('disabled', true);
@@ -488,7 +543,7 @@
                 $('#div-btn-payment').css('display', 'none');
                 $('#div-appointment-details').fadeOut('fast');
                 $('#div-payment-details').fadeIn();
-                $('#form-appointments input[name="payment_type"]').val(1);
+                // $('#form-appointments input[name="payment_type"]').val(1);
               }else{
                 $('#form-appointments textarea[name="observations"]').css('border', '1px solid red');
                 $('.text-error').css('display', 'block');
@@ -500,21 +555,11 @@
               $('.text-error').css('display', 'none');
             });
 
-            // Mostrar formulario de detalles de cita
-            $('.btn-back-payment').click(function(){
-              $('#div-btn-store').css('display', 'none');
-              $('#div-btn-payment').css('display', 'block');
-              $('#div-payment-details').fadeOut('fast');
-              $('#div-appointment-details').fadeIn();
-            });
-
             // Asignar valor del tipo de pago de ña cita médica
             $('.btn-payment-type').click(function(){
               let value = $(this).data('value');
               $('#form-appointments input[name="payment_type"]').val(value);
               if(value == 1){
-                $('.btn-store-appointment').removeAttr('disabled');
-              }else{
                 $('.btn-store-appointment').attr('disabled', 'disabled');
               }
             });
@@ -547,5 +592,71 @@
           });
           $('.label-price-appointment').html(`${total.toFixed(2)} Bs.`);
         }
+    </script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+
+        var style = {
+            base: {
+                color: '#32325d',
+                lineHeight: '18px',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+
+        const stripe = Stripe("{{ $stripe_key }}", { locale: 'es' }); // Create a Stripe client.
+        const elements = stripe.elements(); // Create an instance of Elements.
+        const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
+
+        cardElement.mount('#card-element'); // Add an instance of the card Element into the `card-element` <div>.
+
+        // Handle real-time validation errors from the card Element.
+        cardElement.addEventListener('change', function(event) {
+          var displayError = document.getElementById('card-errors');
+          if (event.error) {
+            displayError.textContent = event.error.message;
+          } else {
+            displayError.textContent = '';
+          }
+        });
+
+        $('#card-button').click(function() {
+          $.post('{{ url("home/checkout") }}', {
+            _token: '{{ csrf_token() }}',
+            amount: $('#form-appointments input[name="price"]').val()
+          }, function(res){
+            if(!res.error){
+              console.log(res.intent)
+              stripe.handleCardPayment(res.intent, cardElement, {
+                payment_method_data: {
+                  //billing_details: { name: cardHolderName.value }
+                }
+              })
+              .then(function(result) {
+                if (result.error) {
+                  // Inform the user if there was an error.
+                  var errorElement = document.getElementById('card-errors');
+                  errorElement.textContent = result.error.message;
+                }else{
+                  $('#form-appointments').trigger("submit");
+                }
+              });
+            }else{
+              Swal.fire('Error', 'Ocurrió un error inesperado en nuestro servidor', 'error');
+            }
+          });
+        });
     </script>
 @endsection
