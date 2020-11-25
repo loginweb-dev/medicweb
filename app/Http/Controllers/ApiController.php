@@ -28,12 +28,26 @@ class ApiController extends Controller
         if($request->social_login){
             $user = User::with('customer')->where('email', $request->email)->first() ?? $this->newCustomer($request);
             $token = $user->createToken('livemedic')->accessToken;
+
+            // Actualizar token de firebase
+            if($request->firebase_token){
+                User::where('id', $user->id)->update([
+                    'firebase_token' => $request->firebase_token
+                ]);
+            }
         }else{
             $credentials = ['email' => $request->email, 'password' => $request->password];
             if (Auth::attempt($credentials)) {
                 $auth = Auth::user();
                 $token = $auth->createToken('livemedic')->accessToken;
                 $user = User::with('customer')->where('id', $auth->id)->first();
+
+                // Actualizar token de firebase
+                if($request->firebase_token){
+                    User::where('id', $user->id)->update([
+                        'firebase_token' => $request->firebase_token
+                    ]);
+                }
             }
         }
 
