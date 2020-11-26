@@ -38,9 +38,11 @@ class HomeController extends Controller
         if(request('id')){
             $meet_id = AppointmentsRating::where('appointment_id', $meet_id)->first() ? null : request('id');
         }
+        
+        $intent = '';
 
         if(Auth::user()->role_id == 2){
-            return view('dashboard.index', compact('especialidades', 'meet_id'));
+            return view('dashboard.index', compact('especialidades', 'meet_id', 'intent'));
         }else{
             return redirect('admin/profile');
         }
@@ -112,6 +114,29 @@ class HomeController extends Controller
             return $pdf->download('Orden de analisis '.date('d-m-Y', strtotime($orden_analisis->created_at)));
         }else{
             return $pdf->stream();
+        }
+    }
+
+    public function checkout(Request $request){
+        \Stripe\Stripe::setApiKey('sk_test_yRS0OVxCRusavWf7OObSVLlv00hSlTnW4f');
+
+        try {
+
+            $amount = $request->amount;
+            $amount *= 100;
+            $amount = (int) $amount;
+        
+            $payment_intent = \Stripe\PaymentIntent::create([
+                'amount' => $amount,
+                'currency' => 'USD',
+                'description' => 'Sesión de telemedicina - LiveMedic Edgley',
+                'payment_method_types' => ['card'],
+            ]);
+            $intent = $payment_intent->client_secret;
+
+            return response()->json(["intent" => $intent]);
+        } catch (\Throwable $th) {
+            return response()->json(["error" => $th]);
         }
     }
 }

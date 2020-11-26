@@ -271,6 +271,7 @@ class AppointmentsController extends Controller
         try {
             $cita = Appointment::find($id);
             $cita->status = $status;
+            $cita->paid = 1;
             $cita->save();
 
             DB::commit();
