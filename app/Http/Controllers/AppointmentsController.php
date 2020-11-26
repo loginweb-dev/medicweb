@@ -149,7 +149,7 @@ class AppointmentsController extends Controller
             // Eventos
             try {
                 $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $cita->id)->first();
-                if($status == 'Conectando'){
+                if($status == 'Conectando' || $status == 'Pendiente'){
                     event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
                 }elseif($status == 'Validar'){
                     event(new VerifyPaymentEvent($cita));
