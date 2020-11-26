@@ -492,11 +492,13 @@
 
             // Registrar cita
             $('#form-appointments').on('submit', function(e){
+              $('#loading-overlay').css('display', 'flex');
               e.preventDefault();
               
               $('.btn-store-appointment').prop('disabled', true);
               $('.btn-store-appointment').html(`Registrando...`);
               $.post($(this).attr('action'), $(this).serialize(), function(res){
+                $('#loading-overlay').fadeOut();
                 if(res.success){
                   Swal.fire(
                     res.success,
@@ -633,12 +635,12 @@
         });
 
         $('#card-button').click(function() {
+          $('#loading-overlay').css('display', 'flex');
           $.post('{{ url("home/checkout") }}', {
             _token: '{{ csrf_token() }}',
             amount: $('#form-appointments input[name="price"]').val()
           }, function(res){
             if(!res.error){
-              console.log(res.intent)
               stripe.handleCardPayment(res.intent, cardElement, {
                 payment_method_data: {
                   //billing_details: { name: cardHolderName.value }
@@ -649,11 +651,13 @@
                   // Inform the user if there was an error.
                   var errorElement = document.getElementById('card-errors');
                   errorElement.textContent = result.error.message;
+                  $('#loading-overlay').fadeOut();
                 }else{
                   $('#form-appointments').trigger("submit");
                 }
               });
             }else{
+              $('#loading-overlay').fadeOut();
               Swal.fire('Error', 'Ocurrió un error inesperado en nuestro servidor', 'error');
             }
           });

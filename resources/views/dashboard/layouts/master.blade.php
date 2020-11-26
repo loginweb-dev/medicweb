@@ -90,6 +90,11 @@
     </div>
   </div>
 
+  {{-- Loading --}}
+  <div id="loading-overlay" style="width: 100%; height: 100%; position: fixed; z-index: 10; top: 0px; background-color:rgba(255, 255, 255, 0.7); display: none; align-items: center; justify-content: center">
+    <img src="{{ url('images/loader.gif') }}" width="150px" />
+  </div>
+
   {{-- Tono de llamada --}}
   <audio loop id="tone-call-incoming" src="{{ url('audio/tone.mp3') }}" preload="auto"></audio>
 
