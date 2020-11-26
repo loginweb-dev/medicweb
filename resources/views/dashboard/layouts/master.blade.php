@@ -247,4 +247,29 @@
   </div>
 </body>
 
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDmBcQqKKMre406vJAt_i842s3nwGpXEMc",
+    authDomain: "livemedic-f4c12.firebaseapp.com",
+    databaseURL: "https://livemedic-f4c12.firebaseio.com",
+    projectId: "livemedic-f4c12",
+    storageBucket: "livemedic-f4c12.appspot.com",
+    messagingSenderId: "264229003943",
+    appId: "1:264229003943:web:09626dda7ebd1ea1357182",
+    measurementId: "G-2F216Z6JVC"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
 </html>
