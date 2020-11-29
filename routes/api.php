@@ -27,5 +27,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     
 });
 
+Route::get('/historial/{customer_id}', 'ApiController@historial');
+
 // Rutas funcionales
 Route::get('/payment_accounts', 'ApiController@payment_accounts_index');

@@ -15,6 +15,7 @@ use App\User;
 use App\Customer;
 use App\Speciality;
 use App\PaymentAccount;
+use App\Appointment;
 
 class ApiController extends Controller
 {
@@ -77,6 +78,14 @@ class ApiController extends Controller
     public function index(){
         $specialities = Speciality::with(['specialists.user', 'specialists.appointments.rating'])->where('deleted_at', null)->get();
         return response()->json(['specialities' => $specialities]);
+    }
+
+    public function historial($customer_id){
+        $appointments = Appointment::with(['customer', 'specialist.user', 'details', 'analysis.details.analysis.type', 'prescription.details'])
+                            ->where('customer_id', $customer_id)
+                            ->orderBy('id', 'DESC')
+                            ->get();
+        return response()->json(['appointments' => $appointments]);
     }
 
     public function appointment_store(Request $request){

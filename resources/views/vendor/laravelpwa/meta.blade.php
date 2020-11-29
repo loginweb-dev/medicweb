@@ -38,13 +38,13 @@
         }).then(function (registration) {
             // Registration was successful
             console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
-            Notification.requestPermission(function(result) {
-            if (result === 'granted') {
-                    navigator.serviceWorker.ready.then(function(registration) {
-                        registration.showNotification('Notification with ServiceWorker');
-                    });
-                }
-            });
+            // Notification.requestPermission(function(result) {
+            // if (result === 'granted') {
+            //         navigator.serviceWorker.ready.then(function(registration) {
+            //             registration.showNotification('Notification with ServiceWorker');
+            //         });
+            //     }
+            // });
         }, function (err) {
             // registration failed :(
             console.log('Laravel PWA: ServiceWorker registration failed: ', err);
