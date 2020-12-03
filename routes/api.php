@@ -24,7 +24,8 @@ Route::post('/auth/register', 'ApiController@register');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/index', 'ApiController@index');
     Route::post('/appointment/store', 'ApiController@appointment_store');
-    Route::get('/historial/{customer_id}', 'ApiController@historial'); 
+    Route::get('/appointment/active/{customer_id}', 'ApiController@get_last_appointment_active'); 
+    Route::get('/historial/{customer_id}', 'ApiController@historial');
 });
 
 // Rutas funcionales

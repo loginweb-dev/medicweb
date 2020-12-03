@@ -38,8 +38,6 @@ function sendNotificationApp(url, FCMToken, tokenDevice, notification, data){
         notification: {
             title: notification.title,
             body: notification.message,
-            sound: "default",
-            fcmMessageType: "notifType",
             priority: "high"
         },
         data

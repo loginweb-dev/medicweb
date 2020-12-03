@@ -45,9 +45,9 @@ class ApiController extends Controller
 
                 // Actualizar token de firebase
                 if($request->firebase_token){
-                    User::where('id', $user->id)->update([
-                        'firebase_token' => $request->firebase_token
-                    ]);
+                    $user_update = User::find($user->id);
+                    $user_update->firebase_token = $request->firebase_token;
+                    $user_update->save();
                 }
             }
         }
@@ -91,6 +91,12 @@ class ApiController extends Controller
     public function appointment_store(Request $request){
         $res = (new Appointments)->store($request);
         return $res;
+    }
+
+    public function get_last_appointment_active($customer_id){
+        $appointment = Appointment::with('specialist.user')->where('status', '<>', 'Finalizada')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->first();
+        $server = 'https://'.setting('server-streaming.url_server');
+        return response()->json(['appointment' => $appointment, 'server' => $server]);
     }
 
     // Metodos functionales
