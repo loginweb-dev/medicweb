@@ -160,10 +160,12 @@
             .listen('StartMeetEvent', (res) => {
                 if(Notification.permission==='granted'){
                     if(res.meet.status != 'Conectando'){
-                        let notificacion = new Notification(`Cita médica ${res.meet.status}`,{
-                            body: `${res.meet.specialist.prefix} ${res.meet.specialist.name} ${res.meet.specialist.last_name} - ${res.meet.customer.name} ${res.meet.customer.last_name}`,
-                            icon: '{{ url("images/icons/icon-512x512.png") }}'
-                        });
+                        try {
+                            let notificacion = new Notification(`Cita médica ${res.meet.status}`,{
+                                body: `${res.meet.specialist.prefix} ${res.meet.specialist.name} ${res.meet.specialist.last_name} - ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                                icon: '{{ url("images/icons/icon-512x512.png") }}'
+                            });
+                        } catch (error) {}
                     }
                 }
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
@@ -173,10 +175,16 @@
             Echo.channel('IncomingCallSpecialistChannel-{{ Auth::user()->id }}')
             .listen('IncomingCallSpecialistEvent', (res) => {
                 if(Notification.permission==='granted'){
-                    let notificacion = new Notification(`Tienes una cita médica en espera`,{
-                        body: `Paciente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
-                        icon: '{{ url("images/icons/icon-512x512.png") }}'
-                    });
+                    console.log(res)
+                    try {
+                        let notificacion = new Notification(`Tienes una cita médica en espera`,{
+                            body: `Paciente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                            icon: '{{ url("images/icons/icon-512x512.png") }}'
+                        });
+                        notificacion.onclick = (e) => {
+                            window.open("{{ url('meet') }}/"+res.meet.id, "_blank");
+                        }
+                    } catch (error) {}
                 }
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
@@ -185,11 +193,14 @@
             Echo.channel('VerifyPaymentChannel')
             .listen('VerifyPaymentEvent', (res) => {
                 if(Notification.permission==='granted'){
-                    let notificacion = new Notification(`Tienes un pago espera`,{
-                        body: `Cliente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
-                        icon: '{{ url("images/icons/icon-512x512.png") }}'
-                    });
+                    try {
+                        let notificacion = new Notification(`Tienes un pago por validar`,{
+                            body: `Cliente ${res.appointment.customer.name} ${res.appointment.customer.last_name}`,
+                            icon: '{{ url("images/icons/icon-512x512.png") }}'
+                        });
+                    } catch (error) {}
                 }
+                console.log('en espera')
                 getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
         });

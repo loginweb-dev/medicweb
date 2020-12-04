@@ -20,13 +20,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'FrontEndController@default')->name('page_default');
 
 // Dashboard del cliente
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
-Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
-Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details_pdf')->name('home.prescriptions.details.pdf');
-Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.order_analysis');
-Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
-Route::get('/profile', 'HomeController@profile')->name('profile');
+Route::get('/prescription/validate/{id}', 'HomeController@prescription_validate');
+Route::get('/analysis/validate/{id}', 'HomeController@analysis_validate');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
+    Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
+    Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details_pdf')->name('home.prescriptions.details.pdf');
+    Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.order_analysis');
+    Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
+    Route::get('/profile', 'HomeController@profile')->name('profile');
+});
 
 // Payment
 Route::post('home/checkout','HomeController@checkout');
@@ -44,8 +48,9 @@ Route::group(['prefix' => 'admin'], function () {
     // Specialists
     Route::resource('specialists', 'SpecialistsController');
     Route::get('specialists/list/{search}', 'SpecialistsController@list');
-    Route::get('specialists/get/{search}', 'SpecialistsController@get');
-    Route::get('specialists/specialities/{id}', 'SpecialistsController@specialities');
+    Route::get('specialists/get/id/{id}', 'SpecialistsController@get_id');
+    Route::get('specialists/get/search/{search}', 'SpecialistsController@get_search');
+    Route::get('specialists/specialities/{id}/{specialist_id?}', 'SpecialistsController@specialities');
     Route::get('specialists/schedules/{id}', 'SchedulesController@schedules_details');
     Route::post('specialists/schedules/store', 'SchedulesController@schedules_store')->name('specialists.schedules.store');
     Route::get('specialists/update/status/{id}/{value}', 'SpecialistsController@edit_status');
@@ -99,6 +104,8 @@ Route::get('meet/{id}', 'MeetingsController@join');
 Route::post('meet/divert_call', 'MeetingsController@divert_call');
 Route::post('meet/rating/store', 'MeetingsController@rating_store');
 
+// Validations
+Route::get('prescription/{id}', 'AppointmentsController@prescriptions_validation');
 
 // Logout costumized
 Route::post('admin/logout', 'Controller@logout')->name('voyager.logout');

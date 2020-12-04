@@ -22,7 +22,7 @@
             top: 30%;
             text-align: center;
             z-index: -1;
-            opacity: 0.2;
+            opacity: 0.1;
         }
         .small{
             font-size: 8px;
@@ -33,7 +33,7 @@
 <body>
     <table width="100%">
         <tr>
-            <td width="35%">
+            <td width="50%">
                 <div style="width: 150px; text-align:center">
                     @php
                         $logo = setting('site.logo') ? url('storage/'.setting('site.logo')) : url('images/icons/icon-512x512.png');
@@ -45,10 +45,7 @@
                     <p class="small"> {{ setting('site.ciudad') }} </p>
                 </div>
             </td>
-            <td width="30%" style="text-align: center">
-                <h3>Orden de laboratorio</h3>
-            </td>
-            <td width="35%">
+            <td width="50%">
                 <table width="100%" style="text-align: right">
                     <tr>
                         <td><b style="font-size: 18px">{{ $orden_analisis->specialist->prefix }} {{ $orden_analisis->specialist->name }} {{ $orden_analisis->specialist->last_name }}</b></td>
@@ -72,16 +69,19 @@
         </tr>
     </table>
 
-    <div class="div-wather-mark">
-        <img src="{{ $logo }}" width="40%" alt="wather-mark">
+    <div style="text-align: center">
+        <h2>Orden de laboratorio</h2>
     </div>
 
-    <br>
+    <div class="div-wather-mark">
+        <img src="{{ $logo }}" width="60%" alt="wather-mark">
+    </div>
+
     <table width="100%" style="margin-top:20px">
         <tr>
-            <td><b>Nombre : </b></td>
+            <td><b>Paciente : </b></td>
             <td>{{ $orden_analisis->customer->name }} {{ $orden_analisis->customer->last_name }}</td>
-            <td><b>Fecha : </b></td>
+            <td><b>Fecha de emisión : </b></td>
             <td>{{ strftime("%d de %B, %Y",  strtotime($orden_analisis->created_at)) }}</td>
         </tr>
     </table>
@@ -126,7 +126,7 @@
     </table>
     <div style="position: fixed; bottom: 150px; left: 600px">
         @php
-            $qr = base64_encode(QrCode::size(120)->generate(url('/comprobar/analisis/'.$orden_analisis->id)));
+            $qr = base64_encode(QrCode::size(120)->generate(url('/analysis/validate/'.$orden_analisis->id)));
         @endphp
         <img src="data:image/png;base64, {!! $qr !!}">
     </div>
