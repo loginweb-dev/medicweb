@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -138,5 +138,19 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             return response()->json(["error" => $th]);
         }
+    }
+
+    public function prescription_validate($id){
+        $receta = Prescription::with(['specialist.specialities', 'details', 'customer'])
+                    ->where('deleted_at', NULL)->where('id', $id)
+                    ->orderBy('created_at', 'DESC')->first();
+        return view('admin.appointments.validation.prescription', compact('receta'));
+    }
+
+    public function analysis_validate($id){
+        $orden_analisis = AnalysisCustomer::with(['specialist.user', 'details', 'customer'])
+                        ->where('deleted_at', NULL)->where('id', $id)
+                        ->orderBy('created_at', 'DESC')->first();
+        return view('admin.appointments.validation.analysis', compact('orden_analisis'));
     }
 }

@@ -37,40 +37,42 @@
                                     @endif
                                 @endif
                             </ul>
-                            @if (count($item->prescription) && count($item->analysis))
-                                <div class="row" style="margin-top:60px">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td>Prescipciones</td>
-                                                <td>Ordenes de laboratorio</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    @foreach ($item->prescription as $receta)
-                                                        @foreach ($receta->details as $detail)
-                                                            <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
+                            <div class="row" style="margin-top:60px">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Prescipciones</td>
+                                            <td>Ordenes de laboratorio</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @forelse ($item->prescription as $receta)
+                                                    @foreach ($receta->details as $detail)
+                                                        <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
+                                                    @endforeach
+                                                    <hr>
+                                                @empty
+                                                <h6 class="text-center">Ninguna</h6>
+                                                @endforelse
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    @forelse ($item->analysis as $orden)
+                                                        @foreach ($orden->details as $detail)
+                                                            <li>{{ $detail->analysis->name }}</li>
                                                         @endforeach
                                                         <hr>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        @foreach ($item->analysis as $orden)
-                                                            @foreach ($orden->details as $detail)
-                                                                <li>{{ $detail->analysis->name }}</li>
-                                                            @endforeach
-                                                            <hr>
-                                                        @endforeach
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            @endif
+                                                    @empty
+                                                    <h6 class="text-center">Ninguna</h6>
+                                                    @endforelse
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

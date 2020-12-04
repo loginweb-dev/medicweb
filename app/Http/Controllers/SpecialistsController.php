@@ -36,7 +36,7 @@ class SpecialistsController extends Controller
         return view('admin.specialists.partials.list', compact('especialistas'));
     }
 
-    public function get($search){
+    public function get_search($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%' or location like '%$search%')" : 1;
         return Specialist::with(['specialities', 'user'])
                     ->whereRaw($query_search)
@@ -45,10 +45,17 @@ class SpecialistsController extends Controller
                     })
                     ->where('deleted_at', NULL)
                     ->get();
-        // return response()->json(['specialists' => $especialistas]);
     }
 
-    public function specialities($id){
+    public function get_id($id){
+        $especialista = Specialist::with(['user', 'specialities', 'appointments.rating', 'schedules'])
+                    ->where('id', $id)
+                    ->where('deleted_at', NULL)
+                    ->first();
+        return response()->json(['especialista' => $especialista]);
+    }
+
+    public function specialities($id, $specialist_id = null){
         $especialistas = Specialist::with(['user', 'specialities', 'appointments.rating', 'schedules'])
                             ->whereHas('specialities', function($query)use ($id){
                                 $query->where('speciality_id', $id);
@@ -56,7 +63,7 @@ class SpecialistsController extends Controller
                             ->where('deleted_at', NULL)->inRandomOrder()->get();
         $especialidad = Speciality::find($id)->name;
         $horario_actual = Schedule::where('day', date('N'))->where('start', '<', date('H:i:s'))->where('end', '>', date('H:i:s'))->first();
-        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual'));
+        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual', 'specialist_id'));
     }
 
     /**

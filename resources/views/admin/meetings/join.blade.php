@@ -321,22 +321,26 @@
             // Escuchando receta nuevo
             Echo.channel('PrescriptionNewChannel-{{ Auth::user()->id }}')
             .listen('PrescriptionNewEvent', (res) => {
-                let notificacion = new Notification('Nueva prescripción médica!',{
-                    body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
-                    icon: '{{ url("images/icons/icon-512x512.png") }}'
-                });
-                notificacion.onclick = (e) => {
-                    window.open("{{ url('home/prescriptions/details') }}/"+res.prescription.id, "_blank");
-                }
+                try {
+                    let notificacion = new Notification('Nueva prescripción médica!',{
+                        body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
+                        icon: '{{ url("images/icons/icon-512x512.png") }}'
+                    });
+                    notificacion.onclick = (e) => {
+                        window.open("{{ url('home/prescriptions/details') }}/"+res.prescription.id, "_blank");
+                    }
+                } catch (error) {}
             });
 
             // Escuchando orden de analisis nueva
             Echo.channel('OrderAnalysisNewChannel-{{ Auth::user()->id }}')
             .listen('OrderAnalysisNewEvent', (res) => {
-                let notificacion = new Notification('Nueva orden de laboratorio!',{
+                try {
+                    let notificacion = new Notification('Nueva orden de laboratorio!',{
                     body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
                     icon: '{{ url("images/icons/icon-512x512.png") }}'
                 });
+                } catch (error) {}
             });
 
             // Escuchando desvío de llamada

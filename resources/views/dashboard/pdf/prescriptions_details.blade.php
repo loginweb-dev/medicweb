@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Prescripción médica | {{ setting('site.title') }}</title>
+    <title>Receta médica | {{ setting('site.title') }}</title>
 
     <style>
         body{
@@ -22,7 +22,7 @@
             top: 30%;
             text-align: center;
             z-index: -1;
-            opacity: 0.2;
+            opacity: 0.1;
         }
         .small{
             font-size: 8px;
@@ -33,7 +33,7 @@
 <body>
     <table width="100%">
         <tr>
-            <td width="40%">
+            <td width="50%">
                 <div style="width: 150px; text-align:center">
                     @php
                         $logo = setting('site.logo') ? url('storage/'.setting('site.logo')) : url('images/icons/icon-512x512.png');
@@ -45,10 +45,7 @@
                     <p class="small"> {{ setting('site.ciudad') }} </p>
                 </div>
             </td>
-            <td width="20%" style="text-align: center">
-                <h2>Receta</h2>
-            </td>
-            <td width="40%">
+            <td width="50%">
                 <table width="100%" style="text-align: right">
                     <tr>
                         <td><b style="font-size: 18px">{{ $receta->specialist->prefix }} {{ $receta->specialist->name }} {{ $receta->specialist->last_name }}</b></td>
@@ -72,16 +69,19 @@
         </tr>
     </table>
 
-    <div class="div-wather-mark">
-        <img src="{{ $logo }}" width="40%" alt="wather-mark">
+    <div style="text-align: center">
+        <h2>Receta</h2>
     </div>
 
-    <br>
+    <div class="div-wather-mark">
+        <img src="{{ $logo }}" width="60%" alt="wather-mark">
+    </div>
+
     <table width="100%" style="margin-top:20px">
         <tr>
-            <td><b>Nombre : </b></td>
+            <td><b>Paciente : </b></td>
             <td>{{ $receta->customer->name }} {{ $receta->customer->last_name }}</td>
-            <td><b>Fecha : </b></td>
+            <td><b>Fecha de emisión : </b></td>
             <td>{{ strftime("%d de %B, %Y",  strtotime($receta->created_at)) }}</td>
         </tr>
     </table>
@@ -114,7 +114,7 @@
     </table>
     <div style="position: fixed; bottom: 150px; left: 600px">
         @php
-            $qr = base64_encode(QrCode::size(120)->generate(url('/comprobar/prescipcion/'.$receta->id)));
+            $qr = base64_encode(QrCode::size(120)->generate(url('/prescription/validate/'.$receta->id)));
         @endphp
         <img src="data:image/png;base64, {!! $qr !!}">
     </div>

@@ -7,3 +7,9 @@
     border: 1px solid #fff !important;
 }
 
+/* Modelar para movil */
+@media (max-width: 700px) {
+    .container-fluid {
+        padding: 0px !important;
+    }
+}

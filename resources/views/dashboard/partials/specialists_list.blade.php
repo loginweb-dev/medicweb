@@ -3,28 +3,34 @@
 </div>
 @forelse ($especialistas as $item)
 <div class="col-md-3 mb-5">
-    <div class="card">
+    <div @if($specialist_id == $item->id) class="card card-active" style="border: 2px solid green" @else class="card card-active" @endif>
         <img class="card-img-top" src="{{ $item->user->avatar != 'users/default.png' ? asset('storage/'.str_replace('.', '-cropped.', $item->user->avatar)) : url('images/doctor.png') }}" alt="{{ $item->name }} {{ $item->last_name }}">
+        <div class="text-center" style="position:absolute; top: 5px; right: 10px">
+            @if($item->status == 2)
+            <span class="badge badge-danger">En una consulta médica</span> <span class="fas fa-circle faa-flash animated text-danger"></span>
+            @elseif($item->status == 0)
+            <span class="badge badge-danger">No disponible</span>
+            @endif
+        </div>
         <div class="card-body" style="padding-bottom: 10px">
-            <h5 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }} <br> <small>{{ $item->location }}</small> </h5>
-            <p class="card-text mt-0 mb-0">
-                @foreach ($item->specialities as $especialidad)
-                    <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label>
-                @endforeach
-            </p>
-            <h6 class="card-title text-right"><small>Precio de consulta </small>{{ count($item->specialities) ? $item->specialities[0]->price : 'NN' }} Bs.</h6>
+            <h6 class="card-title mb-0">{{ $item->prefix }} {{ $item->name }} {{ $item->last_name }} <br> <small>{{ $item->location }}</small> </h6>
             <div class="row">
-                <div class="col-md-12 text-right">
+                <div class="col-lg-6 col-md-12" style="padding-right: 0">
+                    <p class="card-text mt-0 mb-0">
+                        @foreach ($item->specialities as $especialidad)
+                            <label class="badge badge-{{ $especialidad->color }}">{{ $especialidad->name }}</label>
+                        @endforeach
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-12 text-right" style="padding-left: 0px">
                     <div class="my-rating-{{ $item->id }}"></div>
                 </div>
             </div>
+            <div class="col-md-12 text-center">
+                <span class="card-title"><small>Precio de consulta </small>{{ count($item->specialities) ? $item->specialities[0]->price : 'NN' }} Bs.</span>
+            </div>
         </div>
-        <div class="card-footer bg-white text-center">
-            @if($item->status == 2)
-            <span class="badge badge-danger mb-2">En una consulta médica</span> <span class="fas fa-circle faa-flash animated text-danger"></span>
-            @elseif($item->status == 0)
-            <span class="badge badge-danger mb-2">No disponible</span>
-            @endif
+        <div class="card-footer bg-white text-center pt-0">
             <button class="btn btn-success btn-sm btn-block btn-new-appointment" data-specilalist='@json($item)'>Nueva cita <span class="fas fa-laptop-medical"></span></button>
             {{-- <button class="btn btn-info btn-sm btn-block" data-id="{{ $item->id }}">Ver detalles <span class="fas fa-calendar"></span></button> --}}
         </div>
@@ -45,7 +51,7 @@
 @endforelse
 
 <div class="col-md-12 text-center mt-5">
-    <button type="button" class="btn btn-lg btn-primary" onclick="breadCrunb('#div-list-specialities')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
+    <button type="button" class="btn btn-primary" onclick="breadCrunb('#div-list-specialities')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
 </div>
 
 <style>
@@ -85,8 +91,8 @@
             $('.btn-payment').removeAttr('disabled');
 
             $('#div-list-specialists').fadeOut('fast');
-            $('#div-details-specialists').fadeIn('fast', () => {
-                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 500);
+            $('#div-details-specialists').fadeIn('fast', function(){
+                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 100);
             });
 
             // Inicializar vista
@@ -138,7 +144,7 @@
                 $('.alert-message').css('display', 'none');
                 $('#title-specialist').html(`<h6 class="">${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}</h6>`);
 
-                $('#title-details-specialist').html(`<a href="#" onclick="breadCrunb('#div-list-specialists')">Especialista</a> / ${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}`);
+                $('#title-details-specialist').html(`<a href="#" onclick="breadCrunb('#div-list-specialists')">Especialistas</a> / ${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}`);
                 
                 // Montrar las instrucciones según el estado del mñedico
                 if(specilalist.status == 0){
@@ -173,6 +179,8 @@
             $('#form-appointments input[name="price"]').val(price);
             calcularTotal();
         });
+
+        $([document.documentElement, document.body]).animate({scrollTop: $('.card-active').offset().top}, 100);
     });
 
     var spinner_loader = `  <div class="d-flex justify-content-center">
@@ -186,7 +194,7 @@
         $('#schedules-list').empty().html(spinner_loader);
         $('.alert-message').css('display', 'none');
         $('#message-payment-amount').css('display', 'none');
-        $([document.documentElement, document.body]).animate({scrollTop: $('#schedules-list').offset().top}, 500);
+        $([document.documentElement, document.body]).animate({scrollTop: $('#schedules-list').offset().top}, 100);
         $.get("{{ url('admin/specialists/schedules/') }}/"+id ,function(res){
             $('#schedules-list').html(res);
             $('.btn-payment').attr('disabled', 'disabled');

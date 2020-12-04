@@ -198,7 +198,7 @@
                         <input type="hidden" name="payment_type" value="2">
                         <input type="hidden" name="payment_account_id">
                         <div class="form-group col-md-12 mt-3">
-                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required>hh</textarea>
+                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
                             <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
                         </div>
                       </div>
@@ -323,14 +323,17 @@
                                         </tbody>
                                       </table>
                                     </div>
-                                    <div class="col-md-5 text-center">
+                                    <div class="col-md-5">
                                       <div id="div-payment-details">
                                         <div class="card text-white bg-info">
-                                          <div class="card-header bg-info">Instrucciones</div>
+                                          <div class="card-header bg-info text-center">Instrucciones</div>
                                           <div class="card-body">
                                             {{-- <h5 class="card-title">Info card title</h5> --}}
                                             <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
-                                            <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso presionar el botón <b>Registrar</b> para que validemos su cita médica.</p>
+                                            <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso para que validemos su cita médica, debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> </p>
+                                          </div>
+                                          <div class="card-footer bg-info">
+                                              <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
                                           </div>
                                         </div>
                                       </div>
@@ -442,7 +445,7 @@
                 minimumInputLength: 4,
                 ajax: {
                     url: function (params) {
-                        return `../../admin/specialists/get/${escape(params.term)}`;
+                        return `../../admin/specialists/get/search/${escape(params.term)}`;
                     },        
                     processResults: function (data) {
                         return {
@@ -454,12 +457,14 @@
                 templateResult: formatResultAfiliados,
                 templateSelection: (opt) => opt.full_name
             })
-            .change(function(){
-              // let id = $(this).val();
-              // if(id){
-              //   $('#form-appointments input[name="specialist_id"]').val(id);
-              //   $('#modal-appointments').modal('show');
-              // }
+            .change(async function(){
+              let id = $(this).val();
+              let res = await $.get(`../../admin/specialists/get/id/${id}`, res => res);
+              if(res.especialista.specialities.length){
+                let id = res.especialista.specialities[0].id;
+                let specialistId = res.especialista.id;
+                specialistsList(id, specialistId);
+              }
             });
 
             @if($meet_id)
@@ -528,15 +533,19 @@
             // Desplegar lista de especialistas
             $('.card-speciality').click(function(){
               let id = $(this).data('id');
+              specialistsList(id);
+            });
+
+            function specialistsList(id, specialist_id = null){
               $('#div-list-specialists').html(loading);
-              $('#div-list-specialities').fadeOut("fast", () => {
+              $('#div-list-specialities').fadeOut("fast", function(){
                 $('#div-list-specialists').fadeIn();
-                $.get('{{ url("admin/specialists/specialities") }}/'+id, (res) => {
+                $.get('{{ url("admin/specialists/specialities") }}/'+id+'/'+specialist_id, (res) => {
                   $('#div-list-specialists').html(res);
                 });
-                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 500);
+                $([document.documentElement, document.body]).animate({scrollTop: $(this).offset().top}, 100);
               });
-            });
+            }
 
             // Mostrar formulario de pasarela de pago
             $('.btn-payment').click(function(){

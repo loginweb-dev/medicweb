@@ -21,7 +21,7 @@
                         <tr>
                             <td>{{ $item->specialist->prefix }} {{ $item->specialist->name }} {{ $item->specialist->last_name }}</td>
                             <td>
-                                {{ date('d-m-Y H:i', strtotime($item->created_at)) }}
+                                {{ date('Y-m-d H:i', strtotime($item->created_at)) }}
                                 <br> <small>{{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</small>
                             </td>
                             <td>
@@ -65,7 +65,8 @@
                     sortAscending:  ": orden ascendente",
                     sortDescending: ": orden descendente"
                 }
-            }
+            },
+            "order": [[ 1, "desc" ]]
         });
     });
 </script>
