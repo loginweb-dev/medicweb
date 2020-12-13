@@ -22,13 +22,13 @@ Route::get('/', 'FrontEndController@default')->name('page_default');
 // Dashboard del cliente
 Route::get('/prescription/validate/{id}', 'HomeController@prescription_validate');
 Route::get('/analysis/validate/{id}', 'HomeController@analysis_validate');
+Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details_pdf')->name('home.prescriptions.details.pdf');
+Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/appointments', 'HomeController@appointments')->name('home.appointments');
     Route::get('/home/prescriptions', 'HomeController@prescriptions')->name('home.prescriptions');
-    Route::get('/home/prescriptions/details/{id}/{type?}', 'HomeController@prescriptions_details_pdf')->name('home.prescriptions.details.pdf');
     Route::get('/home/order_analysis', 'HomeController@order_analysis')->name('home.order_analysis');
-    Route::get('/home/order_analysis/details/{id}/{type?}', 'HomeController@order_analysis_details_pdf')->name('home.order_analysis.details.pdf');
     Route::get('/profile', 'HomeController@profile')->name('profile');
 });
 
@@ -63,14 +63,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('customers/list/{search}', 'CustomersController@list');
     Route::post('customers/update/avatar', 'CustomersController@update_avatar');
 
-    // Appointments
-    Route::resource('appointments', 'AppointmentsController');
-    Route::get('appointments/list/{search}', 'AppointmentsController@list');
-    Route::get('appointments/status/{id}/{status?}', 'AppointmentsController@update_status');
-    Route::get('appointments/tracking/{id}', 'AppointmentsController@tracking_duration');
-    Route::get('appointments/observations/browse/{id}', 'AppointmentsController@browse_observations');
-    Route::post('appointments/observations/create', 'AppointmentsController@create_observations');
-
     // Prescriptions
     Route::resource('prescriptions', 'PrescriptionsController');
 
@@ -99,13 +91,22 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-// Meets
-Route::get('meet/{id}', 'MeetingsController@join');
-Route::post('meet/divert_call', 'MeetingsController@divert_call');
-Route::post('meet/rating/store', 'MeetingsController@rating_store');
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    // Appointments
+    Route::resource('appointments', 'AppointmentsController');
+    Route::get('appointments/list/{search}', 'AppointmentsController@list');
+    Route::get('appointments/status/{id}/{status?}', 'AppointmentsController@update_status');
+    Route::get('appointments/tracking/{id}', 'AppointmentsController@tracking_duration');
+    Route::get('appointments/observations/browse/{id}', 'AppointmentsController@browse_observations');
+    Route::post('appointments/observations/create', 'AppointmentsController@create_observations');
+});
 
-// Validations
-Route::get('prescription/{id}', 'AppointmentsController@prescriptions_validation');
+// Meets
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('meet/{id}', 'MeetingsController@join');
+    Route::post('meet/divert_call', 'MeetingsController@divert_call');
+    Route::post('meet/rating/store', 'MeetingsController@rating_store'); 
+});
 
 // Logout costumized
 Route::post('admin/logout', 'Controller@logout')->name('voyager.logout');
