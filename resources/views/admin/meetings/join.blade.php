@@ -215,12 +215,13 @@
                         message: meet.specialist.full_name,
                     }
                     let data = {
+                        id: meet.id,
                         url: `https://${domainServer}/${roomName}`,
                         specialistName: meet.specialist.full_name,
                         // specialistAvatar: 'https://livemedic.net/storage/users/October2020/p7Q6Gh4iQ8qLhd7obquZ-cropped.jpg'
                         specialistAvatar: `${uri}/${meet.specialist.user.avatar}`
                     }
-                    // console.log(meet)
+                    // console.log(data)
                     sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
                 });
 

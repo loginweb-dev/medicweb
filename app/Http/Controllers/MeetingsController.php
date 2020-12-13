@@ -19,21 +19,6 @@ use App\Events\DivertCallEvent;
 
 class MeetingsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function join($id){
         if(Auth::user()->role_id == 2){
             $meet = Appointment::where('id', $id)
@@ -74,12 +59,15 @@ class MeetingsController extends Controller
     public function rating_store(Request $request){
         DB::beginTransaction();
         try {
-            AppointmentsRating::create([
+            $appointments_rating = AppointmentsRating::firstOrNew([
                 'appointment_id' => $request->id,
-                'user_id' => Auth::user()->id,
-                'rating' => $request->rating,
-                'comment' => $request->comment
+                'user_id' => $request->user_id ?? Auth::user()->id
             ]);
+
+            $appointments_rating->rating = $request->rating;
+            $appointments_rating->comment = $request->comment;
+            $appointments_rating->save();
+            
             DB::commit();
             return response()->json(['success' => 'Gracias por tu puntuación!', 'message' => 'Esto nos ayuda a brindarte un mejor servicio.']);
         } catch (\Exception $e) {
