@@ -51,7 +51,7 @@ class AppointmentsController extends Controller
                             $query->whereRaw($query_search);
                         })
                         ->with(['specialist.user', 'customer', 'tracking'])
-                        ->where('deleted_at', NULL)
+                        // ->where('deleted_at', NULL)
                         ->where('status', '<>', 'Validar')
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10) :
 
@@ -59,7 +59,7 @@ class AppointmentsController extends Controller
                         ->whereHas('customer', function($query) use ($query_search) {
                             $query->whereRaw($query_search);
                         })
-                        ->where('deleted_at', NULL)
+                        // ->where('deleted_at', NULL)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10);
         $specialist = Specialist::whereHas('user', function($q){
             $q->where('id', Auth::user()->id);
@@ -343,6 +343,11 @@ class AppointmentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Appointment::where('id', $id)->update([
+            'status' => 'Anulada',
+            'paid' => NULL,
+            'deleted_at' => Carbon::now()
+        ]);
+        return 1;
     }
 }
