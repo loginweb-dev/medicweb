@@ -1,6 +1,6 @@
 
 <!-- Modal prescription-->
-<form class="form-modal" action="{{ route('prescriptions.store') }}" method="post">
+<form class="form-modal" data-type="prescription" action="{{ route('prescriptions.store') }}" method="post">
     @csrf
     <input type="hidden" name="customer_id" value="{{ $customer_id }}">
     <input type="hidden" name="specialist_id" value="{{ $specialist_id }}">
