@@ -37,6 +37,9 @@
                                     $type = 'default';
                                     break;
                                 case 'validar':
+                                    $type = 'warning';
+                                    break;
+                                case 'anulada':
                                     $type = 'danger';
                                     break;
                                 default:
@@ -68,24 +71,22 @@
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validar</span>
                                 </button>
                             @else
-                                @if ($item->paid)
+                                @if ($item->paid && strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'anulada')
                                     <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
                                         <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
                                     </a>
                                     <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
                                         <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
                                     </button>
-                                @else
-                                    <label class="label label-success">Pagada</label>
                                 @endif
                             @endif
 
-                            @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso' && Auth::user()->role_id != 5)
+                            @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso' && strtolower($item->status) != 'anulada' && Auth::user()->role_id != 5)
                                 <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
                                     <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
                                 </a>
-                                <a href="javascript:;" title="Borrar" class="btn btn-sm btn-danger delete" data-id="3" id="delete-3">
-                                    <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Borrar</span>
+                                <a href="#" data-url="{{ route('appointments.destroy', ['appointment' => $item->id]) }}" title="Anular" class="btn btn-sm btn-danger btn-delete">
+                                    <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Anular</span>
                                 </a>
                             @endif
                         </td>
@@ -158,6 +159,12 @@
             </div>
         </div>
     </div>
+
+    {{-- Form delete --}}
+    <form name="form_delete" id="form-delete" method="POST">
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+    </form>
 </div>
 <script src="{{ url('js/moment.js') }}"></script>
 
@@ -208,7 +215,7 @@
                         }
                     });
                 }
-            })
+            });
         });
 
         // Validar pago
@@ -250,6 +257,42 @@
             $('#form-postpone input[name="date"]').val(date);
             $('#form-postpone input[name="start"]').val(start);
             $('#form-postpone').attr('action', '{{ url("admin/appointments") }}/'+id);
+        });
+
+        // Elimiar reunión
+        $('.btn-delete').click(function(){
+            let url = $(this).data('url');
+            Swal.fire({
+                title: 'Estás seguro?',
+                text: "Deseas anular la cita médica?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, anular!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    // $.post(url, $(this).serialize(), function(res){
+                    //     console.log(res);
+                    // });
+                    $.ajax({
+                        url,
+                        type: 'DELETE',
+                        data: $(this).serialize(),
+                        success: function (res){
+                            Swal.fire(
+                                'Anulada!',
+                                'Cita médica anulada correctamente.',
+                                'success'
+                            )
+                            inputSearch = escape($('#search-input input[name="search"]').val()).split("/").join("");
+                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                        }
+                    });
+
+                }
+            });
         });
 
         // Ver histolrial

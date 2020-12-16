@@ -1,0 +1,9 @@
+apps:
+  - name: livemedic-worker
+    script: artisan
+    exec_mode: fork
+    interpreter: php
+    instances: 1
+    args:
+      - websockets:serve
+      - --port=6001
