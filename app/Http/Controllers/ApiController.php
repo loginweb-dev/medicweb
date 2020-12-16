@@ -94,7 +94,7 @@ class ApiController extends Controller
     }
 
     public function get_last_appointment_active($customer_id){
-        $appointment = Appointment::with('specialist.user')->where('status', '<>', 'Finalizada')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->first();
+        $appointment = Appointment::with('specialist.user')->where('customer_id', $customer_id)->where('status', 'En curso')->orderBy('id', 'DESC')->first();
         $server = 'https://'.setting('server-streaming.url_server');
         return response()->json(['appointment' => $appointment, 'server' => $server]);
     }

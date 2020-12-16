@@ -219,7 +219,8 @@
                         url: `https://${domainServer}/${roomName}`,
                         specialistName: meet.specialist.full_name,
                         // specialistAvatar: 'https://livemedic.net/storage/users/October2020/p7Q6Gh4iQ8qLhd7obquZ-cropped.jpg'
-                        specialistAvatar: `${uri}/${meet.specialist.user.avatar}`
+                        specialistAvatar: `${uri}/${meet.specialist.user.avatar}`,
+                        type: 'calling'
                     }
                     // console.log(data)
                     sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
@@ -279,7 +280,7 @@
                 // Guardar receta
                 $('.form-modal').on('submit', function(e){
                     e.preventDefault();
-                    $.post($(this).attr('action'), $(this).serialize(), function(res){
+                    $.post($(this).attr('action'), $(this).serialize(), (res) => {
                         if(res.success){
                             Toast.fire({
                                 icon: 'success',
@@ -289,6 +290,21 @@
                             $('.form-modal').trigger("reset");
                             getObservations();
                             $('#table-medicine tbody').empty();
+
+                            // Notificación movil
+                            let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
+                            let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
+                            let meet = @json($meet);
+                            let notification = {
+                                title: "Nuevo historial",
+                                message: meet.specialist.full_name,
+                            }
+                            let data = {
+                                message: $(this).data('type') == 'analysi' ? 'Tienes una orden de análisis nueva.' : 'Tienes una prescipción médica nueva.',
+                                type: 'prescription_analysi'
+                            }
+                            console.log(data)
+                            sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
                         }else{
                             Toast.fire({
                                 icon: 'error',
