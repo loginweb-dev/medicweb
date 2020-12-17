@@ -121,11 +121,11 @@ return [
 
     'ui'                 => [
         'code_theme'     => 'dark', // or: light
-        'fav'            => '',     // eg: fav.png
+        'fav'            => 'images/icons/icon-72x72.png',     // eg: fav.png
         'fa_v4_shims'    => true, // Add FontAwesome v4 shims prevent BC break
         'show_side_bar'  => true,
         'colors'         => [
-            'primary'    => '#787AF6',
+            'primary'    => '#2a95a5',
             'secondary'  => '#2b9cf2'
         ],
 

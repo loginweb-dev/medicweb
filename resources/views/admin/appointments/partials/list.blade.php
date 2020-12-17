@@ -260,7 +260,8 @@
         });
 
         // Elimiar reunión
-        $('.btn-delete').click(function(){
+        $('.btn-delete').click(function(e){
+            e.preventDefault();
             let url = $(this).data('url');
             Swal.fire({
                 title: 'Estás seguro?',
@@ -287,7 +288,7 @@
                                 'success'
                             )
                             inputSearch = escape($('#search-input input[name="search"]').val()).split("/").join("");
-                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch, current_page);
                         }
                     });
 
@@ -314,8 +315,9 @@
             let link = $(this).attr('href');
             if(link){
                 page = link.split('=')[1];
+                current_page = page;
                 inputSearchNew = escape($('#search-input input[name="search"]').val()).split("/").join("");
-                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearchNew, page);
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearchNew, current_page);
             }
         });
 

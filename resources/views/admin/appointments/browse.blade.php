@@ -81,6 +81,8 @@
         $(document).ready(function(){
             var loader = renderLoader();
             var inputSearch = '';
+            var current_page = 1;
+
             $('#list-table').html(loader);
 
             // Cargar lista
@@ -149,7 +151,7 @@
                         } catch (error) {}
                     }
                 }
-                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch, current_page);
             });
 
             // Escuchando llamada a specialista
@@ -167,7 +169,7 @@
                         }
                     } catch (error) {}
                 }
-                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch, current_page);
             });
 
             // Escuchando pago en revisión
