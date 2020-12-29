@@ -16,7 +16,8 @@ use App\User;
 use App\Speciality;
 use App\Schedule;
 use App\Appointment;
-use App\AppointmentsPayment;
+use App\SpecialistPayment;
+use App\SpecialistPaymentDetail;
 
 class SpecialistsController extends Controller
 {
@@ -253,20 +254,10 @@ class SpecialistsController extends Controller
     public function payment_store($id, Request $request){
         DB::beginTransaction();
         try {
-            $time_frame = '';
-            $count_appointment = count($request->appointment_id);
-            if($count_appointment){
-                $inicio = Appointment::find($request->appointment_id[$count_appointment-1])->date;
-                $fin = Appointment::find($request->appointment_id[0])->date;
-                $time_frame = "De ".date('d-m-Y', strtotime($inicio))." a ".date('d-m-Y', strtotime($inicio));
-            }
 
-            AppointmentsPayment::create([
+            $payment = SpecialistPayment::create([
                 'specialist_id' => $id,
                 'user_id' => auth()->user()->id,
-                'amount' => $request->amount,
-                'count_appointment' => $count_appointment,
-                'time_frame' => $time_frame,
                 'observations' => $request->observations
             ]);
 
@@ -274,13 +265,18 @@ class SpecialistsController extends Controller
                 $cita = Appointment::find($id);
                 $cita->paid = 1;
                 $cita->update();
+
+                SpecialistPaymentDetail::create([
+                    'specialist_payment_id' => $payment->id,
+                    'appointment_id' => $id
+                ]);
             }
                 
             DB::commit();
             return redirect()->route('specialists.index')->with(['message' => 'Pago registrado exitosamente exitosamente.', 'alert-type' => 'success']);
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->route('specialists.index')->with(['message' => 'Ocurriço un error al registrar el pago.', 'alert-type' => 'error']);
+            return redirect()->route('specialists.index')->with(['message' => 'Ocurrió un error al registrar el pago.', 'alert-type' => 'error']);
         }
     }
 

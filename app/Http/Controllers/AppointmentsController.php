@@ -106,30 +106,30 @@ class AppointmentsController extends Controller
             $end = Carbon::create($request->date.' '.$request->start);
             $end = $end->addMinutes(setting('citas.duracion'));
 
-            $paid = null;
-
             // payment_type = 1 transferencia
             // payment_type = 2 pago mediante tarjeta
             if($request->payment_type == 1){
                 $status = 'Validar';
             }else{
                 $status = $request->date.' '.$request->start <= date('Y-m-d H:i:s') ? 'Conectando' : 'Pendiente';
-                $paid = 1;
             }
 
             // Crear cita
+            $price_add = $request->price_add ?? 0;
+            $amount_total = $request->price + $price_add;
+            $porcentaje_ganancia = (100 - (setting('citas.porcentaje_ganancia') ?? 30)) /100;
             $cita = Appointment::create([
                 'specialist_id' => $request->specialist_id,
                 'customer_id' => $request->customer_id,
                 'speciality_id' => $request->speciality_id,
                 'amount' => $request->price,
-                'amount_add' => $request->price_add,
+                'amount_add' => $price_add,
                 'date' => $request->date,
                 'start' => $request->start,
                 'end' => $end->format('H:i:s'),
                 'status' => $status,
                 'observations' => $request->observations,
-                'paid' => $paid
+                'amount_paid' => $amount_total * $porcentaje_ganancia
             ]);
 
             $cita = Appointment::find($cita->id);
@@ -261,7 +261,6 @@ class AppointmentsController extends Controller
         try {
             $cita = Appointment::find($id);
             $cita->status = $status;
-            $cita->paid = 1;
             $cita->save();
 
             DB::commit();

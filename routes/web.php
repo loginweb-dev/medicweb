@@ -70,7 +70,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('analysiscustomer', 'AnalyisisCustomersController');
 
     // Reportes
-    
+    Route::get('reportes/appointments', 'ReportsController@appointments');
+    Route::post('reportes/appointments/list', 'ReportsController@appointments_list');
+    Route::get('reportes/payments', 'ReportsController@payments');
+    Route::post('reportes/payments/list', 'ReportsController@payments_list');
+
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');

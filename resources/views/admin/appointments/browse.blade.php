@@ -1,13 +1,13 @@
 @extends('voyager::master')
 
-@section('page_title', 'Citas')
+@section('page_title', 'Citas médicas')
 
 @section('page_header')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
                 <h1 class="page-title">
-                    <i class="voyager-browser"></i> Citas
+                    <i class="voyager-browser"></i> Citas médicas
                 </h1>
                 {{-- <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
                     <i class="voyager-plus"></i> <span>Crear</span>
@@ -189,17 +189,16 @@
         });
 
         function getAmount(){
-            let porcentaje = "{{ setting('citas.porcentaje_ganancia') }}" ? ((100 - parseFloat("{{ setting('citas.porcentaje_ganancia') }}")) / 100) : 0 ;
             let monto = 0;
             let cont = 0;
             $('.label-amount').each(function(){
-                monto += $(this).data('amount');
+                monto += parseFloat($(this).data('amount'));
                 if($(this).data('amount') > 0){
                     cont++;
                 }
             });
             let labelCitas = cont == 1 ? 'cita' : 'citas';
-            $('#label-monto-acumulado').html(`${(monto*(porcentaje)).toFixed(2)} Bs. <br><small>${cont} ${labelCitas} sin cobrar</small>`);
+            $('#label-monto-acumulado').html(`${monto.toFixed(2)} Bs. <br><small>${cont} ${labelCitas} sin cobrar</small>`);
         }
     </script>
 @stop

@@ -1,11 +1,11 @@
 @extends('voyager::master')
 
-@section('page_title', 'Reporte de citas médicas')
+@section('page_title', 'Reporte de pagos a especialistas')
 
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
-            <i class="voyager-browser"></i> Reporte de citas médicas
+            <i class="voyager-dollar"></i> Reporte de pagos a especialistas
         </h1>
     </div>
 @stop
@@ -19,7 +19,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="form" class="form-inline" method="POST" action="{{ url('admin/reportes/appointments/list') }}">
+                                <form id="form" class="form-inline" method="POST" action="{{ url('admin/reportes/payments/list') }}">
                                     @csrf
                                     <div class="form-group">
                                         <input type="date" name="start" class="form-control" required>

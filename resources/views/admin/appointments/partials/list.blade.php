@@ -3,6 +3,7 @@
         <table id="dataTable" class="table table-hover">
             <thead>
                 <tr>
+                    <th class="text-center">Cod.</th>
                     @if (Auth::user()->role_id != 5)
                     <th class="text-center">Especialista</th>
                     @endif
@@ -17,6 +18,7 @@
             <tbody>
                 @forelse ($citas as $item)
                     <tr>
+                        <td>{{ str_pad($item->id, 5, "0", STR_PAD_LEFT) }}</td>
                         @if (Auth::user()->role_id != 5)
                         <td>{{ $item->specialist->prefix }} {{ $item->specialist->name }} {{ $item->specialist->last_name }}</td>
                         @endif
@@ -63,7 +65,7 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="label-amount" data-amount="{{ !$item->paid && $item->status == 'Finalizada' ? $item->amount + $item->amount_add : 0 }}" >{{ $item->amount + $item->amount_add }} Bs.</td>
+                        <td class="label-amount" data-amount="{{ !$item->paid && $item->status == 'Finalizada' ? $item->amount_paid : 0 }}" >{{ $item->amount + $item->amount_add }} Bs.</td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
                             @if ($item->status == 'Validar')
@@ -71,7 +73,7 @@
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validar</span>
                                 </button>
                             @else
-                                @if ($item->paid && strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'anulada')
+                                @if (strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'anulada')
                                     <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
                                         <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
                                     </a>
@@ -93,7 +95,7 @@
                     </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center">No hay registros</td>
+                    <td colspan="7" class="text-center">No hay registros</td>
                 </tr>
                 @endforelse
             </tbody>

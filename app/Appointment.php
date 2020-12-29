@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    public $fillable = ['specialist_id', 'customer_id', 'speciality_id', 'date', 'start', 'end', 'status', 'code', 'amount', 'amount_add', 'paid', 'observations'];
+    public $fillable = ['specialist_id', 'customer_id', 'speciality_id', 'date', 'start', 'end', 'status', 'code', 'amount', 'amount_add', 'paid', 'amount_paid', 'observations'];
 
     public function specialist(){
         return $this->belongsTo('App\Specialist', 'specialist_id');
