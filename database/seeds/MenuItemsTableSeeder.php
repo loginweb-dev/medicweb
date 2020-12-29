@@ -369,6 +369,38 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => '',
             ),
+            22 => 
+            array (
+                'id' => 26,
+                'menu_id' => 1,
+                'title' => 'Citas médicas',
+                'url' => 'admin/reportes/appointments',
+                'target' => '_self',
+                'icon_class' => 'voyager-browser',
+                'color' => '#000000',
+                'parent_id' => 25,
+                'order' => 1,
+                'created_at' => '2020-12-29 15:26:59',
+                'updated_at' => '2020-12-29 15:27:48',
+                'route' => NULL,
+                'parameters' => '',
+            ),
+            23 => 
+            array (
+                'id' => 27,
+                'menu_id' => 1,
+                'title' => 'Pagos a especialistas',
+                'url' => 'admin/reportes/payments',
+                'target' => '_self',
+                'icon_class' => 'voyager-dollar',
+                'color' => '#000000',
+                'parent_id' => 25,
+                'order' => 2,
+                'created_at' => '2020-12-29 18:08:21',
+                'updated_at' => '2020-12-29 18:10:29',
+                'route' => NULL,
+                'parameters' => '',
+            ),
         ));
         
         

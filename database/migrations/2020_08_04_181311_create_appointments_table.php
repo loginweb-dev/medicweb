@@ -29,6 +29,7 @@ class CreateAppointmentsTable extends Migration
             $table->decimal('amount', 10, 2)->default(0)->nullable();
             $table->decimal('amount_add', 10, 2)->default(0);
             $table->integer('paid')->nullable();
+            $table->decimal('amount_paid', 10, 2)->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -269,7 +269,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Registrar <span class="fa fa-check-square"></span></button>
+                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Realizar cita <span class="fa fa-check-square"></span></button>
                                     </div>
                                   </div>
                                 </div>
@@ -341,7 +341,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Registrar <span class="fa fa-check-square"></span></button>
+                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Realizar cita <span class="fa fa-check-square"></span></button>
                                     </div>
                                   </div>
                                 </div>

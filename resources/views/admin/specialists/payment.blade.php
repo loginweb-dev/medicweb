@@ -2,10 +2,6 @@
 
 @section('page_title', 'Pagos pendiente')
 
-@php
-    $porcentaje_ganancia = (100 - (setting('citas.porcentaje_ganancia') ?? 0)) /100;
-@endphp
-
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
@@ -18,6 +14,10 @@
     <form id="form-store" action="{{ route('specialists.payment.store', ['id' => $id]) }}" method="POST">
         <div class="page-content browse container-fluid">
             @include('voyager::alerts')
+            <div class="alert alert-info">
+                <strong>Información:</strong>
+                <p>Seleccione las citas médicas que desea registrar como pagadas al especialista y presione el boton <b>pagar</b>.</p>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-bordered">
@@ -57,20 +57,17 @@
                                             $total_deuda = 0;
                                         @endphp
                                         @forelse ($citas as $cita)
-                                        @php
-                                            $monto = ($cita->amount + $cita->amount_add) * $porcentaje_ganancia;
-                                        @endphp
                                             <tr>
-                                                <td><input type="checkbox" class="check-amount" data-amount="{{ $monto }}" value="{{ $cita->id }}" name="appointment_id[]"></td>
+                                                <td><input type="checkbox" class="check-amount" data-amount="{{ $cita->amount_paid }}" value="{{ $cita->id }}" name="appointment_id[]"></td>
                                                 <td>{{ $cita->customer->name }} {{ $cita->customer->last_name }}</td>
                                                 <td>
                                                     {{ date('d-m-Y H:i', strtotime($cita->date.' '.$cita->start)) }} <br>
                                                     <small>{{ \Carbon\Carbon::parse($cita->date.' '.$cita->start)->diffForHumans() }}</small>
                                                 </td>
-                                                <td><h5>Bs. {{ $monto }}</h5></td>
+                                                <td><h5>Bs. {{ $cita->amount_paid }}</h5></td>
                                             </tr>
                                             @php
-                                                $total_deuda += $monto;
+                                                $total_deuda += $cita->amount_paid;
                                             @endphp
                                         @empty
                                         <tr>
