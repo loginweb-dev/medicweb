@@ -2,6 +2,12 @@
 
 @section('page_title', 'Editar especialista')
 
+@if(!auth()->user()->hasPermission('add_specialities'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <h1 class="page-title">
         <i class="voyager-people"></i> Editar especialista
@@ -63,7 +69,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Direción</label>
+                                <label>Dirección</label>
                                 <textarea name="address" class="form-control" rows="3">{{ old('address') ? :$specialist->address }}</textarea>
                                 @error('address')
                                     <span class="text-danger" role="alert">

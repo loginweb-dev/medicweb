@@ -2,6 +2,12 @@
 
 @section('page_title', 'Especialistas')
 
+@if(!auth()->user()->hasPermission('browse_specialists'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">

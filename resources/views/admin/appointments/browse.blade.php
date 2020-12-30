@@ -5,7 +5,7 @@
 @section('page_header')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <h1 class="page-title">
                     <i class="voyager-browser"></i> Citas médicas
                 </h1>
@@ -16,9 +16,9 @@
                     <input type="checkbox" data-id="{{ $specialist->id }}" @if($specialist->status) checked @endif id="checkbox-status" data-toggle="toggle" data-on="Activo" data-off="Inactivo">
                 @endif
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3 text-right">
                 @if (Auth::user()->role_id == 5)
-                <h2 class="text-right text-muted" id="label-monto-acumulado" style="cursor: pointer"></h2>
+                <h2 class="text-muted" id="label-monto-acumulado" style="cursor: pointer"></h2>
                 @endif
             </div>
         </div>

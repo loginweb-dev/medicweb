@@ -2,6 +2,12 @@
 
 @section('page_title', 'Agregar cliente')
 
+@if(!auth()->user()->hasPermission('edit_customers'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <h1 class="page-title">
         <i class="voyager-people"></i> Editar cliente
@@ -47,7 +53,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Direción</label>
+                                <label>Dirección</label>
                                 <textarea name="address" class="form-control" rows="3">{{$customer->address}}</textarea>
                                 @error('address')
                                     <span class="text-danger" role="alert">

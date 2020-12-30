@@ -2,6 +2,12 @@
 
 @section('page_title', 'Agregar cita')
 
+@if(!auth()->user()->hasPermission('add_appointments'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <h1 class="page-title">
         <i class="voyager-browser"></i> Agregar cita

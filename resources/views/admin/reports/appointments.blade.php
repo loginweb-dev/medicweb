@@ -2,6 +2,12 @@
 
 @section('page_title', 'Reporte de citas médicas')
 
+@if(!auth()->user()->hasPermission('browse_reportesappointments'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">

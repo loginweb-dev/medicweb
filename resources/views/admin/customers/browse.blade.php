@@ -2,6 +2,12 @@
 
 @section('page_title', 'Clientes')
 
+@if(!auth()->user()->hasPermission('browse_customers'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">

@@ -13,7 +13,7 @@ use App\Customer;
 
 class SocialiteController extends Controller
 {
-        //function para redirecionar al cuenta social
+        //function para redireccionar al cuenta social
         public function redirectToProvider($social)
         {
             return Socialite::driver($social)->redirect();

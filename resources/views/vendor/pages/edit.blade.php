@@ -47,7 +47,7 @@
                                     <input class="form-control" type="text" name="name" value="{{ $page->name }}" />
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Direcion</label>
+                                    <label>Direccion</label>
                                     <input class="form-control" type="text" name="direction" value="{{ $page->direction }}" />
                                 </div>
                                 <div class="form-group col-md-6">

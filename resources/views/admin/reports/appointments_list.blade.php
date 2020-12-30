@@ -1,3 +1,8 @@
+@if(!auth()->user()->hasPermission('browse_reportesappointments'))
+    @php
+    return 0;
+    @endphp
+@endif
 <div>
     <div class="table-responsive">
         <table id="dataTable" class="table table-hover">

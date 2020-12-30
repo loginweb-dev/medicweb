@@ -2,6 +2,12 @@
 
 @section('page_title', 'Reporte de pagos a especialistas')
 
+@if(!auth()->user()->hasPermission('browse_reportespayments'))
+    @php
+    return 0;
+    @endphp
+@endif
+
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
