@@ -118,7 +118,7 @@ class HomeController extends Controller
     }
 
     public function checkout(Request $request){
-        \Stripe\Stripe::setApiKey('sk_test_yRS0OVxCRusavWf7OObSVLlv00hSlTnW4f');
+        \Stripe\Stripe::setApiKey(env('STRIPE_PRIVATE_KEY'));
 
         try {
 

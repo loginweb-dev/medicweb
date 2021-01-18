@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="card-footer bg-white text-center pt-0">
-            <button class="btn btn-success btn-sm btn-block btn-new-appointment" data-specilalist='@json($item)'>Nueva cita <span class="fas fa-laptop-medical"></span></button>
+            <button class="btn btn-success btn-sm btn-block btn-new-appointment mt-2" data-specilalist='@json($item)'>Nueva cita <span class="fas fa-laptop-medical"></span></button>
             {{-- <button class="btn btn-info btn-sm btn-block" data-id="{{ $item->id }}">Ver detalles <span class="fas fa-calendar"></span></button> --}}
         </div>
     </div>
