@@ -195,7 +195,7 @@
                         <input type="hidden" name="ajax" value="1">
                         <input type="hidden" name="specialist_id">
                         <input type="hidden" name="customer_id" value="{{ $customer_id }}">
-                        <input type="hidden" name="payment_type" value="2">
+                        <input type="hidden" name="payment_type" value="1">
                         <input type="hidden" name="payment_account_id">
                         <div class="form-group col-md-12 mt-3">
                             <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
@@ -207,82 +207,15 @@
                       <div class="row">
                         <div class="col-md-12">
                           <div id="accordion">
-                            <div class="card">
-                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
-                                <h6 class="mb-0 text-white">
-                                  Pago con tarjeta de crédito/débito
-                                </h6>
-                              </div>
-                              <div id="collapseTarjeta" class="collapse show" aria-labelledby="headingTarjeta" data-parent="#accordion">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                      <div class="card border-left-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                          <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                              <div class="h5 mb-0 font-weight-bold text-success">
-                                                <p>Costo del servicio:</p>
-                                              </div>
-                                            </div>
-                                            <div class="col-auto">
-                                              <h4 class="text-success label-price-appointment"></h4>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    @php
-                                      $stripe_key = 'pk_test_ytzvi8dfXTzPkZ26tQ2Qyuj700BwiGRmXf';
-                                    @endphp
-                                    <div class="col-md-7 text-center">
-                                      <div class="row">
-                                        <div class="col-md-12">                    
-                                          <div class="form-group">
-                                              <div class="card-header">
-                                                  <label for="card-element">Información de tu tarjeta</label>
-                                              </div>
-                                              <div class="card-body">
-                                                  <div id="card-element">
-                                                  <!-- A Stripe Element will be inserted here. -->
-                                                  </div>
-                                                  <!-- Used to display form errors. -->
-                                                  <div id="card-errors" role="alert" style="margin-top: 50px"></div>
-                                                  <input type="hidden" name="plan" value="" />
-                                              </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-5 text-center">
-                                      <div id="div-payment-details">
-                                        <div class="card text-white bg-info">
-                                          <div class="card-header bg-info">Instrucciones</div>
-                                          <div class="card-body">
-                                            {{-- <h5 class="card-title">Info card title</h5> --}}
-                                            <p class="card-justify">Debes habilitar tus compras por internet e ingresar los datos de tu tarjeta</p>
-                                            <small>NOTA: en caso de pedir CP (Código postal) ingresa 00000</small>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Realizar cita <span class="fa fa-check-square"></span></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
 
+                            @if (setting('pasarela-de-pago.transferencia_bancaria'))
                             <div class="card">
                               <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
                                 <h6 class="mb-0 text-white">
                                   Transferencia bancaria
                                 </h6>
                               </div>
-                              <div id="collapseTransferencia" class="collapse" aria-labelledby="headingTransferencia" data-parent="#accordion">
+                              <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
                                 <div class="card-body">
                                   <div class="row">
                                     <div class="col-md-12 mb-3">
@@ -329,8 +262,8 @@
                                           <div class="card-header bg-info text-center">Instrucciones</div>
                                           <div class="card-body">
                                             {{-- <h5 class="card-title">Info card title</h5> --}}
-                                            <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p>
-                                            <p id="message-2" style="display: none" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso para que validemos su cita médica, debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> </p>
+                                            {{-- <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p> --}}
+                                            <p id="message-2" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso para que validemos su cita médica, debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> </p>
                                           </div>
                                           <div class="card-footer bg-info">
                                               <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
@@ -347,6 +280,131 @@
                                 </div>
                               </div>
                             </div>
+                            @endif
+
+                            @if (setting('pasarela-de-pago.tigo_money'))
+                            <div class="card">
+                              <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTigoMoney" data-toggle="collapse" data-target="#collapseTigoMoney" aria-expanded="true" aria-controls="collapseTigoMoney" style="cursor: pointer">
+                                <h6 class="mb-0 text-white">
+                                  TIGO Money
+                                </h6>
+                              </div>
+                              <div id="collapseTigoMoney" class="collapse" aria-labelledby="headingTigoMoney" data-parent="#accordion">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                      <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                              <div class="h5 mb-0 font-weight-bold text-success">
+                                                <p>Costo del servicio:</p>
+                                              </div>
+                                            </div>
+                                            <div class="col-auto">
+                                              <h4 class="text-success label-price-appointment"></h4>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                      <div id="div-payment-details">
+                                        <div class="card text-white bg-info">
+                                          <div class="card-header bg-info text-center">Instrucciones</div>
+                                          <div class="card-body">
+                                            <p>Debe transferir <b class="label-price-appointment"></b> a tigo money a cualquiera de los siguientes números:</p>
+                                            <h1 class="text-white">{{ setting('pasarela-de-pago.numeros_tigo_money') }}</h1>
+                                            <p>Una vez realizada la tranferencia envía una captura de pantalla con el comprabante de pago al siguiente número de Whatsapp: <b class="text-center">{{ setting('whatsapp.phone') }}</b></p>
+                                          </div>
+                                          <div class="card-footer bg-info">
+                                              <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <img src="{{ url('images/tigomoney.png') }}" alt="Tigo Money" width="100%">
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12 text-right" style="margin-top: 30px">
+                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Realizar cita <span class="fa fa-check-square"></span></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            @endif
+
+                            @if (setting('pasarela-de-pago.tarjeta_credito'))
+                            <div class="card">
+                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
+                                <h6 class="mb-0 text-white">
+                                  Pago con tarjeta de crédito/débito
+                                </h6>
+                              </div>
+                              <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                      <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                          <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                              <div class="h5 mb-0 font-weight-bold text-success">
+                                                <p>Costo del servicio:</p>
+                                              </div>
+                                            </div>
+                                            <div class="col-auto">
+                                              <h4 class="text-success label-price-appointment"></h4>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-7 text-center">
+                                      <div class="row">
+                                        <div class="col-md-12">                    
+                                          <div class="form-group">
+                                              <div class="card-header">
+                                                  <label for="card-element">Información de tu tarjeta</label>
+                                              </div>
+                                              <div class="card-body">
+                                                  <div id="card-element">
+                                                  <!-- A Stripe Element will be inserted here. -->
+                                                  </div>
+                                                  <!-- Used to display form errors. -->
+                                                  <div id="card-errors" role="alert" style="margin-top: 50px"></div>
+                                                  <input type="hidden" name="plan" value="" />
+                                              </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                      <div id="div-payment-details">
+                                        <div class="card text-white bg-info">
+                                          <div class="card-header bg-info">Instrucciones</div>
+                                          <div class="card-body">
+                                            {{-- <h5 class="card-title">Info card title</h5> --}}
+                                            <p class="card-justify">Debes habilitar tus compras por internet e ingresar los datos de tu tarjeta</p>
+                                            <small>NOTA: en caso de pedir CP (Código postal) ingresa 00000</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-12 text-right" style="margin-top: 30px">
+                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Realizar cita <span class="fa fa-check-square"></span></button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            @endif
+
                           </div>
                         </div>
                       </div>
@@ -571,7 +629,7 @@
               let value = $(this).data('value');
               $('#form-appointments input[name="payment_type"]').val(value);
               if(value == 1){
-                $('.btn-store-appointment').attr('disabled', 'disabled');
+                // $('.btn-store-appointment').attr('disabled', 'disabled');
               }
             });
 
@@ -627,7 +685,7 @@
             }
         };
 
-        const stripe = Stripe("{{ $stripe_key }}", { locale: 'es' }); // Create a Stripe client.
+        const stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}", { locale: 'es' }); // Create a Stripe client.
         const elements = stripe.elements(); // Create an instance of Elements.
         const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
 
