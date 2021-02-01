@@ -160,12 +160,14 @@
                 if(Notification.permission==='granted'){
                     console.log(res)
                     try {
-                        let notificacion = new Notification(`Tienes una cita médica en espera`,{
-                            body: `Paciente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
-                            icon: '{{ url("images/icons/icon-512x512.png") }}'
-                        });
-                        notificacion.onclick = (e) => {
-                            window.open("{{ url('meet') }}/"+res.meet.id, "_blank");
+                        if(res.meet.status == 'Conectando' && '{{ Auth::user()->role_id }}' == 5){
+                            let notificacion = new Notification(`Tienes un cliente en espera`,{
+                                body: `Paciente ${res.meet.customer.name} ${res.meet.customer.last_name}`,
+                                icon: '{{ url("images/icons/icon-512x512.png") }}'
+                            });
+                            notificacion.onclick = (e) => {
+                                window.open("{{ url('meet') }}/"+res.meet.id, "_blank");
+                            }
                         }
                     } catch (error) {}
                 }
@@ -177,14 +179,18 @@
             .listen('VerifyPaymentEvent', (res) => {
                 if(Notification.permission==='granted'){
                     try {
-                        let notificacion = new Notification(`Tienes un pago por validar`,{
-                            body: `Cliente ${res.appointment.customer.name} ${res.appointment.customer.last_name}`,
-                            icon: '{{ url("images/icons/icon-512x512.png") }}'
-                        });
+                        if('{{ Auth::user()->role_id }}' == 1 || '{{ Auth::user()->role_id }}' == 3){
+                            let notificacion = new Notification(`Tienes un pago por validar`,{
+                                body: `Cliente ${res.appointment.customer.name} ${res.appointment.customer.last_name}`,
+                                icon: '{{ url("images/icons/icon-512x512.png") }}'
+                            });
+                            notificacion.onclick = (e) => {
+                                window.open("{{ url('admin/appointments') }}", "_blank");
+                            }
+                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                        }
                     } catch (error) {}
                 }
-                console.log('en espera')
-                getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
             });
         });
 

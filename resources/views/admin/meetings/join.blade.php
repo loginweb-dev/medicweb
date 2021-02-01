@@ -286,7 +286,6 @@
                                 icon: 'success',
                                 title: res.success
                             });
-                            // $('.modal').modal('hide');
                             $('.form-modal').trigger("reset");
                             getObservations();
                             $('#table-medicine tbody').empty();
@@ -328,7 +327,8 @@
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";
                     $.get(`${url}/${id}/Finalizada`, function(res){
-                        window.close();
+                        // window.close();
+                        window.location = "{{ url('admin/appointments') }}/";
                     });
                 });
             });
@@ -339,7 +339,7 @@
             Echo.channel('PrescriptionNewChannel-{{ Auth::user()->id }}')
             .listen('PrescriptionNewEvent', (res) => {
                 try {
-                    let notificacion = new Notification('Nueva prescripción médica!',{
+                    let notificacion = new Notification('Nueva receta médica!',{
                         body: `${res.prescription.specialist.prefix} ${res.prescription.specialist.name} ${res.prescription.specialist.last_name}`,
                         icon: '{{ url("images/icons/icon-512x512.png") }}'
                     });
@@ -354,9 +354,12 @@
             .listen('OrderAnalysisNewEvent', (res) => {
                 try {
                     let notificacion = new Notification('Nueva orden de laboratorio!',{
-                    body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
-                    icon: '{{ url("images/icons/icon-512x512.png") }}'
-                });
+                        body: `${res.order_analysis.specialist.prefix} ${res.order_analysis.specialist.name} ${res.order_analysis.specialist.last_name}`,
+                        icon: '{{ url("images/icons/icon-512x512.png") }}'
+                    });
+                    notificacion.onclick = (e) => {
+                        window.open("{{ url('home/order_analysis/details') }}/"+res.prescription.id, "_blank");
+                    }
                 } catch (error) {}
             });
 
