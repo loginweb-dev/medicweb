@@ -74,7 +74,7 @@
                                 </button>
                             @else
                                 @if (strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'anulada')
-                                    <a href="{{ url('meet/'.$item->id) }}" target="_blank" title="Ir a la llamada" class="btn btn-sm btn-warning view">
+                                    <a href="{{ url('meet/'.$item->id) }}" title="Ir a la llamada" class="btn btn-sm btn-warning view">
                                         <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
                                     </a>
                                     <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">

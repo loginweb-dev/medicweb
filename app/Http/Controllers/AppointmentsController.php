@@ -272,7 +272,10 @@ class AppointmentsController extends Controller
                 if($status == 'Conectando' && !$verify_payment){
                     event(new IncomingCallEvent($cita, $cita->customer->user_id));
                 }else{
-                    event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
+                    if($status != 'Finalizada'){
+                        event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
+                    }
+                    
                 }
             } catch (\Throwable $th) {}
 
