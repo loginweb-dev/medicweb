@@ -290,7 +290,7 @@
                                 'success'
                             )
                             inputSearch = escape($('#search-input input[name="search"]').val()).split("/").join("");
-                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch, current_page);
+                            getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
                         }
                     });
 

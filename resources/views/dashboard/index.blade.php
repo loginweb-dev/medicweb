@@ -129,7 +129,7 @@
                                   <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
                                     <div class="h6 mb-0 font-weight-bold text-danger">
-                                      <p>El especialista no está disponible en este momento, debe programar una cita seleccionando algún horario de la lista superior.</p>
+                                      <p>El especialista no está disponible en este momento, debe programar una consulta seleccionando algún horario de la lista superior.</p>
                                     </div>
                                   </div>
                                   <div class="col-auto">
@@ -205,6 +205,9 @@
                     </div>
                     <div id="div-payment-details" style="display: none">
                       <div class="row">
+                        <div class="col-md-12 mb-3 text-center">
+                          <h2 class="text-muted">Formas de pago</h2>
+                        </div>
                         <div class="col-md-12">
                           <div id="accordion">
 
@@ -263,7 +266,7 @@
                                           <div class="card-body">
                                             {{-- <h5 class="card-title">Info card title</h5> --}}
                                             {{-- <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p> --}}
-                                            <p id="message-2" class="card-justify">Debe transferir <b class="label-price-appointment"></b> mediante la web o su dispositivo móvil a la cuenta seleccionada. Una vez realizado este proceso para que validemos su cita médica, debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> </p>
+                                            <p id="message-2" class="card-justify">Una vez solicitada la consulta médica, debe transferir <b class="label-price-appointment"></b> mediante la aplicación de su banco a cualquiera de las cuentas de la lista. Realizado este proceso, para que validemos su consulta médica debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> <br> Luego de enviar el comprobante de pago, esperar un par de minutos para ser atentido por nuestro médico. </p>
                                           </div>
                                           <div class="card-footer bg-info">
                                               <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
@@ -274,7 +277,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Realizar cita <span class="fa fa-check-square"></span></button>
+                                      <button type="submit" class="btn btn-success btn-block btn-lg btn-store-appointment">Presione aquí para solicitar consulta médica <span class="fa fa-check-square"></span></button>
                                     </div>
                                   </div>
                                 </div>
@@ -313,9 +316,9 @@
                                         <div class="card text-white bg-info">
                                           <div class="card-header bg-info text-center">Instrucciones</div>
                                           <div class="card-body">
-                                            <p>Debe transferir <b class="label-price-appointment"></b> a tigo money a cualquiera de los siguientes números:</p>
+                                            <p>Una vez solicitada la consulta médica, debe transferir <b class="label-price-appointment"></b> a tigo money a cualquiera de los siguientes números:</p>
                                             <h1 class="text-white">{{ setting('pasarela-de-pago.numeros_tigo_money') }}</h1>
-                                            <p>Una vez realizada la tranferencia envía una captura de pantalla con el comprabante de pago al siguiente número de Whatsapp: <b class="text-center">{{ setting('whatsapp.phone') }}</b></p>
+                                            <p>Realizado la tranferencia envía una captura de pantalla con el comprabante de pago al siguiente número de Whatsapp: <b class="text-center">{{ setting('whatsapp.phone') }}</b> <br> Luego de enviar el comprobante de pago, esperar un par de minutos para ser atentido por nuestro médico. </p>
                                           </div>
                                           <div class="card-footer bg-info">
                                               <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
@@ -329,7 +332,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button type="submit" class="btn btn-success btn-lg btn-store-appointment">Realizar cita <span class="fa fa-check-square"></span></button>
+                                      <button type="submit" class="btn btn-success btn-block btn-lg btn-store-appointment">Presione aquí para solicitar consulta médica <span class="fa fa-check-square"></span></button>
                                     </div>
                                   </div>
                                 </div>
@@ -397,7 +400,7 @@
                                   </div>
                                   <div class="row">
                                     <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button id="card-button" class="btn btn-success btn-lg" type="button">Realizar cita <span class="fa fa-check-square"></span></button>
+                                      <button id="card-button" class="btn btn-success btn-block btn-lg" type="button">Presione aquí para realizar consulta <span class="fa fa-check-square"></span></button>
                                     </div>
                                   </div>
                                 </div>
@@ -414,7 +417,7 @@
                 <div class="row" style="margin-top: 20px">
                   <div class="col-md-12 text-right" id="div-btn-payment">
                     {{-- <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button> --}}
-                    <button type="button" class="btn btn-success btn-payment">Forma de pago <span class="fas fa-money-bill"></span></button>
+                    <button type="button" class="btn btn-success btn-payment">Siguiente paso <span class="fas fa-money-bill"></span></button>
                   </div>
                 </div>
                 <div class="col-md-12 text-center mt-5">
@@ -574,7 +577,7 @@
                 }else{
                   Swal.fire(
                     res.error,
-                    'Ocurrió un error al registrar la cita médica.',
+                    'Ocurrió un error al registrar la consulta médica.',
                     'error'
                   )
                 }
