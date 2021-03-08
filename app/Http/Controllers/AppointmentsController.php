@@ -43,6 +43,7 @@ class AppointmentsController extends Controller
 
     public function list($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%')" : 1;
+        $query_date = request('all') == 0 ? "date = NOW()" : 1;
         $citas = Auth::user()->role_id == 5 ?
                     Appointment::whereHas('specialist.user', function($query) {
                             $query->where('id', Auth::user()->id);
@@ -51,7 +52,6 @@ class AppointmentsController extends Controller
                             $query->whereRaw($query_search);
                         })
                         ->with(['specialist.user', 'customer', 'tracking'])
-                        // ->where('deleted_at', NULL)
                         ->where('status', '<>', 'Validar')
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10) :
 
@@ -59,7 +59,7 @@ class AppointmentsController extends Controller
                         ->whereHas('customer', function($query) use ($query_search) {
                             $query->whereRaw($query_search);
                         })
-                        // ->where('deleted_at', NULL)
+                        ->whereRaw($query_date)
                         ->orderBy('date', 'DESC')->orderBy('start', 'DESC')->paginate(10);
         $specialist = Specialist::whereHas('user', function($q){
             $q->where('id', Auth::user()->id);

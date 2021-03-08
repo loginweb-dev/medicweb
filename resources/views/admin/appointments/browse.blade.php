@@ -36,21 +36,30 @@
             <div class="col-md-12">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        <form id="form-search" class="form-search">
-                            <div id="search-input">
-                                <div class="input-group col-md-12">
-                                    <span class="input-group-btn" style="margin-left: 10px; margin-top: 5px">
-                                        <a href="#" class="btn-reset-search hidden"><i class="voyager-x text-danger"></i></a>
-                                    </span>
-                                    <input type="search" name="search" class="form-control input-search" placeholder="Buscar" name="s" value="" required>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-info btn-lg" type="submit">
-                                            <i class="voyager-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if (!$specialist )
+                                <input type="checkbox" checked id="checkbox-view" data-toggle="toggle" data-on="Todas" data-off="Hoy día">
+                                @endif
                             </div>
-                        </form>
+                            <div class="col-md-6">
+                                <form id="form-search" class="form-search">
+                                    <div id="search-input">
+                                        <div class="input-group col-md-12">
+                                            <span class="input-group-btn" style="margin-left: 10px; margin-top: 5px">
+                                                <a href="#" class="btn-reset-search hidden"><i class="voyager-x text-danger"></i></a>
+                                            </span>
+                                            <input type="search" name="search" class="form-control input-search" placeholder="Buscar" name="s" value="" required>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-info btn-lg" type="submit">
+                                                    <i class="voyager-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div id="list-table">
                         </div>
                     </div>
@@ -105,6 +114,12 @@
                 $('#search-input input[name="search"]').val('')
                 $(this).addClass('hidden');
                 getList('{{ url("admin/appointments/list") }}', '#list-table');
+            });
+
+            // Actualizar status
+            $('#checkbox-view').change(function(){
+                let status = $(this).prop('checked') ? 1 : 0;
+                getList('{{ url("admin/appointments/list") }}', '#list-table', 'all', 1, status ? 1 : 0);
             });
 
             // Actualizar status

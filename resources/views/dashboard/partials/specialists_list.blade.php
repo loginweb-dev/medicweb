@@ -89,6 +89,7 @@
             $('#div-schedules-specilaist').empty();
             $('#schedules-list').empty();
             $('.btn-payment').removeAttr('disabled');
+            $('#div-search').fadeOut()
 
             $('#div-list-specialists').fadeOut('fast');
             $('#div-details-specialists').fadeIn('fast', function(){

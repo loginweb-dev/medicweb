@@ -13,7 +13,7 @@
         </div>
 
         {{-- Buscador --}}
-        <div class="row">
+        <div class="row" id="div-search">
           <div class="col-md-12 mb-5">
             <div class="card">
               <div class="card-body">
@@ -653,6 +653,7 @@
         function breadCrunb(value){
           $('.div-dismiss').fadeOut('fast');
           $(value).fadeIn('fast');
+          $('#div-search').fadeIn('fast');
         }
 
         function calcularTotal(){
@@ -666,11 +667,8 @@
         }
     </script>
 
-    <script src="https://js.stripe.com/v3/"></script>
+    {{-- <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Custom styling can be passed to options when creating an Element.
-        // (Note that this demo uses a wider set of styles than the guide below.)
-
         var style = {
             base: {
                 color: '#32325d',
@@ -732,5 +730,5 @@
             }
           });
         });
-    </script>
+    </script> --}}
 @endsection
