@@ -88,7 +88,7 @@
         $('.btn-new-appointment').click(function(){
             $('#div-schedules-specilaist').empty();
             $('#schedules-list').empty();
-            $('.btn-payment').removeAttr('disabled');
+            $('#div-search').fadeOut()
 
             $('#div-list-specialists').fadeOut('fast');
             $('#div-details-specialists').fadeIn('fast', function(){
@@ -99,7 +99,6 @@
             $('#div-appointment-details').fadeIn('fast');
             $('#div-payment-details').fadeOut('fast');
             $('#div-btn-store').css('display', 'none');
-            $('#div-btn-payment').css('display', 'block');
             
             let specilalist = $(this).data('specilalist');
             if(specilalist.id){
@@ -150,7 +149,6 @@
                 if(specilalist.status == 0){
                     $('#message-error-available').css('display', 'block');
                     $('#badge-available').html(`<span class="badge badge-danger">No disponible</span>`);
-                    $('.btn-payment').attr('disabled', 'disabled');
                 }else if(specilalist.status == 1){
                     $('#message-success-available').css('display', 'block');
                     $('#message-payment-amount').css('display', 'block');
@@ -163,6 +161,16 @@
                 specilalist.specialities.map(item => {
                     $('#select-speciality').append(`<option value="${item.id}" data-price="${item.price}">${item.name}</option>`);
                 });
+                
+                if(specilalist.specialities[0].id == 3){
+                    $('#div-services').css('display', 'block');
+                    $('#div-map').css('display', 'block');
+                    $('#div-observations').css('display', 'none');
+                }else{
+                    $('#div-services').css('display', 'none');
+                    $('#div-map').css('display', 'none');
+                    $('#div-observations').css('display', 'block');
+                }
 
                 // En caso de solo tener una espcialidad ocultar la selcción de especialidades
                 if(specilalist.specialities.length <= 1){
@@ -176,7 +184,18 @@
         // Obtener precio de la especialidad al cambiar la opción
         $('#select-speciality').change(function(){
             let price = $('#select-speciality option:selected').data('price');
+            let id = $(this).val();
             $('#form-appointments input[name="price"]').val(price);
+            if(id != 3){
+                $('#div-services').css('display', 'none');
+                $('#div-map').css('display', 'none');
+                $('#div-observations').css('display', 'block');
+            }else{
+                $('#div-services').css('display', 'block');
+                $('#div-map').css('display', 'block');
+                $('#div-observations').css('display', 'none');
+            }
+
             calcularTotal();
         });
 

@@ -197,6 +197,42 @@ class DataTypesTableSeeder extends Seeder
                 'created_at' => '2020-09-28 18:50:55',
                 'updated_at' => '2020-09-28 19:02:37',
             ),
+            10 => 
+            array (
+                'id' => 12,
+                'name' => 'contacts',
+                'slug' => 'contacts',
+                'display_name_singular' => 'Contacto',
+                'display_name_plural' => 'Contactos',
+                'icon' => 'voyager-file-text',
+                'model_name' => 'App\\Contact',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'created_at' => '2021-02-18 22:08:34',
+                'updated_at' => '2021-02-18 22:13:05',
+            ),
+            11 => 
+            array (
+                'id' => 13,
+                'name' => 'services',
+                'slug' => 'services',
+                'display_name_singular' => 'Servicio de enfermería',
+                'display_name_plural' => 'Servicios de enfermería',
+                'icon' => 'voyager-certificate',
+                'model_name' => 'App\\Service',
+                'policy_name' => NULL,
+                'controller' => NULL,
+                'description' => NULL,
+                'generate_permissions' => 1,
+                'server_side' => 1,
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
+                'created_at' => '2021-02-18 23:51:05',
+                'updated_at' => '2021-02-18 23:53:04',
+            ),
         ));
         
         

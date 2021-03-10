@@ -13,7 +13,7 @@
         </div>
 
         {{-- Buscador --}}
-        <div class="row">
+        <div class="row" id="div-search">
           <div class="col-md-12 mb-5">
             <div class="card">
               <div class="card-body">
@@ -71,6 +71,7 @@
                 @endphp         
                 <div class="row">
                   <div class="col-md-12">
+                    
                     <div id="div-appointment-details">
                       <div class="row">
                         <div class="col-md-12">
@@ -196,233 +197,136 @@
                         <input type="hidden" name="specialist_id">
                         <input type="hidden" name="customer_id" value="{{ $customer_id }}">
                         <input type="hidden" name="payment_type" value="1">
-                        <input type="hidden" name="payment_account_id">
-                        <div class="form-group col-md-12 mt-3">
-                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta" rows="3" required></textarea>
-                            <p class="text-danger text-error" style="display:none">Debe describir el motivo de su consulta</p>
+                        
+                        <div class="form-group col-md-12 mt-3" id="div-observations" style="display: none">
+                            <textarea name="observations" class="form-control" placeholder="Describa el motivo de su consulta médica" rows="3"></textarea>
                         </div>
-                      </div>
-                    </div>
-                    <div id="div-payment-details" style="display: none">
-                      <div class="row">
-                        <div class="col-md-12 mb-3 text-center">
-                          <h2 class="text-muted">Formas de pago</h2>
-                        </div>
-                        <div class="col-md-12">
-                          <div id="accordion">
 
-                            @if (setting('pasarela-de-pago.transferencia_bancaria'))
-                            <div class="card">
-                              <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTransferencia" data-toggle="collapse" data-target="#collapseTransferencia" aria-expanded="true" aria-controls="collapseTransferencia" style="cursor: pointer">
-                                <h6 class="mb-0 text-white">
-                                  Transferencia bancaria
-                                </h6>
-                              </div>
-                              <div id="collapseTransferencia" class="collapse show" aria-labelledby="headingTransferencia" data-parent="#accordion">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                      <div class="card border-left-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                          <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                              <div class="h5 mb-0 font-weight-bold text-success">
-                                                <p>Costo del servicio:</p>
-                                              </div>
-                                            </div>
-                                            <div class="col-auto">
-                                              <h4 class="text-success label-price-appointment"></h4>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-7 text-center">
-                                      <table class="table table-hover">
-                                        <tbody>
-                                          @php
-                                            $cuentas = \App\PaymentAccount::all();
-                                          @endphp
-                                          @forelse ($cuentas as $item)
-                                          <tr class="tr-payment" id="tr-payment-{{ $item->id }}" data-id="{{ $item->id }}" style="cursor: pointer">
-                                            <td width="120px"><img src="{{ $item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="120px" alt=""></td>
-                                            <td>
-                                              <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
-                                              <small>{{ $item->name }}</small><br>
-                                              <small>{{ $item->ci }}</small><br>
-                                              <small>{{ $item->type }} - {{ $item->currency }}</small>
-                                            </td>
-                                          </tr>
-                                          @empty
-                                              
-                                          @endforelse
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                    <div class="col-md-5">
-                                      <div id="div-payment-details">
-                                        <div class="card text-white bg-info">
-                                          <div class="card-header bg-info text-center">Instrucciones</div>
-                                          <div class="card-body">
-                                            {{-- <h5 class="card-title">Info card title</h5> --}}
-                                            {{-- <p id="message-1" class="card-justify">Dar click sobre la cuenta a la que realizará la tranferencia</p> --}}
-                                            <p id="message-2" class="card-justify">Una vez solicitada la consulta médica, debe transferir <b class="label-price-appointment"></b> mediante la aplicación de su banco a cualquiera de las cuentas de la lista. Realizado este proceso, para que validemos su consulta médica debe enviar una captura de pantalla del comprobante de transferencia al siguiente número de Whatsapp: <br> <b class="text-center">{{ setting('whatsapp.phone') }}</b> <br> Luego de enviar el comprobante de pago, esperar un par de minutos para ser atentido por nuestro médico. </p>
-                                          </div>
-                                          <div class="card-footer bg-info">
-                                              <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
-                                          </div>
-                                        </div>
-                                      </div>
+                        <div class="col-md-12 mt-3 mb-2" id="div-services" style="display: none">
+                          <div class="card">
+                            <div class="card-body">
+                              <label>Servicios de enfermería</label>
+                              <div class="row">
+                                @foreach (App\Service::all() as $item)
+                                  <div class="col-md-3">
+                                    <div class="form-check">
+                                      <input class="form-check-input check-service_id" type="checkbox" name="service_id[]" value="{{ $item->id }}" data-name="{{ $item->name }}" data-price="{{ $item->price }}" id="flexCheckIndeterminate-{{ $item->id }}">
+                                      <label class="form-check-label" for="flexCheckIndeterminate-{{ $item->id }}">
+                                        {{ $item->name }} - {{ $item->price }} Bs.
+                                      </label>
                                     </div>
                                   </div>
-                                  <div class="row">
-                                    <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button type="submit" class="btn btn-success btn-block btn-lg btn-store-appointment">Presione aquí para solicitar consulta médica <span class="fa fa-check-square"></span></button>
-                                    </div>
-                                  </div>
-                                </div>
+                                @endforeach
                               </div>
                             </div>
-                            @endif
-
-                            @if (setting('pasarela-de-pago.tigo_money'))
-                            <div class="card">
-                              <div class="card-header bg-primary btn-payment-type" data-value="1" id="headingTigoMoney" data-toggle="collapse" data-target="#collapseTigoMoney" aria-expanded="true" aria-controls="collapseTigoMoney" style="cursor: pointer">
-                                <h6 class="mb-0 text-white">
-                                  TIGO Money
-                                </h6>
-                              </div>
-                              <div id="collapseTigoMoney" class="collapse" aria-labelledby="headingTigoMoney" data-parent="#accordion">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                      <div class="card border-left-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                          <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                              <div class="h5 mb-0 font-weight-bold text-success">
-                                                <p>Costo del servicio:</p>
-                                              </div>
-                                            </div>
-                                            <div class="col-auto">
-                                              <h4 class="text-success label-price-appointment"></h4>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                      <div id="div-payment-details">
-                                        <div class="card text-white bg-info">
-                                          <div class="card-header bg-info text-center">Instrucciones</div>
-                                          <div class="card-body">
-                                            <p>Una vez solicitada la consulta médica, debe transferir <b class="label-price-appointment"></b> a tigo money a cualquiera de los siguientes números:</p>
-                                            <h1 class="text-white">{{ setting('pasarela-de-pago.numeros_tigo_money') }}</h1>
-                                            <p>Realizado la tranferencia envía una captura de pantalla con el comprabante de pago al siguiente número de Whatsapp: <b class="text-center">{{ setting('whatsapp.phone') }}</b> <br> Luego de enviar el comprobante de pago, esperar un par de minutos para ser atentido por nuestro médico. </p>
-                                          </div>
-                                          <div class="card-footer bg-info">
-                                              <small>En caso de demorar demaciado en validar tu pago comunicarse a nuestro centro de atención al cliente: {{ setting('site.telefonos') }}.</small>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <img src="{{ url('images/tigomoney.png') }}" alt="Tigo Money" width="100%">
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button type="submit" class="btn btn-success btn-block btn-lg btn-store-appointment">Presione aquí para solicitar consulta médica <span class="fa fa-check-square"></span></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            @endif
-
-                            @if (setting('pasarela-de-pago.tarjeta_credito'))
-                            <div class="card">
-                              <div class="card-header bg-primary btn-payment-type" data-value="2" id="headingTarjeta" data-toggle="collapse" data-target="#collapseTarjeta" aria-expanded="false" aria-controls="collapseTarjeta" style="cursor: pointer">
-                                <h6 class="mb-0 text-white">
-                                  Pago con tarjeta de crédito/débito
-                                </h6>
-                              </div>
-                              <div id="collapseTarjeta" class="collapse" aria-labelledby="headingTarjeta" data-parent="#accordion">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                      <div class="card border-left-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                          <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                              <div class="h5 mb-0 font-weight-bold text-success">
-                                                <p>Costo del servicio:</p>
-                                              </div>
-                                            </div>
-                                            <div class="col-auto">
-                                              <h4 class="text-success label-price-appointment"></h4>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-7 text-center">
-                                      <div class="row">
-                                        <div class="col-md-12">                    
-                                          <div class="form-group">
-                                              <div class="card-header">
-                                                  <label for="card-element">Información de tu tarjeta</label>
-                                              </div>
-                                              <div class="card-body">
-                                                  <div id="card-element">
-                                                  <!-- A Stripe Element will be inserted here. -->
-                                                  </div>
-                                                  <!-- Used to display form errors. -->
-                                                  <div id="card-errors" role="alert" style="margin-top: 50px"></div>
-                                                  <input type="hidden" name="plan" value="" />
-                                              </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-5 text-center">
-                                      <div id="div-payment-details">
-                                        <div class="card text-white bg-info">
-                                          <div class="card-header bg-info">Instrucciones</div>
-                                          <div class="card-body">
-                                            {{-- <h5 class="card-title">Info card title</h5> --}}
-                                            <p class="card-justify">Debes habilitar tus compras por internet e ingresar los datos de tu tarjeta</p>
-                                            <small>NOTA: en caso de pedir CP (Código postal) ingresa 00000</small>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-12 text-right" style="margin-top: 30px">
-                                      <button id="card-button" class="btn btn-success btn-block btn-lg" type="button">Presione aquí para realizar consulta <span class="fa fa-check-square"></span></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            @endif
-
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>         
-                <div class="row" style="margin-top: 20px">
-                  <div class="col-md-12 text-right" id="div-btn-payment">
-                    {{-- <button class="btn btn-secondary btn-cancel" type="button" data-dismiss="modal">Cancelar</button> --}}
-                    <button type="button" class="btn btn-success btn-payment">Siguiente paso <span class="fas fa-money-bill"></span></button>
+                    
+                    {{-- Modal de pago --}}
+                    <div class="modal fade" id="modal-payment" tabindex="-1" role="dialog" aria-labelledby="modal-paymentLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="modal-paymentLabel">Formas de pago</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="col-md-12">
+                                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                          <li class="nav-item" onclick="change_payment_type(1)">
+                                              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Tanferencia bancaria</a>
+                                          </li>
+                                          <li class="nav-item" onclick="change_payment_type(1)">
+                                              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Pago con tarjeta de crédito</a>
+                                          </li>
+                                      </ul>
+                                      <div class="tab-content" id="myTabContent" style="margin-top: 20px">
+                                          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                              <table class="table table-hover">
+                                                  <tbody>
+                                                      @php
+                                                          $cuentas = \App\PaymentAccount::all();
+                                                      @endphp
+                                                      @foreach ($cuentas as $item)
+                                                      <tr>
+                                                          <td width="120px"><img src="{{ $item->image ? asset('storage/'.str_replace('.', '-cropped.', $item->image)) : asset('images/payment.jpg') }}" width="100px" alt=""></td>
+                                                          <td>
+                                                              <h6>{{ $item->number }}<br><small>{{ $item->title }}</small></h6>
+                                                              <small>{{ $item->name }} {{ $item->ci }}</small><br>
+                                                              <small>{{ $item->type }} - {{ $item->currency }}</small>
+                                                          </td>
+                                                      </tr>
+                                                      @endforeach
+                                                      <tr>
+                                                          <td width="120px"><img src="{{ url('images/tigomoney.png') }}" alt="Tigo Money" width="100px"></td>
+                                                          <td>
+                                                              <h6>{{ setting('pasarela-de-pago.numeros_tigo_money') }} <br><small>Número(s) de celular de Tigo Money</small> </h6>
+                                                              <span></span>
+                                                          </td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                  
+                                              <div class="col-md-12 mt-3">
+                                                  <div class="card border-left-info shadow h-100 py-2">
+                                                      <div class="card-body">
+                                                          <div class="row no-gutters align-items-center">
+                                                              <div class="col mr-2">
+                                                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Información</div>
+                                                                  <div class="h6 mb-0 font-weight-bold text-info">
+                                                                      <p>Una vez realizada la transferencia enviar el comprobante a los siguientes números de Whatsapp: <b>{{ setting('whatsapp.phone') }}</b>.</p>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col-auto">
+                                                                  <i class="fab fa-whatsapp fa-2x text-info"></i>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                              <div class="row mt-5 mb-3">
+                                                  <div class="col-md-12 text-center">
+                                                      <img src="{{ asset('images/config.png') }}" width="120px">
+                                                  </div>
+                                              </div>
+                                              <h3 class="text-center">En desarrollo</h3>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                  <button type="submit" class="btn btn-primary">Realizar consulta</button>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-3" id="div-map">
+                      <label class="text-muted">Mi ubicación</label>
+                      <div id="map" style="height: 250px"></div>
+                      <input type="hidden" name="location">
+                    </div>
+
                   </div>
                 </div>
+
+                <div class="row" style="margin-top: 20px">
+                  <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-success btn-payment">Formas de pago <span class="fas fa-money-bill"></span></button>
+                  </div>
+                </div>
+
                 <div class="col-md-12 text-center mt-5">
                   <button type="button" class="btn btn-primary" onclick="breadCrunb('#div-list-specialists')"> <span class="fas fa-arrow-alt-circle-left"></span> Volver atras</button>
-              </div>
+                </div>
+
               </form>
             </div>
           </div>
@@ -479,6 +383,7 @@
 @section('script')
     <script src="{{ url('js/plugins/formatSelect2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfhTHyaCn2bXEKvT13E0YEutlQY1bmfoM&callback=initMap&libraries=&v=weekly" defer></script>
     <script>
         let url_loader = "{{ url('images/loader.gif') }}";
         var loading = `<div class="col-md-12 text-center mt-5 mb-5">
@@ -558,31 +463,30 @@
 
             // Registrar cita
             $('#form-appointments').on('submit', function(e){
-              $('#loading-overlay').css('display', 'flex');
               e.preventDefault();
-              
-              $('.btn-store-appointment').prop('disabled', true);
-              $('.btn-store-appointment').html(`Registrando...`);
-              $.post($(this).attr('action'), $(this).serialize(), function(res){
-                $('#loading-overlay').fadeOut();
-                if(res.success){
-                  Swal.fire(
-                    res.success,
-                    'Se procederá a validar tu pago y un especialista se pondrá en contacto contigo, aguarda un momento.',
-                    'success'
-                  );
-                  $('#form-appointments').trigger('reset');
-                  $('#schedules-list').empty();
-                  loadPage('appointments')
-                }else{
-                  Swal.fire(
-                    res.error,
-                    'Ocurrió un error al registrar la consulta médica.',
-                    'error'
-                  )
-                }
-                $('.btn-store-appointment').removeAttr('disabled');
-              })
+              $('#modal-payment').modal('hide');
+              $('#loading-overlay').css('display', 'flex');
+              setTimeout(() => {
+                $.post($(this).attr('action'), $(this).serialize(), function(res){
+                  $('#loading-overlay').fadeOut();
+                  if(res.success){
+                    Swal.fire(
+                      res.success,
+                      'Se procederá a validar tu pago y un especialista se pondrá en contacto contigo, aguarda un momento.',
+                      'success'
+                    );
+                    $('#form-appointments').trigger('reset');
+                    $('#schedules-list').empty();
+                    loadPage('appointments')
+                  }else{
+                    Swal.fire(
+                      res.error,
+                      'Ocurrió un error al registrar la consulta médica.',
+                      'error'
+                    )
+                  }
+                })
+              }, 500);
             });
 
             var spinner_loader = `  <div class="d-flex justify-content-center">
@@ -610,42 +514,45 @@
 
             // Mostrar formulario de pasarela de pago
             $('.btn-payment').click(function(){
-              if($('#form-appointments textarea[name="observations"]').val()){
-                $('#div-btn-store').css('display', 'block');
-                $('#div-btn-payment').css('display', 'none');
-                $('#div-appointment-details').fadeOut('fast');
-                $('#div-payment-details').fadeIn();
-                // $('#form-appointments input[name="payment_type"]').val(1);
+              let id = $('#select-speciality').val();
+              if(id == 3){
+                let cont = 0;
+                $('.check-service_id:checked').each(function(){
+                  cont++
+                });
+                if(cont){
+                  $('#modal-payment').modal('show');
+                }else{
+                  Swal.fire(
+                    'Error',
+                    'Debes elegir al menos un servicio de enfermería que deseas contratar',
+                    'error'
+                  )
+                }
               }else{
-                $('#form-appointments textarea[name="observations"]').css('border', '1px solid red');
-                $('.text-error').css('display', 'block');
+                if($('#form-appointments textarea[name="observations"]').val()){
+                  $('#modal-payment').modal('show');
+                }else{
+                  Swal.fire(
+                    'Error',
+                    'Debes ingresar el motivo de su consulta médica.',
+                    'error'
+                  )
+                }
               }
             });
 
-            $('#form-appointments textarea[name="observations"]').click(function(){
-              $('#form-appointments textarea[name="observations"]').css('border', '1px solid #dedede');
-              $('.text-error').css('display', 'none');
-            });
-
-            // Asignar valor del tipo de pago de ña cita médica
-            $('.btn-payment-type').click(function(){
-              let value = $(this).data('value');
-              $('#form-appointments input[name="payment_type"]').val(value);
-              if(value == 1){
-                // $('.btn-store-appointment').attr('disabled', 'disabled');
-              }
-            });
-
-            // Seleccionar método de pago
-            $('.tr-payment').click(function(e){
-              e.preventDefault();
-              let id = $(this).data('id');
-              $(`.tr-payment`).css('background-color', 'transparent');
-              $(`#tr-payment-${id}`).css('background-color', '#B4DCFF');
-              $('.btn-store-appointment').removeAttr('disabled');
-              $('#form-appointments input[name="payment_account_id"]').val(id);
-              $('#message-1').fadeOut('fast');
-              $('#message-2').fadeIn();
+            $('.check-service_id').click(function(){
+              let total = 0;
+              let observations = '';
+              $('.check-service_id:checked').each(function(){
+                total += parseFloat($(this).data('price'));
+                observations += $(this).data('name')+', '
+              });
+              $('.label-price-appointment').html(`${total.toFixed(2)} Bs.`);
+              $('#form-appointments input[name="price"]').val(total);
+              $('#form-appointments input[name="price_add"]').val(0);
+              $('#form-appointments textarea[name="observations"]').val(observations.substring(0, observations.length -2));
             });
         });
 
@@ -653,6 +560,7 @@
         function breadCrunb(value){
           $('.div-dismiss').fadeOut('fast');
           $(value).fadeIn('fast');
+          $('#div-search').fadeIn('fast');
         }
 
         function calcularTotal(){
@@ -664,13 +572,64 @@
           });
           $('.label-price-appointment').html(`${total.toFixed(2)} Bs.`);
         }
+
+        function change_payment_type(id){
+          $('#form-appointments input[name="payment_type"]').val(id);
+        }
     </script>
 
-    <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Custom styling can be passed to options when creating an Element.
-        // (Note that this demo uses a wider set of styles than the guide below.)
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      let map, infoWindow;
 
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: -14.835473, lng: -64.904180 },
+          zoom: 14,
+        });
+        infoWindow = new google.maps.InfoWindow();
+          
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            $('#form-appointments input[name="location"]').val(position.coords.latitude+','+position.coords.longitude);
+
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: 'Posición actual'
+            });
+            map.setCenter(pos);
+          }, function() {
+              //handle location error (i.e. if user disallowed location access manually)
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+    </script>
+
+    {{-- <script src="https://js.stripe.com/v3/"></script>
+    <script>
         var style = {
             base: {
                 color: '#32325d',
@@ -732,5 +691,5 @@
             }
           });
         });
-    </script>
+    </script> --}}
 @endsection

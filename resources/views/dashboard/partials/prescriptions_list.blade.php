@@ -1,14 +1,14 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Historial de recetas</h1>
-    {{-- <a href="#" data-toggle="modal" data-target="#modal-appointments" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-laptop-medical fa-sm text-white-50"></i> Nueva cita</a> --}}
+    <a href="#" data-toggle="modal" data-target="#modal-recetas" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-laptop-medical fa-sm text-white-50"></i> Ver lista de farmacias</a>
 </div>
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                     <thead>
                       <tr>
                         <th>Especialista</th>
@@ -49,9 +49,45 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-recetas" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingModalLabel">Farmacias con las que trabajamos</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered dataTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nombre</th>
+                            <th>Telefono(s)</th>
+                            <th>dirección(es)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (App\Contact::where('deleted_at', NULL)->where('type', 'Farmacia')->get() as $item)
+                            <tr>
+                                <td><img src="{{ url('storage/'.$item->logo) }}" height="50px" alt="{{ $item->name }}"></td>
+                                <td>{{ $item->type }} "{{ $item->name }}"</td>
+                                <td>{{ $item->phones }}</td>
+                                <td>{{ $item->address }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function(){
-        $('#dataTable').DataTable({
+        $('.dataTable').DataTable({
             language: {
                 processing:     "En proceso...",
                 search:         "Buscar&nbsp;:",

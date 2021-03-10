@@ -1,6 +1,6 @@
-function getList(url, selector, search = 'all', page = 1){
+function getList(url, selector, search = 'all', page = 1, all = 1){
     search = search ? search : 'all';
-    $.get(`${url}/${search}?page=${page}`, function(res){
+    $.get(`${url}/${search}?page=${page}&all=${all}`, function(res){
         $(selector).html(res);
     });
 }

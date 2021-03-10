@@ -401,6 +401,38 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => NULL,
                 'parameters' => '',
             ),
+            24 => 
+            array (
+                'id' => 28,
+                'menu_id' => 1,
+                'title' => 'Contactos',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-file-text',
+                'color' => NULL,
+                'parent_id' => 20,
+                'order' => 5,
+                'created_at' => '2021-02-18 22:08:34',
+                'updated_at' => '2021-02-18 22:09:23',
+                'route' => 'voyager.contacts.index',
+                'parameters' => NULL,
+            ),
+            25 => 
+            array (
+                'id' => 29,
+                'menu_id' => 1,
+                'title' => 'Servicios de enfermería',
+                'url' => '',
+                'target' => '_self',
+                'icon_class' => 'voyager-certificate',
+                'color' => NULL,
+                'parent_id' => 20,
+                'order' => 6,
+                'created_at' => '2021-02-18 23:51:05',
+                'updated_at' => '2021-02-24 15:51:23',
+                'route' => 'voyager.services.index',
+                'parameters' => NULL,
+            ),
         ));
         
         
