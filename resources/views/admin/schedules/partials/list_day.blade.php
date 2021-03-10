@@ -63,7 +63,6 @@
             let price_add = $(this).data('price_add');
             $('#form-appointments input[name="date"]').val(date);
             $('#form-appointments input[name="start"]').val(hour);
-            $('.btn-payment').removeAttr('disabled');
             $('#message-payment-amount').css('display', 'block');
             $('#message-reloj').css('display', 'none');
             $('#form-appointments input[name="price_add"]').val(price_add);

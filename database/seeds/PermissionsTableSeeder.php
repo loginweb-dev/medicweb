@@ -37,7 +37,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('schedules');
         Permission::generateFor('appointments');
         Permission::generateFor('payment_accounts');
-
+        Permission::generateFor('contacts');
+        Permission::generateFor('services');
 
         Permission::generateFor('pages');
         Permission::generateFor('blocks');

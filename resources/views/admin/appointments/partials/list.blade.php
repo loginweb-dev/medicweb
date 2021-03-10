@@ -68,6 +68,10 @@
                         <td class="label-amount" data-amount="{{ !$item->paid && $item->status == 'Finalizada' ? $item->amount_paid : 0 }}" >{{ $item->amount + $item->amount_add }} Bs.</td>
                         <td>{{ $item->observations }}</td>
                         <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
+                            @if ($item->customer->location)
+                            <a href="https://maps.google.com/?q={{ $item->customer->location }}" target="_blank" class="btn btn-dark edit" title="Ver ubicación"><i class="voyager-location"></i></a>                                
+                            @endif
+
                             @if ($item->status == 'Validar')
                                 <button type="button" title="Validar" class="btn btn-sm btn-success btn-verify-payment edit" data-id="{{ $item->id }}">
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validar</span>

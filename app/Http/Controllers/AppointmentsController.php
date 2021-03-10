@@ -19,6 +19,7 @@ use App\AppointmentsObservation;
 use App\AnalysisCustomer;
 use App\Prescription;
 use App\PaymentAccount;
+use App\AppointmentService;
 
 // Events
 use App\Events\StartMeetEvent;
@@ -87,7 +88,6 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         // Verificar si se hizo check para volver a la misma página
         $route = $request->return ? 'appointments.create' : 'appointments.index';
 
@@ -136,6 +136,23 @@ class AppointmentsController extends Controller
             $cita->code = date('Ymdhis').$cita->id;
             $cita->save();
 
+            // Guardar sericios de enfermería
+            if($request->service_id){
+                foreach($request->service_id as $item){
+                    AppointmentService::create([
+                        'appointment_id' => $cita->id,
+                        'service_id' => $item
+                    ]);
+                }
+            }
+
+            // Actualizar ubicación del cliente
+            if($request->location){
+                Customer::where('id', $request->customer_id)->update([
+                    'location' => $request->location
+                ]);
+            }
+
             // Eventos
             try {
                 $cita = Appointment::with(['specialist.user', 'customer'])->where('id', $cita->id)->first();
@@ -143,19 +160,6 @@ class AppointmentsController extends Controller
                     event(new IncomingCallSpecialistEvent($cita, $cita->specialist->user_id));
                 }elseif($status == 'Validar'){
                     event(new VerifyPaymentEvent($cita));
-
-                    // Enviar notificación sms
-                    try {
-                        if(setting('server-streaming.notificacion_sms')){
-                            $cuenta = PaymentAccount::findOrFail($request->payment_account_id);
-                    
-                            $message = $client->message()->send([
-                                'to' => "591".setting('server-streaming.celular_notificacion'),
-                                'from' => 'LiveMedic',
-                                'text' => 'Transferencia de Bs. '.($request->price + $request->price_add).' a '.$cuenta->title.' '.$cuenta->number
-                            ]);
-                        }
-                    } catch (\Throwable $th) {}
                 }
             } catch (\Throwable $th) {}
 
