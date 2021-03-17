@@ -86,6 +86,9 @@
 
         // Crear nueva cita
         $('.btn-new-appointment').click(function(){
+            $('#form-appointments textarea[name="observations"]').val('');
+            $('input[type=checkbox]').prop('checked',false);
+
             $('#div-schedules-specilaist').empty();
             $('#schedules-list').empty();
             $('#div-search').fadeOut()
@@ -104,6 +107,7 @@
             if(specilalist.id){
                 $('#form-appointments input[name="specialist_id"]').val(specilalist.id);
                 if(specilalist.specialities.length){
+                    $('#normal_price').val(specilalist.specialities[0].price);
                     $('#form-appointments input[name="price"]').val(specilalist.specialities[0].price);
                     $('#form-appointments input[name="price_add"]').val('{{ $horario_actual ? $horario_actual->price_add : 0 }}');
                 }
@@ -168,10 +172,13 @@
                     $('#div-services').css('display', 'block');
                     $('#div-map').css('display', 'block');
                     $('#div-observations').css('display', 'none');
+                    $('#div-messages').css('display', 'none');
                 }else{
                     $('#div-services').css('display', 'none');
                     $('#div-map').css('display', 'none');
                     $('#div-observations').css('display', 'block');
+                    $('#div-messages').css('display', 'block');
+
                 }
 
                 // En caso de solo tener una espcialidad ocultar la selcción de especialidades
@@ -187,15 +194,18 @@
         $('#select-speciality').change(function(){
             let price = $('#select-speciality option:selected').data('price');
             let id = $(this).val();
+            $('#normal_price').val(price);
             $('#form-appointments input[name="price"]').val(price);
             if(id != 3){
                 $('#div-services').css('display', 'none');
                 $('#div-map').css('display', 'none');
                 $('#div-observations').css('display', 'block');
+                $('#div-messages').css('display', 'none');
             }else{
                 $('#div-services').css('display', 'block');
                 $('#div-map').css('display', 'block');
                 $('#div-observations').css('display', 'none');
+                $('#div-messages').css('display', 'block');
             }
 
             calcularTotal();

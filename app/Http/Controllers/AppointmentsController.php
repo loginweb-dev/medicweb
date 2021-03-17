@@ -243,6 +243,26 @@ class AppointmentsController extends Controller
         }
     }
 
+    public function customer($id, $specialist_id, $speciality_id){
+        $plazo_reconsulta = setting('citas.plazo_reconsulta');
+        $ultima_consulta = Appointment::where('customer_id', $id)
+                                ->where('speciality_id', $speciality_id)
+                                ->where('specialist_id', $specialist_id)->orderBy('date', 'DESC')->first();
+        
+        $date = $ultima_consulta->date;
+        $datework = Carbon::createFromDate($date);
+        $now = Carbon::now();
+        $diff = $datework->diffInDays($now);
+
+        if($plazo_reconsulta >= $diff){
+            $speciality = Speciality::find($speciality_id);
+            return response()->json(['speciality' => $speciality]);
+        }else{
+            return response()->json(['error' => "El tiempo límite para programar una reconsulta es de $plazo_reconsulta días."]);
+        }
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
