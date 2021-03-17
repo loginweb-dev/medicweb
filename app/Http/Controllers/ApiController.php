@@ -16,6 +16,7 @@ use App\Customer;
 use App\Speciality;
 use App\PaymentAccount;
 use App\Appointment;
+use App\Specialist;
 
 class ApiController extends Controller
 {
@@ -76,7 +77,7 @@ class ApiController extends Controller
     }
     
     public function index(){
-        $specialities = Speciality::with(['specialists.user', 'specialists.appointments.rating'])->where('deleted_at', null)->get();
+        $specialities = Speciality::with(['specialists.user', 'specialists.appointments.rating', 'specialists.schedules'])->where('deleted_at', null)->get();
         return response()->json(['specialities' => $specialities]);
     }
 
@@ -86,6 +87,58 @@ class ApiController extends Controller
                             ->orderBy('id', 'DESC')
                             ->get();
         return response()->json(['appointments' => $appointments]);
+    }
+
+    public function validate_appointment($id, Request $request){
+        $dia = $request->day;
+        $hora = $request->start;
+
+        $fecha = date('Y-m-d');
+        $dia_actual = date('N');
+
+        // Buscar la fecha más próxima al día seleccionado
+        if($dia != $dia_actual){
+            $cont = 0;
+            while ($cont < 7) {
+                $fecha = date('Y-m-d', strtotime($fecha."+ 1 days"));
+                if(date('N', strtotime($fecha)) == $dia){
+                    break;
+                }
+                $cont++;
+            }
+        }
+
+        $especialista = Specialist::with(['schedules' => function($q) use($dia){
+            return $q->where('day',$dia);
+        }])->where('id', $id)->first();
+
+        // Verificar si el especialista atiende en ese rango de tiempo
+        $disponible = 0;
+        foreach ($especialista->schedules as $schedul) {
+            if(substr($schedul->start, 0, -3) <= $hora && substr($schedul->end, 0, -3) >= $hora){
+                $disponible = 1;
+            }
+        }
+
+        if($disponible){
+            // Todas la citas del día
+            $citas_pendientes = Appointment::where('status', 'Pendiente')
+                                ->where('date', $fecha)->where('specialist_id', $id)->get();
+
+            $cita_actual = Appointment::where('status', 'Pendiente')
+                                ->where('date', $fecha)->where('start', $hora)->where('specialist_id', $id)->get();
+
+            if(count($cita_actual)){
+                return response()->json(['error' => 'El horario seleccionado ya se encuentra reservado para otra consulta médica, por favor elija otro horario.', 'appointments_queue' => $citas_pendientes]);
+            }else{
+                return response()->json(['success' => 'disponible', 'date' => $fecha]);
+            }
+
+        }else{
+            $especialista = Specialist::with(['schedules'])->where('id', $id)->first();
+            return response()->json(['error' => 'Lo sentimos, el/la '.$especialista->full_name.' no realiza atención médica el día seleccionado, por favor elija otro día.']);
+        }
+
     }
 
     public function appointment_store(Request $request){

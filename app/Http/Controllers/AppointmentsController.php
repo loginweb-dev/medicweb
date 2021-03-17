@@ -44,7 +44,7 @@ class AppointmentsController extends Controller
 
     public function list($search){
         $query_search = $search != 'all' ? "(name like '%$search%' or last_name like '%$search%')" : 1;
-        $query_date = request('all') == 0 ? "date = NOW()" : 1;
+        $query_date = request('all') == 0 ? 'date = "'.date('Y-m-d').'"' : 1;
         $citas = Auth::user()->role_id == 5 ?
                     Appointment::whereHas('specialist.user', function($query) {
                             $query->where('id', Auth::user()->id);
@@ -315,7 +315,7 @@ class AppointmentsController extends Controller
                             })
                             ->where('deleted_at', NULL)
                             ->orderBy('id', 'DESC')
-                            ->get();
+                            ->paginate(5);
         return view('admin.customers.partials.historial', compact('observaciones'));
     }
 
@@ -354,6 +354,21 @@ class AppointmentsController extends Controller
             'paid' => NULL,
             'deleted_at' => Carbon::now()
         ]);
+        return 1;
+    }
+
+    // ===========================================
+
+    public function history_delete($type, $id){
+        if($type == 'prescriptions'){
+            Prescription::where('id', $id)->update([
+                'deleted_at' => Carbon::now()
+            ]);
+        }else{
+            AnalysisCustomer::where('id', $id)->update([
+                'deleted_at' => Carbon::now()
+            ]);
+        }
         return 1;
     }
 }

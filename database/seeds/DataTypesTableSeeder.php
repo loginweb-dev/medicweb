@@ -87,7 +87,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"asc","default_search_key":"id","scope":null}',
                 'created_at' => '2020-09-17 16:36:01',
-                'updated_at' => '2020-09-28 20:59:28',
+                'updated_at' => '2021-03-17 07:05:06',
             ),
             4 => 
             array (
@@ -139,9 +139,9 @@ class DataTypesTableSeeder extends Seeder
                 'description' => NULL,
                 'generate_permissions' => 1,
                 'server_side' => 1,
-                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null}',
+                'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-09-19 15:13:45',
-                'updated_at' => '2020-09-19 15:13:45',
+                'updated_at' => '2021-03-17 07:00:51',
             ),
             7 => 
             array (
@@ -159,7 +159,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-09-19 15:16:31',
-                'updated_at' => '2020-09-19 15:20:55',
+                'updated_at' => '2021-03-17 07:00:35',
             ),
             8 => 
             array (
@@ -195,7 +195,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 0,
                 'details' => '{"order_column":"id","order_display_column":"id","order_direction":"desc","default_search_key":null,"scope":null}',
                 'created_at' => '2020-09-28 18:50:55',
-                'updated_at' => '2020-09-28 19:02:37',
+                'updated_at' => '2021-03-17 07:02:00',
             ),
             10 => 
             array (
@@ -231,7 +231,7 @@ class DataTypesTableSeeder extends Seeder
                 'server_side' => 1,
                 'details' => '{"order_column":null,"order_display_column":null,"order_direction":"asc","default_search_key":null,"scope":null}',
                 'created_at' => '2021-02-18 23:51:05',
-                'updated_at' => '2021-02-18 23:53:04',
+                'updated_at' => '2021-03-17 07:03:23',
             ),
         ));
         

@@ -295,15 +295,15 @@
                             let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
                             let meet = @json($meet);
                             let notification = {
-                                title: "Nuevo historial",
+                                title: "Nuevo historial clínico",
                                 message: meet.specialist.full_name,
                             }
                             let data = {
                                 message: $(this).data('type') == 'analysi' ? 'Tienes una orden de análisis nueva.' : 'Tienes una prescipción médica nueva.',
                                 type: 'prescription_analysi'
                             }
-                            console.log(data)
                             sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
+                            $('.modal-history').modal('hide');
                         }else{
                             Toast.fire({
                                 icon: 'error',
@@ -323,7 +323,24 @@
                 }, 20000);
 
                 // Terminar llamada
-                $('.btn-ends-call').click(function(){
+                $('.btn-ends-call').click(async function(){
+                    
+                    // Notificación movil
+                    let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
+                    let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
+                    let meet = @json($meet);
+                    let notification = {
+                        title: "Califica nuestro servicio",
+                        message: `Por favor califica el servicio recibido por el/la ${meet.specialist.full_name}.`,
+                    }
+                    let data = {
+                        id: meet.id,
+                        type: 'call_rating'
+                    }
+                    
+                    await sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
+                    
+                    // Cambiar de estado y redireccionar
                     let id = "{{ $meet->id }}";
                     let url = "{{ url('admin/appointments/status') }}";
                     $.get(`${url}/${id}/Finalizada`, function(res){

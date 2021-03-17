@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('reportes/appointments/list', 'ReportsController@appointments_list');
     Route::get('reportes/payments', 'ReportsController@payments');
     Route::post('reportes/payments/list', 'ReportsController@payments_list');
+    Route::get('reportes/charts', 'ReportsController@charts');
 
 
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
@@ -103,6 +104,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('appointments/tracking/{id}', 'AppointmentsController@tracking_duration');
     Route::get('appointments/observations/browse/{id}', 'AppointmentsController@browse_observations');
     Route::post('appointments/observations/create', 'AppointmentsController@create_observations');
+    Route::get('appointments/historial/{type}/delete/{id}', 'AppointmentsController@history_delete');
 });
 
 // Meets

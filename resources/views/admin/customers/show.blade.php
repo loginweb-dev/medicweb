@@ -1,61 +1,139 @@
 @extends('voyager::master')
 
-@section('page_title', __('Customer'))
-
-@section('page_header')
-    <div class="container-fluid">
-        <h1 class="page-title">
-            <i class="voyager-eye"></i>Cliente N° {{$customer->id}}
-        </h1>
-        <a href="{{ route('customers.index') }}" class="btn btn-warning">
-            <span class="glyphicon glyphicon-list"></span>&nbsp;
-            {{ __('voyager::generic.return_to_list') }}
-        </a>
-    </div>
-@stop
+@section('page_title', 'Cliente')
 
 @section('content')
 <div class="page-content read container-fluid">
-      <div class="panel panel-bordered" style="padding-bottom:5px;">
-        <div class="panel-heading" style="border-bottom:0;">
-               <h3 class="panel-title">Customer</h3>
-        </div>
+    <div class="panel panel-bordered">
         <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Nombre Completo.</label>
-                        <p>{{$customer->text}}</p>
+            <div class="col-md-12">
+                <h2 class="text-center">Kardex</h2>
+                <div class="row" style="margin-top: 50px">
+                    <div class="col-md-4 text-center">
+                        <img src="{{ strpos($customer->user->avatar, 'http') === false ? asset('storage/'.$customer->user->avatar) : $customer->user->avatar }}" width="150px" alt="avatar">
                     </div>
-                     <div class="form-group">
-                        <label>Telefonos</label>
-                        <pre style="text-align: left; white-space: pre-line;"> 
-                         {{$customer->phones}}
-                        </pre>
-                    </div>
-                    <div class="form-group">
-                        <label>Direccion</label>
-                        <pre style="text-align: left; white-space: pre-line;">
-                         {{$customer->address}}
-                        </pre>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                      <label>Nombre de Usuario:</label>
-                      <p>{{$customer->user->name}}</p>
-                    </div>
-                    <div class="form-group">
-                     <label>Imagen</label>
-                       @isset($customer->user->avatar)
-                       <div style="text-align:left; margin-top: 10px">
-                            <input type='file' name="avatar" class="input-preview" id="input-preview" />
-                            <img class="img-thumbnail img-preview" id="img-preview" data-toggle="tooltip" title="Has click para agregar una imagen" alt="avatar" />
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Nombre completo</label> <br>
+                                <span style="font-size: 20px">{{ $customer->text }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Telefono(s)</label> <br>
+                                <span style="font-size: 20px">{{ $customer->phones }}</span>
+                            </div>
                         </div>
-                        @endisset
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label>Dirección</label> <br>
+                                <span style="font-size: 20px">{{ $customer->address ?? 'No definida' }}</span>
+                            </div>
+                            <div class="col-md-2">
+                                @if ($customer->location)
+                                <a href="https://maps.google.com/?q={{ $customer->location }}" target="_blank" title="Ver ubicación" class="btn btn-success"><span class="voyager-location"></span></a>                                    
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label> <br>
+                                <span style="font-size: 20px">{{ $customer->user->email }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>       
+            </div> 
+        </div>
+    </div>
+    <div class="panel panel-bordered">
+        <div class="panel-body">
+            <h4 class="text-center">Historial médico</h4><br>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Observaciones</th>
+                            <th>Prescripciones médicas</th>
+                            <th>Ordenes de laboratorio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($observaciones as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>
+                                    <h4>{{ $item->observations }} <br> <small>{{ strftime("%d de %B, %Y",  strtotime($item->created_at)) }}</small></h4>
+                                    <hr style="margin-top: 10px">
+                                    <ul class="timeline mb-3">
+                                        @forelse ($item->details as $detail)
+                                            <li>
+                                                <p class="text-hidden text-{{ $item->id }}">{{ $detail->description }}</p>
+                                            </li>
+                                        @empty
+                                        <p class="text-center">No hay observaciones</p>
+                                        @endforelse
+                                    </ul>
+                                </td>
+                                <td>
+                                    @php
+                                        $cont = 0;
+                                    @endphp
+                                    @foreach ($item->prescription as $receta)
+                                        <div id="div-receta-{{ $receta->id }}">
+                                            @if (!$receta->deleted_at)
+                                                @foreach ($receta->details as $detail)
+                                                    <h6>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h6>
+                                                @endforeach
+                                                <div class="pull-right" style="margin-top: -20px">
+                                                    <button type="button" class="btn btn-link btn-sm btn-delete-receta" data-id="{{ $receta->id }}"><span class="text-danger">Eliminar</span></button>
+                                                </div>
+                                                <hr>
+                                                @php
+                                                    $cont++;
+                                                @endphp
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                    @if ($cont == 0)
+                                    <h6 class="text-center">Ninguna</h6>
+                                    @endif
+                                </td>
+                                <td>
+                                    <ul>
+                                        @php
+                                            $cont = 0;
+                                        @endphp
+                                        @foreach ($item->analysis as $orden)
+                                            <div id="div-laboratorio-{{ $orden->id }}">
+                                                @if (!$orden->deleted_at)                                                                
+                                                    @foreach ($orden->details as $detail)
+                                                        <li>{{ $detail->analysis->name }}</li>
+                                                    @endforeach
+                                                    <div class="pull-right" style="margin-top: -20px">
+                                                        <button type="button" class="btn btn-link btn-sm btn-delete-laboratorio" data-id="{{ $orden->id }}"><span class="text-danger">Eliminar</span></button>
+                                                    </div>
+                                                    <hr>
+                                                    @php
+                                                        $cont++;
+                                                    @endphp
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </ul>
+                                    @if ($cont == 0)
+                                    <h6 class="text-center">Ninguna</h6>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4"><h3 class="text-center">No hay historial</h3></td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -67,11 +145,25 @@
 @stop
 
 @section('javascript')
-<script src="{{ url('js/plugins/image-preview.js') }}"></script>
-  <script>
-    $(function () {
-      $('#DataTable').DataTable()
-    })
-     
-  </script>
+    <script>
+        $(document).ready(function(){
+            $('.btn-delete-receta').click(function(){
+                let id = $(this).data('id');
+                if(confirm('Deseas eliminar la siguiente receta?')){
+                    $.get("{{ url('admin/appointments/historial/prescriptions/delete') }}/"+id, function(res){
+                        $('#div-receta-'+id).remove();
+                    });
+                } 
+            });
+
+            $('.btn-delete-laboratorio').click(function(){
+                let id = $(this).data('id');
+                if(confirm('Deseas eliminar la siguiente orden de laboratorio?')){
+                    $.get("{{ url('admin/appointments/historial/order/delete') }}/"+id, function(res){
+                        $('#div-laboratorio-'+id).remove();
+                    });
+                } 
+            });
+        })
+    </script>
 @stop

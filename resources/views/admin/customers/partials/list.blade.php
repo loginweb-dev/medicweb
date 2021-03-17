@@ -33,10 +33,7 @@
                         </td>
                         <td></td>
                         <td class="no-sort no-click bread-actions text-right">
-                            <a href="#" data-toggle="modal" data-target="#modal-historial" data-id="{{ $customer->id }}" title="Hitorial clínico" class="btn btn-dark btn-sm btn-customer">
-                                <i class="voyager-list"></i> Hitorial clínico
-                            </a>
-                            <a href="{{ route('customers.show', $customer) }}" title="ver" class="btn btn-warning btn-sm">
+                            <a href="{{ route('customers.show', $customer) }}" target="_blank" title="ver" class="btn btn-warning btn-sm">
                                 <i class="voyager-eye"></i> Ver
                             </a>
                             <a href="{{route('customers.edit',$customer)}}" title="editar" class="btn btn-primary btn-sm">
@@ -52,37 +49,4 @@
             </tbody>
         </table>
     </div>
-
-    {{-- modal historial --}}
-    <div class="modal modal-info fade" tabindex="-1" id="modal-historial" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"><i class="voyager-person"></i> Historial clínico</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="historial-list"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-
-<script>
-    $(document).ready(function(){
-        // Ver histolrial
-        $('.btn-customer').click(function(){
-            let id = $(this).data('id');
-
-            $('#historial-list').empty().html(` <div class="col-md-12 text-center">
-                                                    <img src="{{ url('images/loader.gif') }}" alt="">
-                                                </div>`);
-            $.get('{{ url("admin/appointments/observations/browse") }}/'+id, function(res){
-                $('#historial-list').html(res);
-            });  
-        });
-    });
-</script>

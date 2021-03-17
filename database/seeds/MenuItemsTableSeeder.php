@@ -433,6 +433,22 @@ class MenuItemsTableSeeder extends Seeder
                 'route' => 'voyager.services.index',
                 'parameters' => NULL,
             ),
+            26 => 
+            array (
+                'id' => 30,
+                'menu_id' => 1,
+                'title' => 'Gráficos',
+                'url' => 'admin/reportes/charts',
+                'target' => '_self',
+                'icon_class' => 'voyager-bar-chart',
+                'color' => '#000000',
+                'parent_id' => 25,
+                'order' => 3,
+                'created_at' => '2021-03-11 00:48:34',
+                'updated_at' => '2021-03-11 00:52:28',
+                'route' => NULL,
+                'parameters' => '',
+            ),
         ));
         
         

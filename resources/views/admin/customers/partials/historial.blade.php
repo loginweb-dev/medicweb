@@ -37,42 +37,72 @@
                                     @endif
                                 @endif
                             </ul>
-                            <div class="row" style="margin-top:60px">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <td>Prescipciones</td>
-                                            <td>Ordenes de laboratorio</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @forelse ($item->prescription as $receta)
-                                                    @foreach ($receta->details as $detail)
-                                                        <h5>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h5>
+                            @if (count($item->prescription) || count($item->analysis))
+                                <div class="row" style="margin-top:60px">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td>Prescipciones</td>
+                                                <td>Ordenes de laboratorio</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @php
+                                                        $cont = 0;
+                                                    @endphp
+                                                    @foreach ($item->prescription as $receta)
+                                                        <div id="div-receta-{{ $receta->id }}">
+                                                            @if (!$receta->deleted_at)
+                                                                @foreach ($receta->details as $detail)
+                                                                    <h6>{{ intval($detail->quantity) }} {{ $detail->medicine_name }} <br> <small>{{ $detail->medicine_description }}</small></h6>
+                                                                @endforeach
+                                                                <div class="pull-right" style="margin-top: -20px">
+                                                                    <button type="button" class="btn btn-link btn-sm btn-delete-receta" data-id="{{ $receta->id }}"><span class="text-danger">Eliminar</span></button>
+                                                                </div>
+                                                                <hr>
+                                                                @php
+                                                                    $cont++;
+                                                                @endphp
+                                                            @endif
+                                                        </div>
                                                     @endforeach
-                                                    <hr>
-                                                @empty
-                                                <h6 class="text-center">Ninguna</h6>
-                                                @endforelse
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    @forelse ($item->analysis as $orden)
-                                                        @foreach ($orden->details as $detail)
-                                                            <li>{{ $detail->analysis->name }}</li>
-                                                        @endforeach
-                                                        <hr>
-                                                    @empty
+                                                    @if ($cont == 0)
                                                     <h6 class="text-center">Ninguna</h6>
-                                                    @endforelse
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        @php
+                                                            $cont = 0;
+                                                        @endphp
+                                                        @foreach ($item->analysis as $orden)
+                                                            <div id="div-laboratorio-{{ $orden->id }}">
+                                                                @if (!$orden->deleted_at)                                                                
+                                                                    @foreach ($orden->details as $detail)
+                                                                        <li>{{ $detail->analysis->name }}</li>
+                                                                    @endforeach
+                                                                    <div class="pull-right" style="margin-top: -20px">
+                                                                        <button type="button" class="btn btn-link btn-sm btn-delete-laboratorio" data-id="{{ $orden->id }}"><span class="text-danger">Eliminar</span></button>
+                                                                    </div>
+                                                                    <hr>
+                                                                    @php
+                                                                        $cont++;
+                                                                    @endphp
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
+                                                    </ul>
+                                                    @if ($cont == 0)
+                                                    <h6 class="text-center">Ninguna</h6>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -129,5 +159,23 @@
         let id = $(this).data('id');
         $(`.text-${id}`).css('display', 'block');
         $(`#btn-learn-more-${id}`).css('display', 'none');
+    });
+
+    $('.btn-delete-receta').click(function(){
+        let id = $(this).data('id');
+        if(confirm('Deseas eliminar la siguiente receta?')){
+            $.get("{{ url('admin/appointments/historial/prescriptions/delete') }}/"+id, function(res){
+                $('#div-receta-'+id).remove();
+            });
+        } 
+    });
+
+    $('.btn-delete-laboratorio').click(function(){
+        let id = $(this).data('id');
+        if(confirm('Deseas eliminar la siguiente orden de laboratorio?')){
+            $.get("{{ url('admin/appointments/historial/order/delete') }}/"+id, function(res){
+                $('#div-laboratorio-'+id).remove();
+            });
+        } 
     });
 </script>

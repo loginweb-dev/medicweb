@@ -14,6 +14,7 @@ use App\Http\Controllers\LoginWebController as LoginWeb;
 use App\Customer;
 use App\User;
 use App\Speciality;
+use App\Appointment;
 
 class CustomersController extends Controller
 {
@@ -98,7 +99,16 @@ class CustomersController extends Controller
      */
     public function show(Customer $customer)
     {
-        return view('admin.customers.show',compact('customer'));
+        $id = $customer->id;
+        $observaciones = Appointment::with(['details', 'specialist', 'analysis.details', 'prescription.details'])
+                            ->whereHas('customer', function($query) use ($id) {
+                                $query->where('id', $id);
+                            })
+                            ->where('deleted_at', NULL)
+                            ->orderBy('id', 'DESC')
+                            ->get();
+        // return $observaciones;
+        return view('admin.customers.show', compact('customer', 'observaciones'));
     }
 
     /**

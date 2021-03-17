@@ -87,7 +87,6 @@ class SchedulesController extends Controller
 
     public function schedules_details($id){
         $horario = Schedule::find($id);
-        
         return view('admin.schedules.partials.list_day', compact('horario'));
     }
 

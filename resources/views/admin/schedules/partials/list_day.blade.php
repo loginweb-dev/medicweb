@@ -66,6 +66,7 @@
             $('#message-payment-amount').css('display', 'block');
             $('#message-reloj').css('display', 'none');
             $('#form-appointments input[name="price_add"]').val(price_add);
+            $('.btn-payment').removeAttr('disabled');
             setTimeout(() => {
                 calcularTotal();
                 var reloj = new Reloj(hour.split(':')[0], hour.split(':')[1]);  

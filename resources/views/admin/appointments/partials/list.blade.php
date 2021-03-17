@@ -7,11 +7,10 @@
                     @if (Auth::user()->role_id != 5)
                     <th class="text-center">Especialista</th>
                     @endif
-                    <th class="text-center">Paciente</th>
+                    <th class="text-center">Detalles</th>
                     <th class="text-center">Fecha de la cita</th>
                     <th class="text-center">Estado</th>
                     <th class="text-center">Costo</th>
-                    <th class="text-center">Descripción</th>
                     <th class="text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>Acciones</th>
                 </tr>
             </thead>
@@ -22,7 +21,11 @@
                         @if (Auth::user()->role_id != 5)
                         <td>{{ $item->specialist->prefix }} {{ $item->specialist->name }} {{ $item->specialist->last_name }}</td>
                         @endif
-                        <td><a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->customer->id }}" title="Ver historial">{{ $item->customer->name }} {{ $item->customer->last_name }}</a></td>
+                        <td>
+                            <small><b>Paciente: </b></small> <a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->customer->id }}" title="Ver historial">{{ $item->customer->name }} {{ $item->customer->last_name }}</a> <br>
+                            <small><b>Motivo: </b></small> <br>
+                            {{ $item->observations }}
+                        </td>
                         <td>
                             {{ date('d-m-Y H:i', strtotime($item->date.' '.$item->start)) }} <br>
                             <small class="text-update" id="date-{{ $item->id }}" data-id="{{ $item->id }}" data-date="{{ $item->date.' '.$item->start }}" data-status="{{ strtolower($item->status) }}"></small>
@@ -50,7 +53,7 @@
                             }
                         @endphp
                         <td class="text-center">
-                            <label class="label label-{{ $type }}">{{ $item->status }}</label>
+                            <label class="label label-{{ $type }}">{{ $item->speciality_id == 3 && $item->status == 'Conectando' ? 'En espera' : $item->status }}</label>
                             @if ($item->status == 'Finalizada')
                                 @php
                                     $duracion = '0';
@@ -60,37 +63,39 @@
                                         $duracion = str_pad($inicio->diffInMinutes($fin), 2, "0", STR_PAD_LEFT).':'.str_pad(($inicio->diffInSeconds($fin)%60), 2, "0", STR_PAD_LEFT);
                                     }
                                 @endphp
-                                <div style="margin-top: 5px">
-                                    <small>Duración {{ $duracion }} min.</small>
+                                <div style="margin-top: 0px">
+                                    <small style="font-size: 10px">{{ $duracion }} min.</small>
                                 </div>
                             @endif
                         </td>
                         <td class="label-amount" data-amount="{{ !$item->paid && $item->status == 'Finalizada' ? $item->amount_paid : 0 }}" >{{ $item->amount + $item->amount_add }} Bs.</td>
-                        <td>{{ $item->observations }}</td>
-                        <td class="no-sort no-click bread-actions text-right action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
-                            @if ($item->customer->location)
-                            <a href="https://maps.google.com/?q={{ $item->customer->location }}" target="_blank" class="btn btn-dark edit" title="Ver ubicación"><i class="voyager-location"></i></a>                                
-                            @endif
-
+                        <td class="no-sort no-click bread-actions text-left action-available" @if($specialist && !$specialist->status) style="display:none" @endif>
                             @if ($item->status == 'Validar')
-                                <button type="button" title="Validar" class="btn btn-sm btn-success btn-verify-payment edit" data-id="{{ $item->id }}">
+                                <button type="button" title="Validar" class="btn btn-sm btn-success btn-verify-payment edit" data-id="{{ $item->id }}" data-firebase_token="{{ $item->customer->user->firebase_token }}">
                                     <i class="voyager-dollar"></i> <span class="hidden-xs hidden-sm">Validar</span>
                                 </button>
                             @else
                                 @if (strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'anulada')
-                                    <a href="{{ url('meet/'.$item->id) }}" title="Ir a la llamada" class="btn btn-sm btn-warning view">
-                                        <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
-                                    </a>
-                                    <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
-                                        <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
-                                    </button>
+                                    @if ($item->speciality_id == 3)
+                                        <a href="https://maps.google.com/?q={{ $item->customer->location }}" target="_blank" class="btn btn-success edit" title="Ver ubicación"><i class="voyager-location"></i></a>    
+                                        <button type="button" title="Finalizar cita" class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
+                                            <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
+                                        </button>
+                                    @else
+                                        <a href="{{ url('meet/'.$item->id) }}" title="Ir a la llamada" class="btn btn-sm btn-warning view">
+                                            <i class="voyager-video"></i> <span class="hidden-xs hidden-sm">Ir</span>
+                                        </a>
+                                        <button type="button" title="Finalizar cita" @if(strtolower($item->status)!=='en curso') disabled @endif class="btn btn-sm btn-dark btn-end-meet edit" data-id="{{ $item->id }}">
+                                            <i class="voyager-check"></i> <span class="hidden-xs hidden-sm">Fin</span>
+                                        </button>
+                                    @endif                            
                                 @endif
                             @endif
 
                             @if(strtolower($item->status) != 'finalizada' && strtolower($item->status) != 'en curso' && strtolower($item->status) != 'anulada' && Auth::user()->role_id != 5)
-                                <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
+                                {{-- <a href="#" title="Editar" class="btn btn-sm btn-primary edit" data-date="{{ $item->date }}" data-id="{{ $item->id }}" data-start="{{ $item->start }}" data-toggle="modal" data-target="#modal-postpone">
                                     <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">posponer</span>
-                                </a>
+                                </a> --}}
                                 <a href="#" data-url="{{ route('appointments.destroy', ['appointment' => $item->id]) }}" title="Anular" class="btn btn-sm btn-danger btn-delete">
                                     <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Anular</span>
                                 </a>
@@ -158,6 +163,9 @@
                 </div>
                 <div class="modal-body">
                     <div id="historial-list"></div>
+                    <div class="text-center">
+                        <a href="#" id="btn-ver-todo" target="_blank" class="btn btn-primary"> <span class="voyager-eye"></span> Ver todo</a>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
@@ -172,7 +180,8 @@
         {{ method_field('DELETE') }}
     </form>
 </div>
-<script src="{{ url('js/moment.js') }}"></script>
+<script src="{{ asset('js/moment.js') }}"></script>
+<script src="{{ asset('js/loginweb.js') }}"></script>
 
 <script>
     $(document).ready(function(){
@@ -235,18 +244,30 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, validar!',
                 cancelButtonText: 'Cancelar'
-            }).then((result) => {
+            }).then(async (result) => {
                 if (result.value) {
+                    let firebase_token = $(this).data('firebase_token')
                     let url = "{{ url('admin/appointments/status') }}";
-                    $.get(`${url}/${$(this).data('id')}`, function(res){
+                    $.get(`${url}/${$(this).data('id')}`, async function(res){
                         if(!res.error){
-                            Swal.fire(
-                                'Bien hecho!', res.success, 'success'
-                            )
+                            Swal.fire('Bien hecho!', res.success, 'success')
+
+                            // Notificación movil
+                            let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
+                            let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
+                            let title = "Tranferencia aceptada";
+                            let message = `En un momento serás contactado por nuestro especialista.`;
+                            let notification = {
+                                title, message
+                            }
+                            let data = {
+                                title, message,
+                                type: 'accept_transfer'
+                            }
+                            
+                            await sendNotificationApp(urlMessaging, FCMToken, firebase_token, notification, data);
                         }else{
-                            Swal.fire(
-                                'Error!', res.error, 'error'
-                            )
+                            Swal.fire('Error!', res.error, 'error')
                         }
                     });
                 }
@@ -305,13 +326,13 @@
         // Ver histolrial
         $('.btn-customer').click(function(){
             let id = $(this).data('id');
-
+            $('#btn-ver-todo').attr('href', '{{ url("admin/customers") }}/'+id);
             $('#historial-list').empty().html(` <div class="col-md-12 text-center">
                                                     <img src="{{ url('images/loader.gif') }}" alt="">
                                                 </div>`);
             $.get('{{ url("admin/appointments/observations/browse") }}/'+id, function(res){
                 $('#historial-list').html(res);
-            });  
+            });
         });
 
         getAmount();
