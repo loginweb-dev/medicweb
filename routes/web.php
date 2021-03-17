@@ -100,6 +100,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     // Appointments
     Route::resource('appointments', 'AppointmentsController');
     Route::get('appointments/list/{search}', 'AppointmentsController@list');
+    Route::get('appointments/customer/{id}/{specialist_id}/{speciality_id}', 'AppointmentsController@customer');
     Route::get('appointments/status/{id}/{status?}', 'AppointmentsController@update_status');
     Route::get('appointments/tracking/{id}', 'AppointmentsController@tracking_duration');
     Route::get('appointments/observations/browse/{id}', 'AppointmentsController@browse_observations');

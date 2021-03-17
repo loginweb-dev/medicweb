@@ -122,38 +122,40 @@
                         </div>
                         {{-- ========================= --}}
 
-                        {{-- Mensaje de no disponible --}}
-                        <div class="col-md-12 mt-3">
-                            <div class="card border-left-danger shadow h-100 py-2 alert-message" style="display: none" id="message-error-available">
-                              <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
-                                    <div class="h6 mb-0 font-weight-bold text-danger">
-                                      <p>El especialista no está disponible en este momento, debe programar una consulta seleccionando algún horario de la lista superior.</p>
+                        <div id="div-messages">
+                          {{-- Mensaje de no disponible --}}
+                          <div class="col-md-12 mt-3">
+                              <div class="card border-left-danger shadow h-100 py-2 alert-message" style="display: none" id="message-error-available">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="text-xs font-weight-bold text-uppercase mb-1">No disponible</div>
+                                      <div class="h6 mb-0 font-weight-bold text-danger">
+                                        <p>El especialista no está disponible en este momento, debe programar una consulta seleccionando algún horario de la lista superior.</p>
+                                      </div>
                                     </div>
-                                  </div>
-                                  <div class="col-auto">
-                                    <i class="fas fa-ban fa-2x text-danger"></i>
+                                    <div class="col-auto">
+                                      <i class="fas fa-ban fa-2x text-danger"></i>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                        </div>
+                          </div>
 
-                        {{-- Mensaje de disponible --}}
-                        <div class="col-md-12 mt-3">
-                          <div class="card border-left-success shadow h-100 py-2 alert-message" style="display: none" id="message-success-available">
-                            <div class="card-body">
-                              <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Disponible</div>
-                                  <div class="h6 mb-0 font-weight-bold text-success">
-                                    <p>El especialista está disponible en este momento, ingrese el motivo de su cosulta y realize el pago para ser atendido en un momento.</p>
+                          {{-- Mensaje de disponible --}}
+                          <div class="col-md-12 mt-3">
+                            <div class="card border-left-success shadow h-100 py-2 alert-message" style="display: none" id="message-success-available">
+                              <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-uppercase mb-1">Disponible</div>
+                                    <div class="h6 mb-0 font-weight-bold text-success">
+                                      <p>El especialista está disponible en este momento, ingrese el motivo de su cosulta y realize el pago para ser atendido en un momento.</p>
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="col-auto">
-                                  <i class="fas fa-video fa-2x text-success"></i>
+                                  <div class="col-auto">
+                                    <i class="fas fa-video fa-2x text-success"></i>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -182,10 +184,18 @@
                                     <p>La tarifa del especialista en este horario es:</p>
                                   </div>
                                 </div>
-                                <div class="col-auto">
+                                <div class="text-right">
                                   <h4 class="text-info label-price-appointment"></h4>
+                                  <input type="hidden" id="normal_price">
                                   <input type="hidden" class="input-price" name="price">
                                   <input type="hidden" class="input-price" name="price_add">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="check-reconsulta">
+                                    <label class="form-check-label" for="check-reconsulta">
+                                      Reconsulta
+                                    </label>
+                                  </div>
+                                  <small>En caso de ser una reconsulta puede tener un descuento</small>
                                 </div>
                               </div>
                             </div>
@@ -218,6 +228,9 @@
                                   </div>
                                 @endforeach
                               </div>
+                            </div>
+                            <div class="col-md-12">
+                              <small>Seleccione qué servicios require contrartar, en base a dichos servicios se calculará el monto que debe pagar.</small>
                             </div>
                           </div>
                         </div>
@@ -553,6 +566,37 @@
               $('#form-appointments input[name="price"]').val(total);
               $('#form-appointments input[name="price_add"]').val(0);
               $('#form-appointments textarea[name="observations"]').val(observations.substring(0, observations.length -2));
+            });
+
+            $('#check-reconsulta').click(function(){
+              let speciality = $('#select-speciality').val();
+              if(speciality == 3){
+                Swal.fire('Error', 'Las reconsultas solo son permitidas para medicina general o especialidades.', 'error');
+                $(this).prop('checked', false);
+              }else{
+                if($(this).is(":checked")){
+                  let specialist_id = $('#form-appointments input[name="specialist_id"]').val();
+                  let customer_id = '{{ $customer_id }}';
+                  let speciality_id = $('#select-speciality').val();
+                  let url = '{{ url("admin/appointments/customer") }}';
+                  $.get(`${url}/${customer_id}/${specialist_id}/${speciality_id}`, function(res){
+                    if(res.speciality){
+                      if(res.speciality.price_alt){
+                        $('#form-appointments input[name="price"]').val(res.speciality.price_alt);
+                      }else{
+                        Swal.fire('Lo sentimos', 'El precio de reconsulta es el mismo que el de consulta normal.', 'info');  
+                      }
+                      calcularTotal();
+                    }else{
+                      Swal.fire('Error', res.error, 'error');
+                      $('#check-reconsulta').prop('checked', false);
+                    }
+                  });
+                }else{
+                  $('#form-appointments input[name="price"]').val($('#normal_price').val());
+                  calcularTotal();
+                }
+              }
             });
         });
 
