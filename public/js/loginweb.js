@@ -31,7 +31,7 @@ function storeFormData(formData, url, callBack){
     });
 }
 
-function sendNotificationApp(url, FCMToken, tokenDevice, notification, data){
+async function sendNotificationApp(url, FCMToken, tokenDevice, notification, data){
     var notificationContent = {
         to: tokenDevice,
         content_available: true,
@@ -43,7 +43,7 @@ function sendNotificationApp(url, FCMToken, tokenDevice, notification, data){
         data
     };
 
-    fetch(url, {
+    return await fetch(url, {
     method: 'POST',
     body: JSON.stringify(notificationContent),
     headers:{

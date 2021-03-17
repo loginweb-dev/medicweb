@@ -140,17 +140,6 @@ class SettingsTableSeeder extends Seeder
             ),
             11 => 
             array (
-                'id' => 12,
-                'key' => 'admin.pagination',
-                'display_name' => 'Paginacion',
-                'value' => '6',
-                'details' => NULL,
-                'type' => 'text',
-                'order' => 7,
-                'group' => 'Admin',
-            ),
-            12 => 
-            array (
                 'id' => 13,
                 'key' => 'whatsapp.phone',
                 'display_name' => 'Numero de Móvil',
@@ -160,7 +149,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 1,
                 'group' => 'Whatsapp',
             ),
-            13 => 
+            12 => 
             array (
                 'id' => 14,
                 'key' => 'whatsapp.popupMessage',
@@ -171,7 +160,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 2,
                 'group' => 'Whatsapp',
             ),
-            14 => 
+            13 => 
             array (
                 'id' => 15,
                 'key' => 'whatsapp.message',
@@ -182,7 +171,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 3,
                 'group' => 'Whatsapp',
             ),
-            15 => 
+            14 => 
             array (
                 'id' => 16,
                 'key' => 'whatsapp.headerTitle',
@@ -193,7 +182,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 4,
                 'group' => 'Whatsapp',
             ),
-            16 => 
+            15 => 
             array (
                 'id' => 17,
                 'key' => 'whatsapp.color',
@@ -204,7 +193,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 5,
                 'group' => 'Whatsapp',
             ),
-            17 => 
+            16 => 
             array (
                 'id' => 18,
                 'key' => 'whatsapp.buttonImage',
@@ -215,7 +204,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 6,
                 'group' => 'Whatsapp',
             ),
-            18 => 
+            17 => 
             array (
                 'id' => 19,
                 'key' => 'whatsapp.position',
@@ -226,7 +215,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 7,
                 'group' => 'Whatsapp',
             ),
-            19 => 
+            18 => 
             array (
                 'id' => 20,
                 'key' => 'whatsapp.autoOpenTimeout',
@@ -237,7 +226,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 8,
                 'group' => 'Whatsapp',
             ),
-            20 => 
+            19 => 
             array (
                 'id' => 21,
                 'key' => 'whatsapp.size',
@@ -248,7 +237,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 9,
                 'group' => 'Whatsapp',
             ),
-            21 => 
+            20 => 
             array (
                 'id' => 22,
                 'key' => 'rrss.facebook',
@@ -259,7 +248,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 1,
                 'group' => 'RRSS',
             ),
-            22 => 
+            21 => 
             array (
                 'id' => 23,
                 'key' => 'rrss.instagram',
@@ -270,7 +259,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 2,
                 'group' => 'RRSS',
             ),
-            23 => 
+            22 => 
             array (
                 'id' => 24,
                 'key' => 'rrss.twitter',
@@ -281,7 +270,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 3,
                 'group' => 'RRSS',
             ),
-            24 => 
+            23 => 
             array (
                 'id' => 25,
                 'key' => 'citas.duracion',
@@ -292,51 +281,51 @@ class SettingsTableSeeder extends Seeder
                 'order' => 1,
                 'group' => 'Citas',
             ),
-            25 => 
+            24 => 
             array (
                 'id' => 26,
                 'key' => 'server-streaming.url_server',
                 'display_name' => 'url server',
-                'value' => 'jitsi.loginweb.dev',
+                'value' => 'meet.jit.si',
                 'details' => NULL,
                 'type' => 'text',
                 'order' => 1,
                 'group' => 'Server Streaming',
             ),
-            26 => 
+            25 => 
             array (
                 'id' => 27,
                 'key' => 'site.telefonos',
                 'display_name' => 'Telefonos',
-                'value' => NULL,
+                'value' => '75199157, 462 3456',
                 'details' => NULL,
                 'type' => 'text',
                 'order' => 4,
                 'group' => 'Site',
             ),
-            27 => 
+            26 => 
             array (
                 'id' => 28,
                 'key' => 'site.direccion',
                 'display_name' => 'Dirección',
-                'value' => NULL,
+                'value' => 'Calle 18 de nov nro 12',
                 'details' => NULL,
                 'type' => 'text',
                 'order' => 5,
                 'group' => 'Site',
             ),
-            28 => 
+            27 => 
             array (
                 'id' => 29,
                 'key' => 'site.ciudad',
                 'display_name' => 'Ciudad',
-                'value' => NULL,
+                'value' => 'Trinidad',
                 'details' => NULL,
                 'type' => 'text',
                 'order' => 10,
                 'group' => 'Site',
             ),
-            29 => 
+            28 => 
             array (
                 'id' => 30,
                 'key' => 'server-streaming.notificacion_sms',
@@ -347,7 +336,7 @@ class SettingsTableSeeder extends Seeder
                 'order' => 13,
                 'group' => 'Server Streaming',
             ),
-            30 => 
+            29 => 
             array (
                 'id' => 31,
                 'key' => 'server-streaming.celular_notificacion',
@@ -357,6 +346,72 @@ class SettingsTableSeeder extends Seeder
                 'type' => 'text',
                 'order' => 14,
                 'group' => 'Server Streaming',
+            ),
+            30 => 
+            array (
+                'id' => 32,
+                'key' => 'citas.porcentaje_ganancia',
+                'display_name' => 'Porcentaje de ganacia',
+                'value' => '30',
+                'details' => NULL,
+                'type' => 'text',
+                'order' => 15,
+                'group' => 'Citas',
+            ),
+            31 => 
+            array (
+                'id' => 33,
+                'key' => 'pasarela-de-pago.transferencia_bancaria',
+                'display_name' => 'Transferencia bancaria',
+                'value' => '1',
+                'details' => NULL,
+                'type' => 'checkbox',
+                'order' => 16,
+                'group' => 'Pasarela de pago',
+            ),
+            32 => 
+            array (
+                'id' => 34,
+                'key' => 'pasarela-de-pago.tarjeta_credito',
+                'display_name' => 'Tarjeta de crédito',
+                'value' => '0',
+                'details' => NULL,
+                'type' => 'checkbox',
+                'order' => 17,
+                'group' => 'Pasarela de pago',
+            ),
+            33 => 
+            array (
+                'id' => 35,
+                'key' => 'pasarela-de-pago.tigo_money',
+                'display_name' => 'TIGO Money',
+                'value' => '1',
+                'details' => NULL,
+                'type' => 'checkbox',
+                'order' => 18,
+                'group' => 'Pasarela de pago',
+            ),
+            34 => 
+            array (
+                'id' => 36,
+                'key' => 'pasarela-de-pago.numeros_tigo_money',
+                'display_name' => 'Números de Tigo Money',
+                'value' => '75199157',
+                'details' => NULL,
+                'type' => 'text',
+                'order' => 19,
+                'group' => 'Pasarela de pago',
+            ),
+            35 => 
+            array (
+                'id' => 37,
+                'key' => 'citas.plazo_reconsulta',
+                'display_name' => 'Plazo para reconsulta',
+                'value' => '5',
+                'details' => NULL,
+                'type' => 'text',
+                'order' => 20,
+                'group' => 'Citas',
             ),
         ));
         

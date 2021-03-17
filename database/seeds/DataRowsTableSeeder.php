@@ -382,7 +382,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 0,
-                'details' => '{"display":{"width":6}}',
+                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 2,
             ),
             23 => 
@@ -399,7 +399,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 1,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 6,
+                'order' => 7,
             ),
             24 => 
             array (
@@ -431,7 +431,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 7,
+                'order' => 8,
             ),
             26 => 
             array (
@@ -447,7 +447,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 8,
+                'order' => 9,
             ),
             27 => 
             array (
@@ -830,7 +830,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6},"options":{"primary":"Azul","info":"Celeste","success":"Verde","warning":"Amarillo","danger":"Rojo","light":"Blanco","dark":"Gris"}}',
+                'details' => '{"display":{"width":4},"options":{"primary":"Azul","info":"Celeste","success":"Verde","warning":"Amarillo","danger":"Rojo","light":"Blanco","dark":"Gris"}}',
                 'order' => 4,
             ),
             51 => 
@@ -847,7 +847,7 @@ class DataRowsTableSeeder extends Seeder
                 'add' => 0,
                 'delete' => 0,
                 'details' => '{}',
-                'order' => 9,
+                'order' => 10,
             ),
             52 => 
             array (
@@ -878,7 +878,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{}',
+                'details' => '{"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 2,
             ),
             54 => 
@@ -1006,7 +1006,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{}',
+                'details' => '{"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 4,
             ),
             62 => 
@@ -1310,7 +1310,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6}}',
+                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 3,
             ),
             81 => 
@@ -1406,7 +1406,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6}}',
+                'details' => '{"display":{"width":6},"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 4,
             ),
             87 => 
@@ -1414,7 +1414,7 @@ class DataRowsTableSeeder extends Seeder
                 'id' => 88,
                 'data_type_id' => 4,
                 'field' => 'price',
-                'type' => 'text',
+                'type' => 'number',
                 'display_name' => 'Precio',
                 'required' => 0,
                 'browse' => 1,
@@ -1422,7 +1422,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"display":{"width":6}}',
+                'details' => '{"display":{"width":4},"validation":{"rule":"required|max:5","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}},"step":1,"min":0}',
                 'order' => 5,
             ),
             88 => 
@@ -1598,7 +1598,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit' => 1,
                 'add' => 1,
                 'delete' => 1,
-                'details' => '{"validation":{"rule":"required|max:191"}}',
+                'details' => '{"validation":{"rule":"required|max:191","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}}}',
                 'order' => 2,
             ),
             99 => 
@@ -1680,6 +1680,22 @@ class DataRowsTableSeeder extends Seeder
                 'delete' => 0,
                 'details' => '{}',
                 'order' => 7,
+            ),
+            104 => 
+            array (
+                'id' => 105,
+                'data_type_id' => 4,
+                'field' => 'price_alt',
+                'type' => 'number',
+                'display_name' => 'Precio de reconsulta',
+                'required' => 0,
+                'browse' => 1,
+                'read' => 1,
+                'edit' => 1,
+                'add' => 1,
+                'delete' => 1,
+                'details' => '{"display":{"width":4},"validation":{"rule":"required|max:5","messages":{"required":"El campo :attribute es requerido.","max":"El campo :attribute debe tener :max caracteres m\\u00e1ximo."}},"step":1,"min":0}',
+                'order' => 6,
             ),
         ));
         

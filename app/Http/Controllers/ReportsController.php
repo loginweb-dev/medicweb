@@ -37,4 +37,8 @@ class ReportsController extends Controller
         // dd($pagos);
         return view('admin.reports.payments_list', compact('pagos'));
     }
+
+    public function charts(){
+        return view('admin.reports.charts');
+    }
 }

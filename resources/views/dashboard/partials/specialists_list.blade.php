@@ -133,7 +133,7 @@
                             <div class="card">
                                 <div class="card-header text-center" style="padding:0px">${days[index]}</div>
                                 <div class="card-body text-center" style="padding:0px">
-                                    ${schedules_details}
+                                    ${schedules_details ? schedules_details : '<small>No atiende</small>'}
                                 </div>
                             </div>
                         </div>
@@ -145,14 +145,16 @@
 
                 $('#title-details-specialist').html(`<a href="#" onclick="breadCrunb('#div-list-specialists')">Especialistas</a> / ${specilalist.prefix} ${specilalist.name} ${specilalist.last_name}`);
                 
-                // Montrar las instrucciones según el estado del mñedico
+                // Montrar las instrucciones según el estado del médico
                 if(specilalist.status == 0){
                     $('#message-error-available').css('display', 'block');
                     $('#badge-available').html(`<span class="badge badge-danger">No disponible</span>`);
+                    $('.btn-payment').attr('disabled', 'disabled');
                 }else if(specilalist.status == 1){
                     $('#message-success-available').css('display', 'block');
                     $('#message-payment-amount').css('display', 'block');
                     $('#badge-available').html(`<span class="badge badge-success">Disponible Ahora</span>`);
+                    $('.btn-payment').removeAttr('disabled');
                     calcularTotal();
                 }
 

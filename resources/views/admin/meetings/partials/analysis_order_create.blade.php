@@ -7,7 +7,7 @@
     <input type="hidden" name="appointment_id" value="{{ $appointment_id }}">
     <input type="hidden" name="ajax" value="1">
 
-    <div class="modal fade" id="modal-analysis-order" role="dialog" aria-labelledby="modal-analysis-orderLabel" aria-hidden="true">
+    <div class="modal fade modal-history" id="modal-analysis-order" role="dialog" aria-labelledby="modal-analysis-orderLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg bg-info" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">

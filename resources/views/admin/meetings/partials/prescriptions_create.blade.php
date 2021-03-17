@@ -7,11 +7,11 @@
     <input type="hidden" name="appointment_id" value="{{ $appointment_id }}">
     <input type="hidden" name="ajax" value="1">
 
-    <div class="modal fade" id="modal-prescription" role="dialog" aria-labelledby="modal-prescriptionLabel" aria-hidden="true">
+    <div class="modal fade modal-history" id="modal-prescription" role="dialog" aria-labelledby="modal-prescriptionLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg bg-info" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white" id="modal-prescriptionLabel">Redactar prescripción</h5>
+                    <h5 class="modal-title text-white" id="modal-prescriptionLabel">Redactar prescripción médica</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
