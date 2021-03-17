@@ -1,4 +1,4 @@
 - ## Documentación
     - [Bienvenida](/{{route}}/{{version}}/welcome)
     - [Iniciar sesión](/{{route}}/{{version}}/login)
-    - [Atender citas médicas](/{{route}}/{{version}}/meet)
+    - [Atender consultas médicas](/{{route}}/{{version}}/meet)

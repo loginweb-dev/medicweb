@@ -1,13 +1,13 @@
 @extends('voyager::master')
 
-@section('page_title', 'Citas médicas')
+@section('page_title', 'Consultas médicas')
 
 @section('page_header')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9">
                 <h1 class="page-title">
-                    <i class="voyager-browser"></i> Citas médicas
+                    <i class="voyager-browser"></i> Consultas médicas
                 </h1>
                 {{-- <a href="{{ route('appointments.create') }}" class="btn btn-success btn-add-new">
                     <i class="voyager-plus"></i> <span>Crear</span>
@@ -30,7 +30,7 @@
         @include('voyager::alerts')
         <div class="alert alert-danger alert-available" @if(!$specialist || ($specialist && $specialist->status)) style="display:none" @endif>
             <strong>Atención:</strong>
-            <p>No puedes acceder a tus citas médicas debido a que estas inactivo.</p>
+            <p>No puedes acceder a tus consultas médicas debido a que estas inactivo.</p>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -62,6 +62,7 @@
                         </div>
                         <div id="list-table">
                         </div>
+                        <audio id="alert" src="{{url('audio/alert.mp3')}}" preload="auto"></audio>
                     </div>
                 </div>
             </div>

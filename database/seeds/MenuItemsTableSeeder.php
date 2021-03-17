@@ -373,7 +373,7 @@ class MenuItemsTableSeeder extends Seeder
             array (
                 'id' => 26,
                 'menu_id' => 1,
-                'title' => 'Citas médicas',
+                'title' => 'Consultas médicas',
                 'url' => 'admin/reportes/appointments',
                 'target' => '_self',
                 'icon_class' => 'voyager-browser',

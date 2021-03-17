@@ -1,8 +1,8 @@
 @extends('voyager::master')
 
-@section('page_title', 'Reporte de citas médicas')
+@section('page_title', 'Reporte de consultas médicas')
 
-@if(!auth()->user()->hasPermission('browse_reportesappointments'))
+@if(!auth()->user()->hasPermission('browse_users'))
     @php
     return 0;
     @endphp
@@ -11,7 +11,7 @@
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
-            <i class="voyager-browser"></i> Reporte de citas médicas
+            <i class="voyager-browser"></i> Reporte de consultas médicas
         </h1>
     </div>
 @stop

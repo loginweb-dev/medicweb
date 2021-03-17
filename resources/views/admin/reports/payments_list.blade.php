@@ -1,4 +1,4 @@
-@if(!auth()->user()->hasPermission('browse_reportespayments'))
+@if(!auth()->user()->hasPermission('browse_users'))
     @php
     return 0;
     @endphp

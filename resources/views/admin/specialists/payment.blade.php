@@ -22,7 +22,7 @@
             @include('voyager::alerts')
             <div class="alert alert-info">
                 <strong>Información:</strong>
-                <p>Seleccione las citas médicas que desea registrar como pagadas al especialista y presione el boton <b>pagar</b>.</p>
+                <p>Seleccione las consultas médicas que desea registrar como pagadas al especialista y presione el boton <b>pagar</b>.</p>
             </div>
             <div class="row">
                 <div class="col-md-12">

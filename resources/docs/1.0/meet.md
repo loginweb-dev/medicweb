@@ -1,9 +1,9 @@
-# Atender citas médicas
+# Atender consultas médicas
 
 ---
 
 - [Panel de inicio](#panel)
-- [Lista de citas médicas](#lista)
+- [Lista de consultas médicas](#lista)
 - [Abrir cita médicas](#abrir)
 - [Ver y agregar historial del paciente](#historial)
 - [Redactar nueva receta](#receta)
@@ -14,7 +14,7 @@
 
 ## Panel de inicio
 
-Acceder a la lista de citas médicas seleccionando la opción Citas del menú lateral.
+Acceder a la lista de consultas médicas seleccionando la opción Citas del menú lateral.
 
 ![panel](https://livemedic.net/images/docs/meet/1.png "Panel de inicio")
 
@@ -22,11 +22,11 @@ Acceder a la lista de citas médicas seleccionando la opción Citas del menú la
 
 <a name="lista"></a>
 
-## Lista de citas médicas
+## Lista de consultas médicas
 
-Una vez dentro podrá ver la lista de citas médicas con su respectivo estado y la hora de la inicio.
+Una vez dentro podrá ver la lista de consultas médicas con su respectivo estado y la hora de la inicio.
 
-![lista](https://livemedic.net/images/docs/meet/2.png "Lista de citas médicas")
+![lista](https://livemedic.net/images/docs/meet/2.png "Lista de consultas médicas")
 
 En caso de no estar disponible para su atención puede cambiar su estado de activo a incativo y viceversa.
 
@@ -36,7 +36,7 @@ En caso de no estar disponible para su atención puede cambiar su estado de acti
 
 <a name="abrir"></a>
 
-## Abrir citas médicas
+## Abrir consultas médicas
 
 Para acceder a una cita médica que esté lista para ser atendida debe presionar el boton amarillo "Ir" y posteriormente realiza la video llamada al paciente en espera.
 
