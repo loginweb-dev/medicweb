@@ -26,7 +26,7 @@
                             <a href="#list-group-schedules" class="list-group-item">
                                 <div class="form-check-inline">
                                     <label class="form-check-label @if($citas) text-danger @endif" style="cursor: pointer; font-weight: bold">
-                                        <input type="radio" class="form-check-input" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $horario->price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
+                                        <input type="radio" class="form-check-input check-schedule" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $horario->price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
                                     </label>
                                 </div>
                             </a>
@@ -50,14 +50,18 @@
                 <canvas id="reloj"></canvas>
             </div>
         </div>
-        <h5 class="text-center text-success mt-4">{{ ucwords(strftime('%A, %e de %B de %Y', strtotime($fecha_cita))) }}</h5>
+        @php
+            $diassemana = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+            $meses = array("", "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        @endphp
+        <h5 class="text-center text-success mt-4">{{ $diassemana[date('w', strtotime($fecha_cita))].", ".date('d', strtotime($fecha_cita))." de ".$meses[date('n', strtotime($fecha_cita))]. " del ".date('Y', strtotime($fecha_cita)) }}</h5>
     </div>
 </div>
 
 <script src="{{ url('js/reloj_analogo.js') }}"></script>
 <script>
     $(document).ready(function(){
-        $('.form-check-input').click(function(){
+        $('.check-schedule').click(function(){
             let date = $(this).data('date');
             let hour = $(this).data('hour');
             let price_add = $(this).data('price_add');

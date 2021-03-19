@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AnalysisType extends Model
 {
     use SoftDeletes;
-
+    protected $dates = ['deleted_at'];
     protected $fillable = ['analysis_type_id', 'name', 'description', 'order'];
 
     public function analisis(){

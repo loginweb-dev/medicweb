@@ -36,3 +36,4 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 // Rutas funcionales
 Route::get('/payment_accounts', 'ApiController@payment_accounts_index');
+Route::get('/services', 'ApiController@services_index');

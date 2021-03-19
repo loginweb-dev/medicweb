@@ -17,6 +17,7 @@ use App\Speciality;
 use App\PaymentAccount;
 use App\Appointment;
 use App\Specialist;
+use App\Service;
 
 class ApiController extends Controller
 {
@@ -156,6 +157,11 @@ class ApiController extends Controller
     public function payment_accounts_index(){
         $payment_accounts = PaymentAccount::all();
         return response()->json(['paymentAccounts' => $payment_accounts]);
+    }
+
+    public function services_index(){
+        $services = Service::where('deleted_at', NULL)->get();
+        return response()->json(['services' => $services]);
     }
 
     public function newCustomer($data){

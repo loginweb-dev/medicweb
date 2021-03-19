@@ -315,7 +315,7 @@
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                  <button type="submit" class="btn btn-primary">Realizar consulta</button>
+                                  <button type="submit" class="btn btn-primary">Solicitar consulta</button>
                               </div>
                           </div>
                       </div>
