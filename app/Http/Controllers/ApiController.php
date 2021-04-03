@@ -79,7 +79,16 @@ class ApiController extends Controller
     
     public function index(){
         $specialities = Speciality::with(['specialists.user', 'specialists.appointments.rating', 'specialists.schedules'])->where('deleted_at', null)->get();
-        return response()->json(['specialities' => $specialities]);
+
+        $price_add = 0;
+        $hora_inicio = setting('horarios.hora_inicio');
+        $hora_fin = setting('horarios.hora_fin');
+
+        // Verificar si está dentro del horario especial
+        if(date('H') >= date('H', strtotime($hora_inicio)) || (date('H') > 0 && date('H') < date('H', strtotime($hora_fin))) || date('w') == 0){
+            $price_add = setting('horarios.precio_adiciaonal');
+        }
+        return response()->json(['specialities' => $specialities, 'price_add' => $price_add]);
     }
 
     public function historial($customer_id){
@@ -132,7 +141,17 @@ class ApiController extends Controller
             if(count($cita_actual)){
                 return response()->json(['error' => 'El horario seleccionado ya se encuentra reservado para otra consulta médica, por favor elija otro horario.', 'appointments_queue' => $citas_pendientes]);
             }else{
-                return response()->json(['success' => 'disponible', 'date' => $fecha]);
+
+                $price_add = 0;
+                $hora_inicio = setting('horarios.hora_inicio');
+                $hora_fin = setting('horarios.hora_fin');
+
+                // Verificar si está dentro del horario especial
+                if(date('H', strtotime($hora)) >= date('H', strtotime($hora_inicio)) || (date('H', strtotime($hora)) > 0 && date('H', strtotime($hora)) < date('H', strtotime($hora_fin))) || date('w', strtotime($fecha)) == 0){
+                    $price_add = setting('horarios.precio_adiciaonal');
+                }
+
+                return response()->json(['success' => 'disponible', 'date' => $fecha, 'price_add' => $price_add]);
             }
 
         }else{

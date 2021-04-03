@@ -124,6 +124,10 @@
             @endforeach
         </tbody>
     </table>
+    <div style="margin-top: 20px">
+        <h4><small>Otros laboratorios</small>: {{ $orden_analisis->observations }}</h4>
+        <hr>
+    </div>
     <div style="position: fixed; bottom: 150px; left: 600px">
         @php
             $qr = base64_encode(QrCode::size(120)->generate(url('/analysis/validate/'.$orden_analisis->id)));

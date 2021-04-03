@@ -26,7 +26,7 @@
                             <a href="#list-group-schedules" class="list-group-item">
                                 <div class="form-check-inline">
                                     <label class="form-check-label @if($citas) text-danger @endif" style="cursor: pointer; font-weight: bold">
-                                        <input type="radio" class="form-check-input check-schedule" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $horario->price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
+                                        <input type="radio" class="form-check-input check-schedule" @if($citas) disabled @endif name="optradio" data-date="{{ date('Y-m-d', strtotime($inicio_horario)) }}" data-hour="{{ date('H:i', strtotime($inicio_horario)) }}" data-price_add="{{ $price_add }}">A las {{ date('h:i a', strtotime($inicio_horario)) }} @if($citas) (Reservado) @endif
                                     </label>
                                 </div>
                             </a>
