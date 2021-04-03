@@ -64,7 +64,16 @@ class SpecialistsController extends Controller
                             ->where('deleted_at', NULL)->inRandomOrder()->get();
         $especialidad = Speciality::find($id)->name;
         $horario_actual = Schedule::where('day', date('N'))->where('start', '<', date('H:i:s'))->where('end', '>', date('H:i:s'))->first();
-        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual', 'specialist_id'));
+        
+        $price_add = 0;
+        $hora_inicio = setting('horarios.hora_inicio');
+        $hora_fin = setting('horarios.hora_fin');
+
+        // Verificar si está dentro del horario especial
+        if(date('H') >= date('H', strtotime($hora_inicio)) || (date('H') > 0 && date('H') < date('H', strtotime($hora_fin))) || date('w') == 0){
+            $price_add = setting('horarios.precio_adiciaonal');
+        }
+        return view('dashboard.partials.specialists_list', compact('especialistas', 'especialidad', 'horario_actual', 'price_add', 'specialist_id'));
     }
 
     /**

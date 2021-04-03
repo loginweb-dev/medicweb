@@ -274,13 +274,13 @@
                                                           </td>
                                                       </tr>
                                                       @endforeach
-                                                      <tr>
+                                                      {{-- <tr>
                                                           <td width="120px"><img src="{{ url('images/tigomoney.png') }}" alt="Tigo Money" width="100px"></td>
                                                           <td>
                                                               <h6>{{ setting('pasarela-de-pago.numeros_tigo_money') }} <br><small>Número(s) de celular de Tigo Money</small> </h6>
                                                               <span></span>
                                                           </td>
-                                                      </tr>
+                                                      </tr> --}}
                                                   </tbody>
                                               </table>
                   

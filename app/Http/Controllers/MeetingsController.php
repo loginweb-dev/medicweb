@@ -69,7 +69,7 @@ class MeetingsController extends Controller
             $appointments_rating->save();
             
             DB::commit();
-            return response()->json(['success' => 'Gracias por tu puntuación!', 'message' => 'Esto nos ayuda a brindarte un mejor servicio.']);
+            return response()->json(['success' => 'Gracias por tu calificación!', 'message' => 'Esto nos ayuda a brindarte un mejor servicio.']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' => 'Ocurrió un error!', 'message' => 'Ha ocurrido un error inesperado en nuestro servidor.']);

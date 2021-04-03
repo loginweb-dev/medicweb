@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-md-12 text-center">
-                <span class="card-title"><small>Precio de consulta </small>{{ count($item->specialities) ? $item->specialities[0]->price : 'NN' }} Bs.</span>
+                <span class="card-title"><small>Precio de consulta </small>{{ count($item->specialities) ? ($item->specialities[0]->price + $price_add) : 'NN' }} Bs.</span>
             </div>
         </div>
         <div class="card-footer bg-white text-center pt-0">
@@ -109,7 +109,7 @@
                 if(specilalist.specialities.length){
                     $('#normal_price').val(specilalist.specialities[0].price);
                     $('#form-appointments input[name="price"]').val(specilalist.specialities[0].price);
-                    $('#form-appointments input[name="price_add"]').val('{{ $horario_actual ? $horario_actual->price_add : 0 }}');
+                    $('#form-appointments input[name="price_add"]').val('{{ $price_add }}');
                 }
                 
                 let date = new Date();

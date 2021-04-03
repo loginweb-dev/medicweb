@@ -121,6 +121,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                <h4><small>Otros laboratorios</small>: {{ $orden_analisis->observations }}</h4>
+                <hr>
+            </div>
         </div>
     </div>
 

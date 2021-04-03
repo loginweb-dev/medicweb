@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // Appointment
     Route::post('appointments/validate_appointment/{id}', 'ApiController@validate_appointment');
+    Route::get('appointments/customer/{id}/{specialist_id}/{speciality_id}', 'AppointmentsController@customer');
     Route::get('appointments/status/{id}/{status?}', 'AppointmentsController@update_status');
     Route::get('appointments/tracking/{id}', 'AppointmentsController@tracking_duration');
     Route::post('meet/rating/store', 'MeetingsController@rating_store');

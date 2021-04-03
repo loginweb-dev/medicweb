@@ -291,18 +291,21 @@
                             $('#table-medicine tbody').empty();
 
                             // Notificación movil
-                            let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
-                            let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
-                            let meet = @json($meet);
-                            let notification = {
-                                title: "Nuevo historial clínico",
-                                message: meet.specialist.full_name,
+                            if($(this).data('type')){
+                                let urlMessaging = "{{ env('FIREBASE_CLOUD_MESSAGING_URL') }}";
+                                let FCMToken = "{{ env('FIREBASE_CLOUD_MESSAGING_TOKEN') }}";
+                                let meet = @json($meet);
+                                let notification = {
+                                    title: "Nuevo historial clínico",
+                                    message: meet.specialist.full_name,
+                                }
+                                let data = {
+                                    message: $(this).data('type') == 'analysi' ? 'Tienes una orden de análisis nueva.' : 'Tienes una prescipción médica nueva.',
+                                    type: 'prescription_analysi'
+                                }
+                                sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
                             }
-                            let data = {
-                                message: $(this).data('type') == 'analysi' ? 'Tienes una orden de análisis nueva.' : 'Tienes una prescipción médica nueva.',
-                                type: 'prescription_analysi'
-                            }
-                            sendNotificationApp(urlMessaging, FCMToken, meet.customer.user.firebase_token, notification, data);
+
                             $('.modal-history').modal('hide');
                         }else{
                             Toast.fire({
