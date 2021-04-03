@@ -57,8 +57,8 @@
 
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12">
-                            <!-- <a  href="{{ route('socialLogin', 'facebook') }}" type="button" class="btn  blue-gradient btn-rounded  btn-fb"><i class="fab fa-facebook-f pr-1"></i> Facebook</a> -->
-                            <a href="{{ route('socialLogin', 'google') }}" type="button" class="btn btn-block btn-rounded btn-gplus"><i class="fab fa-google-plus-g pr-1"></i> Google   </a>
+                            <a href="{{ route('socialLogin', 'facebook') }}" type="button" class="btn  blue-gradient btn-rounded  btn-fb"><i class="fab fa-facebook-f pr-1"></i> Facebook</a>
+                            <a href="{{ route('socialLogin', 'google') }}" type="button" class="btn btn-rounded btn-gplus"><i class="fab fa-google-plus-g pr-1"></i> Google   </a>
                         </div>
                     </div>
 
