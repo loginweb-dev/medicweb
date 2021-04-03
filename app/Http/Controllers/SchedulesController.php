@@ -87,16 +87,7 @@ class SchedulesController extends Controller
 
     public function schedules_details($id){
         $horario = Schedule::find($id);
-        
-        $price_add = 0;
-        $hora_inicio = setting('horarios.hora_inicio');
-        $hora_fin = setting('horarios.hora_fin');
-
-        // Verificar si está dentro del horario especial
-        if(date('H') >= date('H', strtotime($hora_inicio)) || (date('H') > 0 && date('H') < date('H', strtotime($hora_fin))) || date('w') == 0){
-            $price_add = setting('horarios.precio_adiciaonal');
-        }
-        return view('admin.schedules.partials.list_day', compact('horario', 'price_add'));
+        return view('admin.schedules.partials.list_day', compact('horario'));
     }
 
     public function schedules_store(Request $request){

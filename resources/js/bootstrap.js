@@ -40,7 +40,7 @@ window.Echo = new Echo({
     wsHost: window.location.hostname,
     wsPort: 6001,
     wssPort: 6001,
-    forceTLS: true, // true para https
+    forceTLS: false, // true para https
     disableStats: true,
-    enabledTransports: ['ws', 'wss'], // Comentar para trabajo en desarrollo
+    // enabledTransports: ['ws', 'wss'], // Comentar para trabajo en desarrollo
 });

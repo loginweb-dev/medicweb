@@ -22,6 +22,15 @@
                         @while(date('H:i:s', strtotime($inicio_horario)) < $horario->end)
                             @php
                                 $citas = \App\Appointment::where('date', date('Y-m-d', strtotime($inicio_horario)))->where('start', date('H:i:s', strtotime($inicio_horario)))->first();
+
+                                $price_add = 0;
+                                $hora_inicio = setting('horarios.hora_inicio');
+                                $hora_fin = setting('horarios.hora_fin');
+
+                                // Verificar si está dentro del horario especial
+                                if(date('H', strtotime($inicio_horario)) >= date('H', strtotime($hora_inicio)) || (date('H', strtotime($inicio_horario)) > 0 && date('H', strtotime($inicio_horario)) < date('H', strtotime($hora_fin))) || date('w', strtotime($fecha_cita->format('Y-m-d '))) == 0){
+                                    $price_add = setting('horarios.precio_adiciaonal');
+                                }
                             @endphp
                             <a href="#list-group-schedules" class="list-group-item">
                                 <div class="form-check-inline">
