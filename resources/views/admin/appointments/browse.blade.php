@@ -184,6 +184,7 @@
                             notificacion.onclick = (e) => {
                                 window.open("{{ url('meet') }}/"+res.meet.id, "_blank");
                             }
+                            document.getElementById('alert').play();
                         }
                     } catch (error) {}
                 }
@@ -204,6 +205,7 @@
                                 window.open("{{ url('admin/appointments') }}", "_blank");
                             }
                             getList('{{ url("admin/appointments/list") }}', '#list-table', inputSearch);
+                            document.getElementById('alert').play();
                         }
                     } catch (error) {}
                 }

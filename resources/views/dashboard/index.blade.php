@@ -253,13 +253,14 @@
                                           <li class="nav-item" onclick="change_payment_type(1)">
                                               <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Tanferencia bancaria</a>
                                           </li>
-                                          <li class="nav-item" onclick="change_payment_type(1)">
+                                          <li class="nav-item" onclick="change_payment_type(2)">
                                               <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Pago con tarjeta de crédito</a>
                                           </li>
                                       </ul>
                                       <div class="tab-content" id="myTabContent" style="margin-top: 20px">
                                           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                              <table class="table table-hover">
+                                              @if (setting('pasarela-de-pago.transferencia_bancaria'))
+                                                <table class="table table-hover">
                                                   <tbody>
                                                       @php
                                                           $cuentas = \App\PaymentAccount::all();
@@ -274,16 +275,16 @@
                                                           </td>
                                                       </tr>
                                                       @endforeach
-                                                      {{-- <tr>
-                                                          <td width="120px"><img src="{{ url('images/tigomoney.png') }}" alt="Tigo Money" width="100px"></td>
-                                                          <td>
-                                                              <h6>{{ setting('pasarela-de-pago.numeros_tigo_money') }} <br><small>Número(s) de celular de Tigo Money</small> </h6>
-                                                              <span></span>
-                                                          </td>
-                                                      </tr> --}}
                                                   </tbody>
                                               </table>
-                  
+                                              @else
+                                                <div class="row mt-5 mb-3">
+                                                  <div class="col-md-12 text-center">
+                                                      <img src="{{ asset('images/config.png') }}" width="120px">
+                                                  </div>
+                                                </div>
+                                                <h3 class="text-center">No disponible</h3>
+                                              @endif
                                               <div class="col-md-12 mt-3">
                                                   <div class="card border-left-info shadow h-100 py-2">
                                                       <div class="card-body">
@@ -303,19 +304,52 @@
                                               </div>
                                           </div>
                                           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                              <div class="row mt-5 mb-3">
-                                                  <div class="col-md-12 text-center">
-                                                      <img src="{{ asset('images/config.png') }}" width="120px">
+                                              
+                                              @if (setting('pasarela-de-pago.tarjeta_credito'))
+                                                <div class="card">
+                                                  <div class="card-header">Datos de tu tarjeta de débito/crédito</div>
+                                                  <div class="card-body">
+                                                    <div id="card-element" style="padding: 10px"></div>
+                                                    <div id="card-errors"></div>
+                                                  </div>
+                                                  {{-- <div class="card-footer text-right">
+                                                    <p class="text-muted">Debes ingresar tu número de tarjeta, fecha de vencimiento y el código CVC. Ante de validar el pago asegurate de habilitar los pagos por internet de tu tarjeta.</p>
+                                                  </div> --}}
+                                                </div>
+
+                                                <div class="col-md-12 mt-3">
+                                                  <div class="card border-left-info shadow h-100 py-2">
+                                                      <div class="card-body">
+                                                          <div class="row no-gutters align-items-center">
+                                                              <div class="col mr-2">
+                                                                  <div class="text-xs font-weight-bold text-uppercase mb-1">Información</div>
+                                                                  <div class="h6 mb-0 font-weight-bold text-info">
+                                                                      <p>Debes ingresar tu número de tarjeta, fecha de vencimiento y el código CVC. Ante de validar el pago asegurate de habilitar las compras por internet de tu tarjeta.</p>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col-auto">
+                                                                  <i class="fa fa-credit-card fa-2x text-info"></i>
+                                                              </div>
+                                                          </div>
+                                                      </div>
                                                   </div>
                                               </div>
-                                              <h3 class="text-center">En desarrollo</h3>
+                                              @else
+                                                <div class="row mt-5 mb-3">
+                                                    <div class="col-md-12 text-center">
+                                                        <img src="{{ asset('images/config.png') }}" width="120px">
+                                                    </div>
+                                                </div>
+                                                <h3 class="text-center">No disponible</h3>
+                                              @endif
                                           </div>
                                       </div>
                                   </div>
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                  <button type="submit" class="btn btn-primary">Solicitar consulta</button>
+                                  <button type="submit" class="btn btn-primary" id="btn-solicitud">Solicitar consulta</button>
+                                  <button type="button" id="card-button" class="btn btn-primary" data-dismiss="modal" style="display: none">Validar pago</button>
                               </div>
                           </div>
                       </div>
@@ -598,6 +632,20 @@
                 }
               }
             });
+
+
+            // mostrar u cultar los botones de validar transferencia o validar pago por tarjeta
+            
+            // Pago por transferencia
+            $('#home-tab').click(function(){
+              $('#btn-solicitud').fadeIn();
+              $('#card-button').fadeOut();
+            });
+            // Pago por tarjeta
+            $('#profile-tab').click(function(){
+              $('#btn-solicitud').fadeOut();
+              $('#card-button').fadeIn();
+            });
         });
 
         // Presionar en la miga de pan
@@ -672,7 +720,7 @@
       }
     </script>
 
-    {{-- <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         var style = {
             base: {
@@ -702,6 +750,7 @@
           var displayError = document.getElementById('card-errors');
           if (event.error) {
             displayError.textContent = event.error.message;
+            $('#modal-payment').modal('show')
           } else {
             displayError.textContent = '';
           }
@@ -735,5 +784,5 @@
             }
           });
         });
-    </script> --}}
+    </script>
 @endsection
