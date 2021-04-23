@@ -23,7 +23,8 @@
                         @endif
                         <td>
                             <small><b>Paciente: </b></small> <a href="#" class="btn-customer" data-toggle="modal" data-target="#modal-historial" data-id="{{ $item->customer->id }}" title="Ver historial">{{ $item->customer->name }} {{ $item->customer->last_name }}</a> <br>
-                            <small><b>Motivo: </b></small> <br>
+                            <small><b>Celular: </b> {{ $item->customer->phones ?? 'No definido' }} </small> <br>
+                            <small><b>Motivo de consulta: </b></small> <br>
                             {{ $item->observations }}
                         </td>
                         <td>
